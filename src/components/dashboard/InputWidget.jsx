@@ -12,13 +12,12 @@ const inputSystems = [
 
 const InputWidget = () => {
   return (
-    <section className="panel-shell min-h-full space-y-7">
-      {/* Widget A: static input system cards. */}
+    <section className="panel-shell min-h-full space-y-7 p-6 sm:p-8">
+      {/* Connected infrastructure source cards. */}
       <div className="space-y-3">
-        <p className="section-kicker">Widget A</p>
-        <h2 className="text-2xl font-semibold text-nodeslix-text">Input Systems</h2>
+        <h2 className="text-2xl font-semibold text-nodeslix-text">Connected Infrastructure</h2>
         <p className="text-sm leading-6 text-nodeslix-muted">
-          Connected infrastructure sources.
+          Infrastructure systems continuously sending telemetry data.
         </p>
       </div>
 
@@ -31,9 +30,9 @@ const InputWidget = () => {
             key={system.label}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            whileHover={{ x: 3 }}
-            transition={{ duration: 0.35, delay: index * 0.04 }}
-            className="surface-card p-4"
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.25, delay: index * 0.04 }}
+            className="surface-card p-6 hover:border-nodeslix-accent/45"
           >
             <div className="flex items-center gap-3">
               <span className="flex size-10 items-center justify-center rounded-xl bg-nodeslix-accent/10 text-nodeslix-accent">
