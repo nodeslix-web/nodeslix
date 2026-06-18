@@ -95,11 +95,11 @@ const Navbar = () => {
           : 'border-white/5 bg-nodeslix-primary/45',
       ].join(' ')}
     >
-      <nav className="app-container flex h-20 items-center justify-between gap-6">
+      <nav className="flex items-center justify-between h-20 gap-6 app-container">
         <button
           type="button"
           onClick={() => scrollToSection('hero')}
-          className="group flex items-center gap-3 text-left text-sm font-semibold tracking-wide text-nodeslix-text"
+          className="flex items-center gap-3 text-sm font-semibold tracking-wide text-left group text-nodeslix-text"
         >
           <span className="flex size-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-nodeslix-accent shadow-[0_10px_30px_rgba(0,0,0,0.22)] transition-colors group-hover:border-nodeslix-accent/50">
             <Activity size={19} aria-hidden="true" />
@@ -143,7 +143,7 @@ const Navbar = () => {
         <button
           type="button"
           onClick={() => navigate('/dashboard')}
-          className="primary-button hidden gap-2 xl:inline-flex"
+          className="hidden gap-2 primary-button xl:inline-flex"
         >
           Launch Dashboard <ArrowUpRight size={16} />
         </button>
@@ -187,14 +187,14 @@ const Navbar = () => {
                 <button
                   type="button"
                   onClick={() => setIsDrawerOpen(false)}
-                  className="flex size-10 items-center justify-center rounded-xl border border-white/10 text-nodeslix-muted transition-colors hover:text-white"
+                  className="flex items-center justify-center transition-colors border size-10 rounded-xl border-white/10 text-nodeslix-muted hover:text-white"
                   aria-label="Close navigation menu"
                 >
                   <X size={19} />
                 </button>
               </div>
 
-              <div className="mt-8 flex flex-col gap-1">
+              <div className="flex flex-col gap-1 mt-8">
                 {navItems.map((item) => {
                   const isActive = activeSection === item.id && location.pathname === '/';
 
@@ -228,7 +228,7 @@ const Navbar = () => {
                   setIsDrawerOpen(false);
                   navigate('/dashboard');
                 }}
-                className="primary-button mt-6 gap-2"
+                className="gap-2 mt-6 primary-button"
               >
                 Launch Dashboard <ArrowUpRight size={16} />
               </button>
