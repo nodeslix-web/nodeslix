@@ -1,15 +1,29 @@
 import { motion as Motion } from 'framer-motion';
-import { Cloud, RadioTower, Router, Server, Smartphone } from 'lucide-react';
+import { BrainCircuit, Cloud, RadioTower, Router, Server, Smartphone } from 'lucide-react';
 
 const architectureNodes = [
-  { title: '5G Towers', subtitle: 'Radio Access Layer', icon: RadioTower },
-  { title: 'Core Network', subtitle: 'Traffic Management', icon: Server },
-  { title: 'Mesh Nodes', subtitle: 'Distributed Connectivity', icon: Router },
-  { title: 'Edge Gateways', subtitle: 'Regional Processing', icon: Cloud },
-  { title: 'IoT Devices', subtitle: 'Field Endpoints', icon: Smartphone },
+  { title: '5G Towers', subtitle: 'Radio Access Layer', icon: RadioTower, position: 'top' },
+  { title: 'Core Network', subtitle: 'Traffic Management', icon: Server, position: 'left' },
+  { title: 'Mesh Nodes', subtitle: 'Distributed Connectivity', icon: Router, position: 'right' },
+  { title: 'Edge Gateways', subtitle: 'Regional Processing', icon: Cloud, position: 'bottom-left' },
+  { title: 'IoT Devices', subtitle: 'Field Endpoints', icon: Smartphone, position: 'bottom-right' },
 ];
 
-const shouldShowTabletConnector = (index) => index === 0 || index === 1 || index === 3;
+const desktopPlacement = {
+  top: 'left-1/2 top-0 -translate-x-1/2',
+  left: 'left-0 top-1/2 -translate-y-1/2',
+  right: 'right-0 top-1/2 -translate-y-1/2',
+  'bottom-left': 'bottom-0 left-[16%]',
+  'bottom-right': 'bottom-0 right-[16%]',
+};
+
+const lineCoordinates = {
+  top: { x1: 50, y1: 22, x2: 50, y2: 47 },
+  left: { x1: 20, y1: 50, x2: 43, y2: 50 },
+  right: { x1: 80, y1: 50, x2: 57, y2: 50 },
+  'bottom-left': { x1: 31, y1: 78, x2: 45, y2: 58 },
+  'bottom-right': { x1: 69, y1: 78, x2: 55, y2: 58 },
+};
 
 const Architecture = () => {
   return (
@@ -26,7 +40,7 @@ const Architecture = () => {
           <p className="section-kicker">Network Architecture</p>
           <h2 className="section-title">Network Architecture</h2>
           <p className="section-copy">
-            Visual representation of a connected telecom ecosystem.
+            NodeSlix acts as an intelligent orchestration layer that continuously monitors and optimizes telecom infrastructure.
           </p>
         </Motion.div>
 
@@ -38,104 +52,120 @@ const Architecture = () => {
           className="panel-shell overflow-hidden"
         >
           <div className="relative">
-            <Motion.div
-              animate={{ opacity: [0.32, 0.68, 0.32] }}
-              transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute left-6 top-0 h-full w-px bg-nodeslix-accent/45 shadow-[0_0_22px_rgba(0,212,255,0.28)] md:hidden"
-            />
+            <div className="mb-6 flex justify-end">
+              <Motion.span
+                animate={{ opacity: [0.68, 1, 0.68] }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                className="inline-flex items-center rounded-full border border-nodeslix-accent/35 bg-nodeslix-accent/10 px-3 py-2 text-xs font-semibold text-nodeslix-accent"
+              >
+                AI Active
+              </Motion.span>
+            </div>
 
-            <div className="relative grid gap-4 md:grid-cols-3 lg:grid-cols-5 lg:gap-5">
-            {architectureNodes.map((node, index) => {
-              const Icon = node.icon;
-              const isLast = index === architectureNodes.length - 1;
-
-              return (
-                <div key={node.title} className="relative flex items-center md:block">
-                  {index > 0 ? (
-                    <span className="absolute left-6 top-[-1rem] h-4 w-px bg-nodeslix-accent/45 md:hidden" />
-                  ) : null}
-
-                  <span className="relative z-10 mr-4 flex size-12 shrink-0 items-center justify-center rounded-full border border-nodeslix-accent/60 bg-nodeslix-primary text-xs font-semibold text-nodeslix-accent shadow-[0_0_20px_rgba(0,212,255,0.18)] md:hidden">
-                    0{index + 1}
-                  </span>
-
-                  {!isLast ? (
-                    <span className="pointer-events-none absolute left-[21px] top-[3rem] h-[calc(100%-2rem)] w-2 overflow-hidden md:hidden">
-                      <Motion.span
-                        animate={{ y: [-10, 110] }}
-                        transition={{
-                          duration: 2.2,
-                          repeat: Infinity,
-                          delay: index * 0.28,
-                          ease: 'linear',
-                        }}
-                        className="absolute left-0 top-0 size-2 rounded-full bg-[#D9F8FF] shadow-[0_0_14px_rgba(0,212,255,0.88)]"
-                      />
-                    </span>
-                  ) : null}
-
-                  {!isLast ? (
-                    <span className="pointer-events-none absolute left-[calc(50%+90px)] right-[calc(-50%+90px)] top-[90px] z-0 hidden h-px overflow-hidden lg:block">
-                      <Motion.span
-                        animate={{ opacity: [0.36, 0.78, 0.36] }}
-                        transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
-                        className="absolute inset-0 bg-nodeslix-accent/65 shadow-[0_0_24px_rgba(0,212,255,0.3)]"
-                      />
-                      <Motion.span
-                        animate={{ left: ['0%', '100%'] }}
-                        transition={{
-                          duration: 2.6,
-                          repeat: Infinity,
-                          delay: index * 0.22,
-                          ease: 'linear',
-                        }}
-                        className="absolute -top-[3px] left-0 size-2 rounded-full bg-[#D9F8FF] shadow-[0_0_14px_rgba(0,212,255,0.9)]"
-                      />
-                    </span>
-                  ) : null}
-
-                  {shouldShowTabletConnector(index) ? (
-                    <span className="pointer-events-none absolute left-[calc(50%+90px)] right-[calc(-50%+90px)] top-[90px] z-0 hidden h-px overflow-hidden md:block lg:hidden">
-                      <Motion.span
-                        animate={{ opacity: [0.3, 0.66, 0.3] }}
-                        transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
-                        className="absolute inset-0 bg-nodeslix-accent/55 shadow-[0_0_20px_rgba(0,212,255,0.24)]"
-                      />
-                      <Motion.span
-                        animate={{ left: ['0%', '100%'] }}
-                        transition={{
-                          duration: 2.5,
-                          repeat: Infinity,
-                          delay: index * 0.25,
-                          ease: 'linear',
-                        }}
-                        className="absolute -top-[3px] left-0 size-2 rounded-full bg-[#D9F8FF] shadow-[0_0_14px_rgba(0,212,255,0.86)]"
-                      />
-                    </span>
-                  ) : null}
-
-                <Motion.div
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.2 }}
-                  className="surface-card relative z-10 flex w-full max-w-[180px] flex-col justify-between gap-4 p-4 text-left md:mx-auto md:h-[180px] md:text-center"
+            <div className="grid gap-4 md:grid-cols-2 lg:hidden">
+              <div className="surface-card flex flex-col items-center justify-center gap-4 p-6 text-center md:col-span-2">
+                <Motion.span
+                  animate={{ scale: [1, 1.04, 1], opacity: [0.85, 1, 0.85] }}
+                  transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut' }}
+                  className="flex size-20 items-center justify-center rounded-full border border-nodeslix-accent/45 bg-nodeslix-accent/10 text-nodeslix-accent shadow-[0_0_42px_rgba(0,212,255,0.24)]"
                 >
-                  <div className="flex items-center justify-between gap-3 md:flex-col md:justify-start">
-                    <span className="flex size-12 items-center justify-center rounded-2xl border border-white/10 bg-nodeslix-accent/10 text-nodeslix-accent">
+                  <BrainCircuit size={30} />
+                </Motion.span>
+                <div className="space-y-2">
+                  <h3 className="text-lg font-semibold text-white">AI Orchestration Layer</h3>
+                  <p className="text-sm text-nodeslix-muted">Monitor • Analyze • Predict • Optimize</p>
+                </div>
+              </div>
+
+              {architectureNodes.map((node) => {
+                const Icon = node.icon;
+
+                return (
+                  <Motion.div
+                    key={node.title}
+                    whileHover={{ y: -4 }}
+                    transition={{ duration: 0.2 }}
+                    className="surface-card flex items-center gap-4 p-4"
+                  >
+                    <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-nodeslix-accent/10 text-nodeslix-accent">
                       <Icon size={22} />
                     </span>
-                    <span className="hidden rounded-full border border-nodeslix-accent/35 bg-nodeslix-accent/10 px-2.5 py-1 text-[0.65rem] font-semibold text-nodeslix-accent md:inline-flex">
-                      0{index + 1}
-                    </span>
-                  </div>
+                    <div className="space-y-1">
+                      <h3 className="text-sm font-semibold text-nodeslix-text">{node.title}</h3>
+                      <p className="text-xs leading-5 text-nodeslix-muted">{node.subtitle}</p>
+                    </div>
+                  </Motion.div>
+                );
+              })}
+            </div>
 
-                  <div className="space-y-1.5">
-                    <h3 className="text-sm font-semibold text-nodeslix-text">{node.title}</h3>
-                    <p className="text-xs leading-5 text-nodeslix-muted">{node.subtitle}</p>
-                  </div>
-                </Motion.div>
-                </div>
-              );
-            })}
+            <div className="relative hidden h-[520px] lg:block">
+              <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                {architectureNodes.map((node, index) => {
+                  const line = lineCoordinates[node.position];
+
+                  return (
+                    <Motion.line
+                      key={node.title}
+                      x1={line.x1}
+                      y1={line.y1}
+                      x2={line.x2}
+                      y2={line.y2}
+                      stroke="#00D4FF"
+                      strokeWidth="0.24"
+                      strokeLinecap="round"
+                      animate={{ opacity: [0.2, 0.62, 0.2] }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        delay: index * 0.22,
+                        ease: 'easeInOut',
+                      }}
+                    />
+                  );
+                })}
+              </svg>
+
+              <div className="absolute left-1/2 top-1/2 z-20 flex size-56 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border border-nodeslix-accent/45 bg-nodeslix-accent/10 text-center shadow-[0_0_62px_rgba(0,212,255,0.24)] backdrop-blur-md">
+                <Motion.span
+                  animate={{ scale: [1, 1.05, 1], opacity: [0.84, 1, 0.84] }}
+                  transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut' }}
+                  className="mb-4 flex size-16 items-center justify-center rounded-full border border-white/10 bg-nodeslix-primary/80 text-nodeslix-accent"
+                >
+                  <BrainCircuit size={28} />
+                </Motion.span>
+                <h3 className="max-w-36 text-lg font-semibold leading-tight text-white">
+                  AI Orchestration Layer
+                </h3>
+                <p className="mt-3 max-w-40 text-xs leading-5 text-nodeslix-muted">
+                  Monitor • Analyze • Predict • Optimize
+                </p>
+              </div>
+
+              {architectureNodes.map((node) => {
+                const Icon = node.icon;
+
+                return (
+                  <Motion.div
+                    key={node.title}
+                    whileHover={{ y: -4 }}
+                    transition={{ duration: 0.2 }}
+                    className={[
+                      'surface-card absolute z-30 flex h-[180px] w-[180px] flex-col justify-between gap-4 p-4 text-center',
+                      desktopPlacement[node.position],
+                    ].join(' ')}
+                  >
+                    <span className="mx-auto flex size-12 items-center justify-center rounded-2xl border border-white/10 bg-nodeslix-accent/10 text-nodeslix-accent">
+                      <Icon size={22} />
+                    </span>
+
+                    <div className="space-y-1.5">
+                      <h3 className="text-sm font-semibold text-nodeslix-text">{node.title}</h3>
+                      <p className="text-xs leading-5 text-nodeslix-muted">{node.subtitle}</p>
+                    </div>
+                  </Motion.div>
+                );
+              })}
             </div>
           </div>
         </Motion.div>
