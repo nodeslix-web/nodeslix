@@ -26,7 +26,7 @@ const capabilities = [
 
 const Features = () => {
   return (
-    <section className="section-shell bg-nodeslix-primary">
+    <section id="capabilities" className="section-shell scroll-mt-20 bg-nodeslix-primary">
       <div className="app-container space-y-12">
         {/* AI capabilities section: four-card responsive grid. */}
         <Motion.div

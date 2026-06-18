@@ -31,7 +31,7 @@ const workflowSteps = [
 
 const Workflow = () => {
   return (
-    <section className="section-shell bg-nodeslix-primary">
+    <section id="workflow" className="section-shell scroll-mt-20 bg-nodeslix-primary">
       <div className="app-container space-y-12">
         {/* AI workflow section: horizontal desktop flow with responsive stacking. */}
         <Motion.div

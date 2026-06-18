@@ -3,7 +3,7 @@ import { BookOpen, Code2 } from 'lucide-react';
 
 const Documentation = () => {
   return (
-    <section className="section-shell bg-nodeslix-primary">
+    <section id="docs" className="section-shell scroll-mt-20 bg-nodeslix-primary">
       <div className="app-container">
         {/* Documentation section for future docs area. */}
         <Motion.article

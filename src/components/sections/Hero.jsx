@@ -20,7 +20,7 @@ const highlights = [
 
 const Hero = () => {
   return (
-    <section className="relative overflow-hidden bg-nodeslix-primary py-20 sm:py-28 lg:py-32">
+    <section id="hero" className="relative scroll-mt-20 overflow-hidden bg-nodeslix-primary py-20 sm:py-28 lg:py-32">
       <div className="app-container">
         {/* Hero section with messaging and Lottie network visual. */}
         <div className="grid items-center gap-10 lg:grid-cols-[1fr_0.9fr] lg:gap-16">

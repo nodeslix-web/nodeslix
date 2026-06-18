@@ -11,7 +11,7 @@ const previewCards = [
 
 const DashboardPreview = () => {
   return (
-    <section className="section-shell bg-nodeslix-secondary">
+    <section id="dashboard" className="section-shell scroll-mt-20 bg-nodeslix-secondary">
       <div className="app-container space-y-12">
         {/* Dashboard preview section: large preview frame with dashboard route button. */}
         <Motion.div

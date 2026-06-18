@@ -23,7 +23,7 @@ const overviewCards = [
 
 const ProductOverview = () => {
   return (
-    <section className="section-shell bg-nodeslix-secondary">
+    <section id="overview" className="section-shell scroll-mt-20 bg-nodeslix-secondary">
       <div className="app-container space-y-12">
         {/* Product overview section: three-card layout for approval. */}
         <Motion.div

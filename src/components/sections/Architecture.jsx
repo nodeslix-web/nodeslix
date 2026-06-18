@@ -11,7 +11,7 @@ const architectureNodes = [
 
 const Architecture = () => {
   return (
-    <section id="architecture" className="border-t border-white/10 bg-nodeslix-secondary py-16 sm:py-20 lg:py-24">
+    <section id="architecture" className="scroll-mt-20 border-t border-white/10 bg-nodeslix-secondary py-16 sm:py-20 lg:py-24">
       <div className="app-container space-y-9">
         {/* Network architecture section with labeled nodes. */}
         <Motion.div
