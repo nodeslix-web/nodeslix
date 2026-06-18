@@ -9,6 +9,8 @@ const architectureNodes = [
   { title: 'IoT Devices', subtitle: 'Field Endpoints', icon: Smartphone },
 ];
 
+const shouldShowTabletConnector = (index) => index === 0 || index === 1 || index === 3;
+
 const Architecture = () => {
   return (
     <section id="architecture" className="scroll-mt-20 border-t border-white/10 bg-nodeslix-secondary py-16 sm:py-20 lg:py-24">
@@ -36,15 +38,16 @@ const Architecture = () => {
           className="panel-shell overflow-hidden"
         >
           <div className="relative">
-            <div className="absolute left-6 top-0 h-full w-px bg-nodeslix-accent/45 md:hidden" />
-
-            <div className="hidden md:absolute md:left-[90px] md:right-[90px] md:top-[90px] md:block lg:left-[92px] lg:right-[92px]">
-              <div className="h-px w-full bg-nodeslix-accent/65 shadow-[0_0_24px_rgba(0,212,255,0.28)]" />
-            </div>
+            <Motion.div
+              animate={{ opacity: [0.32, 0.68, 0.32] }}
+              transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
+              className="absolute left-6 top-0 h-full w-px bg-nodeslix-accent/45 shadow-[0_0_22px_rgba(0,212,255,0.28)] md:hidden"
+            />
 
             <div className="relative grid gap-4 md:grid-cols-3 lg:grid-cols-5 lg:gap-5">
             {architectureNodes.map((node, index) => {
               const Icon = node.icon;
+              const isLast = index === architectureNodes.length - 1;
 
               return (
                 <div key={node.title} className="relative flex items-center md:block">
@@ -55,6 +58,61 @@ const Architecture = () => {
                   <span className="relative z-10 mr-4 flex size-12 shrink-0 items-center justify-center rounded-full border border-nodeslix-accent/60 bg-nodeslix-primary text-xs font-semibold text-nodeslix-accent shadow-[0_0_20px_rgba(0,212,255,0.18)] md:hidden">
                     0{index + 1}
                   </span>
+
+                  {!isLast ? (
+                    <span className="pointer-events-none absolute left-[21px] top-[3rem] h-[calc(100%-2rem)] w-2 overflow-hidden md:hidden">
+                      <Motion.span
+                        animate={{ y: [-10, 110] }}
+                        transition={{
+                          duration: 2.2,
+                          repeat: Infinity,
+                          delay: index * 0.28,
+                          ease: 'linear',
+                        }}
+                        className="absolute left-0 top-0 size-2 rounded-full bg-[#D9F8FF] shadow-[0_0_14px_rgba(0,212,255,0.88)]"
+                      />
+                    </span>
+                  ) : null}
+
+                  {!isLast ? (
+                    <span className="pointer-events-none absolute left-[calc(50%+90px)] right-[calc(-50%+90px)] top-[90px] z-0 hidden h-px overflow-hidden lg:block">
+                      <Motion.span
+                        animate={{ opacity: [0.36, 0.78, 0.36] }}
+                        transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
+                        className="absolute inset-0 bg-nodeslix-accent/65 shadow-[0_0_24px_rgba(0,212,255,0.3)]"
+                      />
+                      <Motion.span
+                        animate={{ left: ['0%', '100%'] }}
+                        transition={{
+                          duration: 2.6,
+                          repeat: Infinity,
+                          delay: index * 0.22,
+                          ease: 'linear',
+                        }}
+                        className="absolute -top-[3px] left-0 size-2 rounded-full bg-[#D9F8FF] shadow-[0_0_14px_rgba(0,212,255,0.9)]"
+                      />
+                    </span>
+                  ) : null}
+
+                  {shouldShowTabletConnector(index) ? (
+                    <span className="pointer-events-none absolute left-[calc(50%+90px)] right-[calc(-50%+90px)] top-[90px] z-0 hidden h-px overflow-hidden md:block lg:hidden">
+                      <Motion.span
+                        animate={{ opacity: [0.3, 0.66, 0.3] }}
+                        transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
+                        className="absolute inset-0 bg-nodeslix-accent/55 shadow-[0_0_20px_rgba(0,212,255,0.24)]"
+                      />
+                      <Motion.span
+                        animate={{ left: ['0%', '100%'] }}
+                        transition={{
+                          duration: 2.5,
+                          repeat: Infinity,
+                          delay: index * 0.25,
+                          ease: 'linear',
+                        }}
+                        className="absolute -top-[3px] left-0 size-2 rounded-full bg-[#D9F8FF] shadow-[0_0_14px_rgba(0,212,255,0.86)]"
+                      />
+                    </span>
+                  ) : null}
 
                 <Motion.div
                   whileHover={{ y: -4 }}

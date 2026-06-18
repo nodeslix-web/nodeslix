@@ -25,7 +25,7 @@ const ProductOverview = () => {
   return (
     <section id="overview" className="section-shell scroll-mt-20 bg-nodeslix-secondary">
       <div className="app-container space-y-12">
-        {/* Product overview section: three-card layout for approval. */}
+        {/* Product overview section with three enterprise summary cards. */}
         <Motion.div
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}

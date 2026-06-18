@@ -1,16 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion as Motion } from 'framer-motion';
-import LottieModule from 'lottie-react';
 import { ArrowRight, Cpu, Network, RadioTower } from 'lucide-react';
-import networkPulse from '../../data/networkPulse.json';
-
-const Lottie = LottieModule.default ?? LottieModule;
-
-const stats = [
-  { label: 'Infrastructure Uptime', value: '99.98%' },
-  { label: 'Average Latency', value: '8ms' },
-  { label: 'Active Network Nodes', value: '1250' },
-];
+import CommandCenterPanel from '../panels/CommandCenterPanel.jsx';
 
 const highlights = [
   { title: 'Network Intelligence', description: 'Unified visibility across telecom operations.', icon: Cpu },
@@ -22,7 +13,7 @@ const Hero = () => {
   return (
     <section id="hero" className="relative scroll-mt-20 overflow-hidden bg-nodeslix-primary py-20 sm:py-28 lg:py-32">
       <div className="app-container">
-        {/* Hero section with messaging and Lottie network visual. */}
+        {/* Hero section with messaging and command-center panel. */}
         <div className="grid items-center gap-10 lg:grid-cols-[1fr_0.9fr] lg:gap-16">
           <Motion.div
             initial={{ opacity: 0, y: 18 }}
@@ -62,23 +53,7 @@ const Hero = () => {
             transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' }}
             className="panel-shell min-h-[420px] sm:min-h-[540px]"
           >
-            <div className="relative flex h-full min-h-[372px] flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-[radial-gradient(circle_at_center,rgba(0,212,255,0.16),transparent_38%),rgba(18,18,18,0.76)] p-5 sm:min-h-[476px]">
-              <div className="flex items-center justify-between text-xs uppercase tracking-[0.16em] text-nodeslix-muted">
-                <span>Network Visualization Area</span>
-                <RadioTower size={17} className="text-nodeslix-accent" />
-              </div>
-              <div className="mx-auto w-full max-w-[360px]">
-                <Lottie animationData={networkPulse} loop className="mx-auto" />
-              </div>
-              <div className="grid gap-3 sm:grid-cols-3">
-                {stats.map((stat) => (
-                  <div key={stat.label} className="rounded-2xl border border-white/10 bg-black/30 p-4">
-                    <p className="text-xl font-semibold text-white">{stat.value}</p>
-                    <p className="mt-2 text-xs text-nodeslix-muted">{stat.label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <CommandCenterPanel />
           </Motion.div>
         </div>
         <div className="mt-10 grid gap-4 md:grid-cols-3">
