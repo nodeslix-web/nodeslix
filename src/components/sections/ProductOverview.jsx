@@ -3,18 +3,20 @@ import { AlertTriangle, Layers3, TrendingUp } from 'lucide-react';
 
 const overviewCards = [
   {
-    title: 'Lorem Challenge',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere.',
+    title: 'Challenge',
+    description:
+      'Large telecom environments generate massive amounts of network data that are difficult to monitor manually.',
     icon: AlertTriangle,
   },
   {
-    title: 'Ipsum Solution',
-    description: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    title: 'Solution',
+    description:
+      'NodeSlix centralizes infrastructure insights and highlights areas that need attention.',
     icon: Layers3,
   },
   {
-    title: 'Dolor Impact',
-    description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
+    title: 'Impact',
+    description: 'Improve network reliability while reducing operational overhead.',
     icon: TrendingUp,
   },
 ];
@@ -34,7 +36,7 @@ const ProductOverview = () => {
           <p className="section-kicker">Product Overview</p>
           <h2 className="section-title">Product Overview</h2>
           <p className="section-copy">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+            A high-level view of the network operations challenge, platform direction, and expected operational impact.
           </p>
         </Motion.div>
 

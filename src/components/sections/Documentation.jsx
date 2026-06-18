@@ -20,13 +20,12 @@ const Documentation = () => {
             <p className="section-kicker">Documentation</p>
           </div>
           <div className="space-y-4">
-            <h2 className="section-title">Developer resources</h2>
+            <h2 className="section-title">Developer Resources</h2>
             <p className="section-copy">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae luctus
-              sem, sed facilisis neque.
+              API references and integration guides will be available here.
             </p>
             <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-nodeslix-accent">
-              <Code2 size={14} /> Placeholder
+              <Code2 size={14} /> Coming Soon
             </span>
           </div>
         </Motion.article>

@@ -4,22 +4,22 @@ import { BrainCircuit, Gauge, Radar, Workflow } from 'lucide-react';
 const capabilities = [
   {
     title: 'Network Intelligence',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    description: 'Understand network behavior in real time.',
     icon: Radar,
   },
   {
     title: 'Traffic Optimization',
-    description: 'Sed do eiusmod tempor incididunt ut labore et dolore.',
+    description: 'Detect bottlenecks and distribute traffic efficiently.',
     icon: Gauge,
   },
   {
     title: 'Predictive Analytics',
-    description: 'Ut enim ad minim veniam, quis nostrud exercitation.',
+    description: 'Identify potential issues before they affect users.',
     icon: BrainCircuit,
   },
   {
     title: 'Autonomous Operations',
-    description: 'Duis aute irure dolor in reprehenderit in voluptate.',
+    description: 'Automate repetitive optimization tasks.',
     icon: Workflow,
   },
 ];
@@ -39,7 +39,7 @@ const Features = () => {
           <p className="section-kicker">AI Capabilities</p>
           <h2 className="section-title">AI Capabilities</h2>
           <p className="section-copy">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+            AI capabilities are organized around visibility, performance, prediction, and assisted operations.
           </p>
         </Motion.div>
 

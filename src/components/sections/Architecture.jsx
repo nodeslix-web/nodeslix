@@ -2,9 +2,9 @@ import { motion as Motion } from 'framer-motion';
 import { Cloud, RadioTower, Router, Server, Smartphone } from 'lucide-react';
 
 const architectureNodes = [
-  { label: 'Core Network', icon: Server },
   { label: '5G Towers', icon: RadioTower },
-  { label: 'Wireless Mesh Nodes', icon: Router },
+  { label: 'Core Network', icon: Server },
+  { label: 'Mesh Nodes', icon: Router },
   { label: 'Edge Gateways', icon: Cloud },
   { label: 'IoT Devices', icon: Smartphone },
 ];
@@ -24,7 +24,7 @@ const Architecture = () => {
           <p className="section-kicker">Network Architecture</p>
           <h2 className="section-title">Network Architecture</h2>
           <p className="section-copy">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed lorem.
+            Visual representation of a connected telecom ecosystem.
           </p>
         </Motion.div>
 

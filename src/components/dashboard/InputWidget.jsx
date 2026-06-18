@@ -2,12 +2,12 @@ import { motion as Motion } from 'framer-motion';
 import { Database, RadioTower, Router, Server, TabletSmartphone, Wifi } from 'lucide-react';
 
 const inputSystems = [
-  { label: 'Lorem Core', icon: Server },
-  { label: 'Ipsum Mesh', icon: Wifi },
-  { label: 'Dolor 5G', icon: RadioTower },
-  { label: 'Amet Gateways', icon: Router },
-  { label: 'Tempor Monitor', icon: Database },
-  { label: 'Elit Devices', icon: TabletSmartphone },
+  { label: 'Telecom Core Systems', description: 'Primary network management systems.', icon: Server },
+  { label: 'Wireless Mesh Nodes', description: 'Distributed communication nodes.', icon: Wifi },
+  { label: '5G Infrastructure', description: 'High-speed connectivity infrastructure.', icon: RadioTower },
+  { label: 'Edge Gateways', description: 'Regional processing endpoints.', icon: Router },
+  { label: 'Monitoring Platforms', description: 'System monitoring integrations.', icon: Database },
+  { label: 'IoT Devices', description: 'Connected field devices.', icon: TabletSmartphone },
 ];
 
 const InputWidget = () => {
@@ -18,7 +18,7 @@ const InputWidget = () => {
         <p className="section-kicker">Widget A</p>
         <h2 className="text-2xl font-semibold text-nodeslix-text">Input Systems</h2>
         <p className="text-sm leading-6 text-nodeslix-muted">
-          Lorem ipsum dolor sit amet connected sources.
+          Connected infrastructure sources.
         </p>
       </div>
 
@@ -41,7 +41,7 @@ const InputWidget = () => {
               </span>
               <div>
                 <h3 className="text-sm font-medium text-nodeslix-text">{system.label}</h3>
-                <p className="mt-1 text-xs text-nodeslix-muted">Lorem ipsum status</p>
+                <p className="mt-1 text-xs text-nodeslix-muted">{system.description}</p>
               </div>
             </div>
           </Motion.article>

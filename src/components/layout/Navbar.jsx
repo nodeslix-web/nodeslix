@@ -22,7 +22,7 @@ const Navbar = () => {
           <span className="flex flex-col leading-tight">
             <span className="text-base">NodeSlix</span>
             <span className="hidden text-xs font-medium text-nodeslix-muted sm:block">
-              Lorem ipsum platform
+              AI Mesh Network Optimization Platform
             </span>
           </span>
         </NavLink>

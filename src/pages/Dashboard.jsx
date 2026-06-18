@@ -23,15 +23,14 @@ const Dashboard = () => {
               <p className="section-kicker">Telecom Operations Command Center</p>
             </div>
             <h1 className="text-4xl font-semibold leading-tight text-nodeslix-text sm:text-5xl lg:text-6xl">
-              Enterprise network operations view
+              Telecom Operations Center
             </h1>
             <p className="max-w-2xl text-base leading-7 text-nodeslix-muted sm:text-lg">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent facilisis
-              posuere lorem, sed sagittis lectus.
+              Track infrastructure performance and monitor network health from a centralized workspace.
             </p>
           </div>
           <div className="mt-8 flex flex-wrap gap-3">
-            {['Lorem region', 'Ipsum mesh', 'Dolor edge'].map((item) => (
+            {['Core Systems', 'Mesh Network', 'Edge Operations'].map((item) => (
               <span
                 key={item}
                 className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-nodeslix-muted"

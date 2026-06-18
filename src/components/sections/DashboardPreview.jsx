@@ -3,10 +3,10 @@ import { motion as Motion } from 'framer-motion';
 import { ArrowRight, Gauge, RadioTower, ShieldCheck, Wifi } from 'lucide-react';
 
 const previewCards = [
-  { label: 'Lorem Nodes', value: '12.4k', icon: RadioTower },
-  { label: 'Ipsum Uptime', value: '99.9%', icon: ShieldCheck },
-  { label: 'Dolor Latency', value: '08ms', icon: Gauge },
-  { label: 'Amet Mesh', value: '842', icon: Wifi },
+  { label: 'Active Nodes', value: '1250', description: 'Connected network assets across the operations view.', icon: RadioTower },
+  { label: 'Infrastructure Uptime', value: '99.98%', description: 'Availability snapshot for monitored systems.', icon: ShieldCheck },
+  { label: 'Average Latency', value: '8ms', description: 'Performance signal across priority network routes.', icon: Gauge },
+  { label: 'Mesh Segments', value: '842', description: 'Distributed mesh paths available for review.', icon: Wifi },
 ];
 
 const DashboardPreview = () => {
@@ -23,9 +23,9 @@ const DashboardPreview = () => {
         >
           <div className="max-w-2xl space-y-4">
             <p className="section-kicker">Dashboard Preview</p>
-            <h2 className="section-title">Telecom operations center</h2>
+            <h2 className="section-title">Telecom Operations Center</h2>
             <p className="section-copy">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+              Track infrastructure performance and monitor network health from a centralized workspace.
             </p>
           </div>
 
@@ -64,7 +64,7 @@ const DashboardPreview = () => {
                   <div>
                     <p className="text-4xl font-semibold text-white">{card.value}</p>
                     <p className="mt-3 text-sm leading-6 text-nodeslix-muted">
-                      Lorem ipsum dolor sit amet placeholder.
+                      {card.description}
                     </p>
                   </div>
                 </Motion.div>

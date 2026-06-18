@@ -7,9 +7,15 @@ import networkPulse from '../../data/networkPulse.json';
 const Lottie = LottieModule.default ?? LottieModule;
 
 const stats = [
-  { label: 'Lorem Nodes', value: '12.8k' },
-  { label: 'Ipsum Latency', value: '08ms' },
-  { label: 'Dolor Score', value: '96%' },
+  { label: 'Infrastructure Uptime', value: '99.98%' },
+  { label: 'Average Latency', value: '8ms' },
+  { label: 'Active Network Nodes', value: '1250' },
+];
+
+const highlights = [
+  { title: 'Network Intelligence', description: 'Unified visibility across telecom operations.', icon: Cpu },
+  { title: 'Mesh Optimization', description: 'Improve traffic flow across connected nodes.', icon: Network },
+  { title: 'Infrastructure Signals', description: 'Monitor tower, gateway, and device health.', icon: RadioTower },
 ];
 
 const Hero = () => {
@@ -27,11 +33,10 @@ const Hero = () => {
             <div className="space-y-6">
               <p className="section-kicker">NodeSlix</p>
               <h1 className="text-5xl font-semibold leading-[1.05] text-nodeslix-text sm:text-6xl lg:text-7xl">
-                Enterprise AI for telecom network operations
+                Smarter Telecom Networks Powered by AI
               </h1>
               <p className="max-w-xl text-base leading-7 text-nodeslix-muted sm:text-lg">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ultricies velit sed
-                ipsum facilisis, vitae luctus sem posuere.
+                Monitor, analyze, and optimize large-scale telecom infrastructure through a unified intelligence platform.
               </p>
             </div>
 
@@ -68,8 +73,8 @@ const Hero = () => {
               <div className="grid gap-3 sm:grid-cols-3">
                 {stats.map((stat) => (
                   <div key={stat.label} className="rounded-2xl border border-white/10 bg-black/30 p-4">
-                    <p className="text-xs text-nodeslix-muted">{stat.label}</p>
-                    <p className="mt-2 text-xl font-semibold text-white">{stat.value}</p>
+                    <p className="text-xl font-semibold text-white">{stat.value}</p>
+                    <p className="mt-2 text-xs text-nodeslix-muted">{stat.label}</p>
                   </div>
                 ))}
               </div>
@@ -77,9 +82,12 @@ const Hero = () => {
           </Motion.div>
         </div>
         <div className="mt-10 grid gap-4 md:grid-cols-3">
-          {[Cpu, Network, RadioTower].map((Icon, index) => (
+          {highlights.map((item, index) => {
+            const Icon = item.icon;
+
+            return (
             <Motion.div
-              key={index}
+              key={item.title}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.2 + index * 0.08 }}
@@ -89,11 +97,12 @@ const Hero = () => {
                 <Icon size={19} />
               </span>
               <div>
-                <p className="font-semibold text-white">Lorem ipsum</p>
-                <p className="text-sm text-nodeslix-muted">Dolor sit amet placeholder.</p>
+                <p className="font-semibold text-white">{item.title}</p>
+                <p className="text-sm text-nodeslix-muted">{item.description}</p>
               </div>
             </Motion.div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

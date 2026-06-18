@@ -3,28 +3,28 @@ import { Activity, ArrowDown, BrainCircuit, Eye, Route, WandSparkles } from 'luc
 
 const workflowSteps = [
   {
-    title: 'Input',
-    description: 'Lorem ipsum dolor sit amet.',
+    title: 'Step 1',
+    description: 'Collect network telemetry.',
     icon: Activity,
   },
   {
-    title: 'AI Engine',
-    description: 'Consectetur adipiscing elit.',
+    title: 'Step 2',
+    description: 'Analyze incoming infrastructure data.',
     icon: BrainCircuit,
   },
   {
-    title: 'Optimization',
-    description: 'Sed do eiusmod tempor.',
+    title: 'Step 3',
+    description: 'Recommend optimization actions.',
     icon: Route,
   },
   {
-    title: 'Monitoring',
-    description: 'Incididunt ut labore.',
+    title: 'Step 4',
+    description: 'Monitor performance continuously.',
     icon: Eye,
   },
   {
-    title: 'Autonomous Actions',
-    description: 'Dolore magna aliqua.',
+    title: 'Step 5',
+    description: 'Execute automated improvements.',
     icon: WandSparkles,
   },
 ];
@@ -44,7 +44,7 @@ const Workflow = () => {
           <p className="section-kicker">AI Workflow</p>
           <h2 className="section-title">AI Workflow</h2>
           <p className="section-copy">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+            The workflow shows how network signals move from collection to AI-assisted action.
           </p>
         </Motion.div>
 

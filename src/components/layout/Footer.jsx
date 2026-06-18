@@ -7,18 +7,26 @@ const Footer = () => {
         {/* Footer shell reserved for approval-stage navigation or legal links. */}
         <div className="space-y-2">
           <p className="font-semibold text-nodeslix-text">NodeSlix</p>
-          <p>Lorem ipsum dolor sit amet consectetur.</p>
+          <p>AI Mesh Network Optimization Platform</p>
         </div>
         <div className="flex flex-wrap gap-3">
-          {[Cpu, RadioTower, ShieldCheck].map((Icon, index) => (
+          {[
+            { label: 'Network AI', icon: Cpu },
+            { label: 'Telecom Systems', icon: RadioTower },
+            { label: 'Reliable Operations', icon: ShieldCheck },
+          ].map((item) => {
+            const Icon = item.icon;
+
+            return (
             <span
-              key={index}
+              key={item.label}
               className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-2"
             >
               <Icon size={15} className="text-nodeslix-accent" />
-              Placeholder
+              {item.label}
             </span>
-          ))}
+            );
+          })}
         </div>
       </div>
     </footer>

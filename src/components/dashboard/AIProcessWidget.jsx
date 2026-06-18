@@ -2,11 +2,11 @@ import { motion as Motion } from 'framer-motion';
 import { BrainCircuit, Cpu, GitBranch, Radar, WandSparkles } from 'lucide-react';
 
 const processSteps = [
-  { label: 'Telemetry Ingestion', icon: Radar },
-  { label: 'Traffic Optimization', icon: Cpu },
-  { label: 'Routing Intelligence', icon: GitBranch },
-  { label: 'Predictive Analytics', icon: BrainCircuit },
-  { label: 'Autonomous Orchestration', icon: WandSparkles },
+  { label: 'Telemetry Ingestion', description: 'Collect operational data.', icon: Radar },
+  { label: 'Traffic Optimization', description: 'Balance network workloads.', icon: Cpu },
+  { label: 'Routing Intelligence', description: 'Improve path selection.', icon: GitBranch },
+  { label: 'Predictive Analytics', description: 'Forecast possible incidents.', icon: BrainCircuit },
+  { label: 'Autonomous Orchestration', description: 'Apply automated improvements.', icon: WandSparkles },
 ];
 
 const AIProcessWidget = () => {
@@ -17,7 +17,7 @@ const AIProcessWidget = () => {
         <p className="section-kicker">Widget B</p>
         <h2 className="text-2xl font-semibold text-nodeslix-text">AI Process</h2>
         <p className="text-sm leading-6 text-nodeslix-muted">
-          Lorem ipsum analysis pipeline.
+          AI-powered analysis pipeline.
         </p>
       </div>
 
@@ -40,7 +40,10 @@ const AIProcessWidget = () => {
                     <span className="flex size-9 items-center justify-center rounded-xl bg-nodeslix-accent/10 text-nodeslix-accent">
                       <Icon size={17} />
                     </span>
-                    <h3 className="text-sm font-medium text-nodeslix-text">{step.label}</h3>
+                    <div>
+                      <h3 className="text-sm font-medium text-nodeslix-text">{step.label}</h3>
+                      <p className="mt-1 text-xs text-nodeslix-muted">{step.description}</p>
+                    </div>
                   </div>
                   <span className="text-xs text-nodeslix-muted">
                     {String(index + 1).padStart(2, '0')}

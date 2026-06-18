@@ -2,12 +2,12 @@ import { motion as Motion } from 'framer-motion';
 import { Gauge, RadioTower, ShieldCheck, Signal, Sparkles, Timer, Waves } from 'lucide-react';
 
 const metrics = [
-  { label: 'Lorem Nodes', value: '1250', icon: RadioTower },
-  { label: 'Ipsum Uptime', value: '99.98%', icon: ShieldCheck },
-  { label: 'Dolor Latency', value: '8ms', icon: Timer },
-  { label: 'Amet Throughput', value: '7.8 Tbps', icon: Signal },
-  { label: 'Tempor Efficiency', value: '94%', icon: Gauge },
-  { label: 'Elit Risk', value: 'Low', icon: Waves },
+  { label: 'Active Nodes', value: '1250', icon: RadioTower },
+  { label: 'Uptime', value: '99.98%', icon: ShieldCheck },
+  { label: 'Latency', value: '8ms', icon: Timer },
+  { label: 'Throughput', value: '7.8 Tbps', icon: Signal },
+  { label: 'Efficiency', value: '94%', icon: Gauge },
+  { label: 'Congestion Risk', value: 'Low', icon: Waves },
   { label: 'AI Score', value: '96%', icon: Sparkles },
 ];
 
@@ -19,7 +19,7 @@ const InfrastructureWidget = () => {
         <p className="section-kicker">Widget C</p>
         <h2 className="text-2xl font-semibold text-nodeslix-text">Infrastructure Health</h2>
         <p className="text-sm leading-6 text-nodeslix-muted">
-          Lorem ipsum key performance indicators.
+          Key performance indicators.
         </p>
       </div>
 
