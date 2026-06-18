@@ -9,7 +9,7 @@ import Documentation from '../components/sections/Documentation.jsx';
 const Home = () => {
   return (
     <>
-      {/* Home page section stack for layout approval. */}
+      {/* Home page section stack. */}
       <Hero />
       <ProductOverview />
       <Features />

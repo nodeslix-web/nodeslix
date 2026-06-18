@@ -1,10 +1,25 @@
+import { Cpu, RadioTower, ShieldCheck } from 'lucide-react';
+
 const Footer = () => {
   return (
-    <footer className="border-t border-nodeslix-border/80 bg-nodeslix-secondary">
-      <div className="app-container flex flex-col gap-4 py-8 text-sm text-nodeslix-muted sm:flex-row sm:items-center sm:justify-between">
+    <footer className="border-t border-white/10 bg-nodeslix-secondary/80">
+      <div className="app-container grid gap-8 py-10 text-sm text-nodeslix-muted md:grid-cols-[1fr_auto] md:items-center">
         {/* Footer shell reserved for approval-stage navigation or legal links. */}
-        <p className="font-semibold text-nodeslix-text">NodeSlix</p>
-        <p>Telecom Network Operations Center wireframe</p>
+        <div className="space-y-2">
+          <p className="font-semibold text-nodeslix-text">NodeSlix</p>
+          <p>Lorem ipsum dolor sit amet consectetur.</p>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          {[Cpu, RadioTower, ShieldCheck].map((Icon, index) => (
+            <span
+              key={index}
+              className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-2"
+            >
+              <Icon size={15} className="text-nodeslix-accent" />
+              Placeholder
+            </span>
+          ))}
+        </div>
       </div>
     </footer>
   );
