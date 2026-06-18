@@ -2,17 +2,17 @@ import { motion as Motion } from 'framer-motion';
 import { Cloud, RadioTower, Router, Server, Smartphone } from 'lucide-react';
 
 const architectureNodes = [
-  { label: '5G Towers', icon: RadioTower },
-  { label: 'Core Network', icon: Server },
-  { label: 'Mesh Nodes', icon: Router },
-  { label: 'Edge Gateways', icon: Cloud },
-  { label: 'IoT Devices', icon: Smartphone },
+  { title: '5G Towers', subtitle: 'Radio Access Layer', icon: RadioTower },
+  { title: 'Core Network', subtitle: 'Traffic Management', icon: Server },
+  { title: 'Mesh Nodes', subtitle: 'Distributed Connectivity', icon: Router },
+  { title: 'Edge Gateways', subtitle: 'Regional Processing', icon: Cloud },
+  { title: 'IoT Devices', subtitle: 'Field Endpoints', icon: Smartphone },
 ];
 
 const Architecture = () => {
   return (
-    <section id="architecture" className="section-shell bg-nodeslix-secondary">
-      <div className="app-container space-y-12">
+    <section id="architecture" className="border-t border-white/10 bg-nodeslix-secondary py-16 sm:py-20 lg:py-24">
+      <div className="app-container space-y-9">
         {/* Network architecture section with labeled nodes. */}
         <Motion.div
           initial={{ opacity: 0, y: 18 }}
@@ -33,27 +33,52 @@ const Architecture = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.25 }}
           transition={{ duration: 0.6 }}
-          className="panel-shell"
+          className="panel-shell overflow-hidden"
         >
-          <div className="grid min-h-[460px] gap-5 lg:grid-cols-5">
+          <div className="relative">
+            <div className="absolute left-6 top-0 h-full w-px bg-nodeslix-accent/45 md:hidden" />
+
+            <div className="hidden md:absolute md:left-[90px] md:right-[90px] md:top-[90px] md:block lg:left-[92px] lg:right-[92px]">
+              <div className="h-px w-full bg-nodeslix-accent/65 shadow-[0_0_24px_rgba(0,212,255,0.28)]" />
+            </div>
+
+            <div className="relative grid gap-4 md:grid-cols-3 lg:grid-cols-5 lg:gap-5">
             {architectureNodes.map((node, index) => {
               const Icon = node.icon;
 
               return (
+                <div key={node.title} className="relative flex items-center md:block">
+                  {index > 0 ? (
+                    <span className="absolute left-6 top-[-1rem] h-4 w-px bg-nodeslix-accent/45 md:hidden" />
+                  ) : null}
+
+                  <span className="relative z-10 mr-4 flex size-12 shrink-0 items-center justify-center rounded-full border border-nodeslix-accent/60 bg-nodeslix-primary text-xs font-semibold text-nodeslix-accent shadow-[0_0_20px_rgba(0,212,255,0.18)] md:hidden">
+                    0{index + 1}
+                  </span>
+
                 <Motion.div
-                key={node.label}
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.2 }}
-                className="surface-card flex min-h-40 flex-col items-center justify-center gap-4 p-5 text-center text-sm font-semibold text-nodeslix-text"
-              >
-                <span className="flex size-14 items-center justify-center rounded-2xl border border-white/10 bg-nodeslix-accent/10 text-nodeslix-accent">
-                  <Icon size={24} />
-                </span>
-                {node.label}
-                <span className="text-xs font-normal text-nodeslix-muted">0{index + 1}</span>
+                  whileHover={{ y: -4 }}
+                  transition={{ duration: 0.2 }}
+                  className="surface-card relative z-10 flex w-full max-w-[180px] flex-col justify-between gap-4 p-4 text-left md:mx-auto md:h-[180px] md:text-center"
+                >
+                  <div className="flex items-center justify-between gap-3 md:flex-col md:justify-start">
+                    <span className="flex size-12 items-center justify-center rounded-2xl border border-white/10 bg-nodeslix-accent/10 text-nodeslix-accent">
+                      <Icon size={22} />
+                    </span>
+                    <span className="hidden rounded-full border border-nodeslix-accent/35 bg-nodeslix-accent/10 px-2.5 py-1 text-[0.65rem] font-semibold text-nodeslix-accent md:inline-flex">
+                      0{index + 1}
+                    </span>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <h3 className="text-sm font-semibold text-nodeslix-text">{node.title}</h3>
+                    <p className="text-xs leading-5 text-nodeslix-muted">{node.subtitle}</p>
+                  </div>
                 </Motion.div>
+                </div>
               );
             })}
+            </div>
           </div>
         </Motion.div>
       </div>
