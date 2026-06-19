@@ -152,9 +152,6 @@ const Footer = () => {
               loading="lazy"
             />
 
-            {/* Brand Name */}
-            <p className="text-base font-bold tracking-tight text-nodeslix-text">NodeSlix</p>
-
             {/* Tagline */}
             <p className="max-w-[220px] text-sm font-semibold leading-snug text-nodeslix-text/90">
               Smarter Telecom Networks Powered by AI
