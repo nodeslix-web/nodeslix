@@ -13,6 +13,11 @@ const navItems = [
   { label: 'Docs', id: 'docs' },
 ];
 
+const drawerItemVariants = {
+  hidden: { opacity: 0, x: 18 },
+  visible: (i) => ({ opacity: 1, x: 0, transition: { duration: 0.22, delay: i * 0.045, ease: 'easeOut' } }),
+};
+
 const Navbar = () => {
   const [activeSection, setActiveSection] = useState('hero');
   const [isScrolled, setIsScrolled] = useState(false);
@@ -89,9 +94,9 @@ const Navbar = () => {
   return (
     <header
       className={[
-        'sticky top-0 z-50 border-b backdrop-blur-xl transition-colors duration-300',
+        'sticky top-0 z-50 border-b backdrop-blur-xl transition-all duration-300',
         isScrolled
-          ? 'border-white/10 bg-nodeslix-primary/90 shadow-[0_18px_60px_rgba(0,0,0,0.34)]'
+          ? 'border-nodeslix-accent/12 bg-nodeslix-primary/92 shadow-[0_18px_60px_rgba(0,0,0,0.38)]'
           : 'border-white/5 bg-nodeslix-primary/45',
       ].join(' ')}
     >
@@ -99,9 +104,9 @@ const Navbar = () => {
         <button
           type="button"
           onClick={() => scrollToSection('hero')}
-          className="flex items-center gap-3 text-sm font-semibold tracking-wide text-left group text-nodeslix-text"
+          className="flex items-center gap-3 text-sm font-semibold tracking-wide text-left group text-nodeslix-text cursor-pointer"
         >
-          <span className="flex size-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-nodeslix-accent shadow-[0_10px_30px_rgba(0,0,0,0.22)] transition-colors group-hover:border-nodeslix-accent/50">
+          <span className="flex size-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-nodeslix-accent transition-all duration-200 group-hover:border-nodeslix-accent/50 group-hover:shadow-[0_0_18px_rgba(0,212,255,0.22)] group-hover:bg-nodeslix-accent/8">
             <Activity size={19} aria-hidden="true" />
           </span>
           <span className="flex flex-col leading-tight">
@@ -122,9 +127,9 @@ const Navbar = () => {
                 type="button"
                 onClick={() => scrollToSection(item.id)}
                 className={[
-                  'group relative rounded-xl px-3.5 py-2.5 text-sm font-medium transition-colors',
+                  'group relative rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-200 cursor-pointer',
                   isActive
-                    ? 'text-nodeslix-accent'
+                    ? 'text-nodeslix-accent bg-nodeslix-accent/8'
                     : 'text-nodeslix-muted hover:bg-white/[0.05] hover:text-nodeslix-text',
                 ].join(' ')}
               >
@@ -132,7 +137,7 @@ const Navbar = () => {
                 <span
                   className={[
                     'absolute bottom-1.5 left-1/2 h-px -translate-x-1/2 rounded-full bg-nodeslix-accent transition-all duration-300',
-                    isActive ? 'w-6 opacity-100' : 'w-0 opacity-0 group-hover:w-4 group-hover:opacity-70',
+                    isActive ? 'w-6 opacity-100' : 'w-0 opacity-0 group-hover:w-4 group-hover:opacity-60',
                   ].join(' ')}
                 />
               </button>
@@ -151,7 +156,7 @@ const Navbar = () => {
         <button
           type="button"
           onClick={() => setIsDrawerOpen(true)}
-          className="flex size-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-nodeslix-text transition-colors hover:border-nodeslix-accent/40 hover:text-nodeslix-accent xl:hidden"
+          className="flex size-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-nodeslix-text transition-all duration-200 hover:border-nodeslix-accent/40 hover:text-nodeslix-accent hover:bg-nodeslix-accent/6 xl:hidden cursor-pointer"
           aria-label="Open navigation menu"
         >
           <Menu size={21} />
@@ -164,7 +169,7 @@ const Navbar = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/55 backdrop-blur-sm xl:hidden"
+            className="fixed inset-0 z-50 bg-black/58 backdrop-blur-sm xl:hidden"
           >
             <Motion.aside
               ref={drawerRef}
@@ -172,7 +177,7 @@ const Navbar = () => {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: 320, opacity: 0 }}
               transition={{ duration: 0.24, ease: 'easeOut' }}
-              className="ml-auto flex h-dvh w-[300px] max-w-[calc(100vw-24px)] flex-col border-l border-white/10 bg-nodeslix-primary/95 p-5 shadow-[0_0_60px_rgba(0,0,0,0.5)]"
+              className="ml-auto flex h-dvh w-[300px] max-w-[calc(100vw-24px)] flex-col border-l border-white/10 bg-nodeslix-primary/97 p-5 shadow-[0_0_60px_rgba(0,0,0,0.56)]"
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -187,7 +192,7 @@ const Navbar = () => {
                 <button
                   type="button"
                   onClick={() => setIsDrawerOpen(false)}
-                  className="flex items-center justify-center transition-colors border size-10 rounded-xl border-white/10 text-nodeslix-muted hover:text-white"
+                  className="flex items-center justify-center transition-colors border size-10 rounded-xl border-white/10 text-nodeslix-muted hover:text-white cursor-pointer"
                   aria-label="Close navigation menu"
                 >
                   <X size={19} />
@@ -195,18 +200,22 @@ const Navbar = () => {
               </div>
 
               <div className="flex flex-col gap-1 mt-8">
-                {navItems.map((item) => {
+                {navItems.map((item, i) => {
                   const isActive = activeSection === item.id && location.pathname === '/';
 
                   return (
-                    <button
+                    <Motion.button
                       key={item.id}
+                      custom={i}
+                      variants={drawerItemVariants}
+                      initial="hidden"
+                      animate="visible"
                       type="button"
                       onClick={() => scrollToSection(item.id)}
                       className={[
-                        'flex items-center justify-between rounded-2xl px-4 py-3 text-left text-sm font-medium transition-colors',
+                        'flex items-center justify-between rounded-2xl px-4 py-3 text-left text-sm font-medium transition-colors cursor-pointer',
                         isActive
-                          ? 'bg-white/[0.06] text-nodeslix-accent'
+                          ? 'bg-nodeslix-accent/8 text-nodeslix-accent'
                           : 'text-nodeslix-muted hover:bg-white/[0.04] hover:text-white',
                       ].join(' ')}
                     >
@@ -217,7 +226,7 @@ const Navbar = () => {
                           isActive ? 'w-5 opacity-100' : 'w-0 opacity-0',
                         ].join(' ')}
                       />
-                    </button>
+                    </Motion.button>
                   );
                 })}
               </div>
@@ -228,7 +237,7 @@ const Navbar = () => {
                   setIsDrawerOpen(false);
                   navigate('/dashboard');
                 }}
-                className="gap-2 mt-6 primary-button"
+                className="gap-2 mt-6 primary-button cursor-pointer"
               >
                 Launch Dashboard <ArrowUpRight size={16} />
               </button>

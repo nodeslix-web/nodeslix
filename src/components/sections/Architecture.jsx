@@ -27,20 +27,20 @@ const lineCoordinates = {
 
 const Architecture = () => {
   return (
-    <section id="architecture" className="scroll-mt-20 border-t border-white/10 bg-nodeslix-secondary py-16 sm:py-20 lg:py-24">
-      <div className="app-container space-y-9">
+    <section id="architecture" className="scroll-mt-20 border-t border-white/8 bg-nodeslix-secondary py-16 sm:py-20 lg:py-24">
+      <div className="app-container space-y-11">
         {/* Network architecture section with labeled nodes. */}
         <Motion.div
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.35 }}
           transition={{ duration: 0.55 }}
-          className="max-w-2xl space-y-4"
+          className="max-w-2xl space-y-5"
         >
           <p className="section-kicker">Network Architecture</p>
-          <h2 className="section-title">Network Architecture</h2>
+          <h2 className="section-title">Infrastructure Ecosystem</h2>
           <p className="section-copy">
-            NodeSlix acts as an intelligent orchestration layer that continuously monitors and optimizes telecom infrastructure.
+            NodeSlix acts as an intelligent orchestration layer that continuously monitors and optimizes your telecom infrastructure.
           </p>
         </Motion.div>
 
@@ -52,27 +52,34 @@ const Architecture = () => {
           className="panel-shell overflow-hidden"
         >
           <div className="relative">
+            {/* AI Active badge with pulsing dot */}
             <div className="mb-6 flex justify-end">
               <Motion.span
-                animate={{ opacity: [0.68, 1, 0.68] }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                className="inline-flex items-center rounded-full border border-nodeslix-accent/35 bg-nodeslix-accent/10 px-3 py-2 text-xs font-semibold text-nodeslix-accent"
+                animate={{ opacity: [0.72, 1, 0.72] }}
+                transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+                className="inline-flex items-center gap-2 rounded-full border border-nodeslix-accent/35 bg-nodeslix-accent/10 px-3 py-2 text-xs font-semibold text-nodeslix-accent"
               >
+                <Motion.span
+                  animate={{ scale: [1, 1.5, 1], opacity: [0.6, 1, 0.6] }}
+                  transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+                  className="block size-1.5 rounded-full bg-nodeslix-accent"
+                />
                 AI Active
               </Motion.span>
             </div>
 
+            {/* Mobile / tablet fallback grid */}
             <div className="grid gap-4 md:grid-cols-2 lg:hidden">
               <div className="surface-card flex flex-col items-center justify-center gap-4 p-6 text-center md:col-span-2">
                 <Motion.span
-                  animate={{ scale: [1, 1.04, 1], opacity: [0.85, 1, 0.85] }}
+                  animate={{ scale: [1, 1.05, 1], opacity: [0.8, 1, 0.8] }}
                   transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut' }}
-                  className="flex size-20 items-center justify-center rounded-full border border-nodeslix-accent/45 bg-nodeslix-accent/10 text-nodeslix-accent shadow-[0_0_42px_rgba(0,212,255,0.24)]"
+                  className="flex size-20 items-center justify-center rounded-full border border-nodeslix-accent/45 bg-nodeslix-accent/10 text-nodeslix-accent shadow-[0_0_42px_rgba(0,212,255,0.22)]"
                 >
                   <BrainCircuit size={30} />
                 </Motion.span>
                 <div className="space-y-2">
-                  <h3 className="text-lg font-semibold text-white">AI Orchestration Layer</h3>
+                  <h3 className="text-lg font-bold text-white">AI Orchestration Layer</h3>
                   <p className="text-sm text-nodeslix-muted">Monitor • Analyze • Predict • Optimize</p>
                 </div>
               </div>
@@ -91,7 +98,7 @@ const Architecture = () => {
                       <Icon size={22} />
                     </span>
                     <div className="space-y-1">
-                      <h3 className="text-sm font-semibold text-nodeslix-text">{node.title}</h3>
+                      <h3 className="text-sm font-bold text-nodeslix-text">{node.title}</h3>
                       <p className="text-xs leading-5 text-nodeslix-muted">{node.subtitle}</p>
                     </div>
                   </Motion.div>
@@ -99,22 +106,24 @@ const Architecture = () => {
               })}
             </div>
 
+            {/* Desktop SVG architecture diagram */}
             <div className="relative hidden h-[520px] lg:block">
               <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                {/* Solid signal lines */}
                 {architectureNodes.map((node, index) => {
                   const line = lineCoordinates[node.position];
 
                   return (
                     <Motion.line
-                      key={node.title}
+                      key={`solid-${node.title}`}
                       x1={line.x1}
                       y1={line.y1}
                       x2={line.x2}
                       y2={line.y2}
                       stroke="#00D4FF"
-                      strokeWidth="0.24"
+                      strokeWidth="0.3"
                       strokeLinecap="round"
-                      animate={{ opacity: [0.2, 0.62, 0.2] }}
+                      animate={{ opacity: [0.18, 0.55, 0.18] }}
                       transition={{
                         duration: 4,
                         repeat: Infinity,
@@ -124,17 +133,43 @@ const Architecture = () => {
                     />
                   );
                 })}
+                {/* Dashed overlay lines for signal-flow effect */}
+                {architectureNodes.map((node, index) => {
+                  const line = lineCoordinates[node.position];
+
+                  return (
+                    <Motion.line
+                      key={`dashed-${node.title}`}
+                      x1={line.x1}
+                      y1={line.y1}
+                      x2={line.x2}
+                      y2={line.y2}
+                      stroke="#00D4FF"
+                      strokeWidth="0.22"
+                      strokeLinecap="round"
+                      strokeDasharray="1.2 2.5"
+                      animate={{ opacity: [0.08, 0.35, 0.08] }}
+                      transition={{
+                        duration: 3.2,
+                        repeat: Infinity,
+                        delay: index * 0.3 + 0.6,
+                        ease: 'easeInOut',
+                      }}
+                    />
+                  );
+                })}
               </svg>
 
-              <div className="absolute left-1/2 top-1/2 z-20 flex size-56 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border border-nodeslix-accent/45 bg-nodeslix-accent/10 text-center shadow-[0_0_62px_rgba(0,212,255,0.24)] backdrop-blur-md">
+              {/* Center AI core */}
+              <div className="absolute left-1/2 top-1/2 z-20 flex size-56 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border border-nodeslix-accent/45 bg-nodeslix-accent/8 text-center shadow-[0_0_62px_rgba(0,212,255,0.2)] backdrop-blur-md">
                 <Motion.span
-                  animate={{ scale: [1, 1.05, 1], opacity: [0.84, 1, 0.84] }}
+                  animate={{ scale: [1, 1.06, 1], opacity: [0.5, 1, 0.5] }}
                   transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut' }}
                   className="mb-4 flex size-16 items-center justify-center rounded-full border border-white/10 bg-nodeslix-primary/80 text-nodeslix-accent"
                 >
                   <BrainCircuit size={28} />
                 </Motion.span>
-                <h3 className="max-w-36 text-lg font-semibold leading-tight text-white">
+                <h3 className="max-w-36 text-lg font-bold leading-tight text-white">
                   AI Orchestration Layer
                 </h3>
                 <p className="mt-3 max-w-40 text-xs leading-5 text-nodeslix-muted">
@@ -142,6 +177,7 @@ const Architecture = () => {
                 </p>
               </div>
 
+              {/* Peripheral nodes */}
               {architectureNodes.map((node) => {
                 const Icon = node.icon;
 
@@ -152,6 +188,7 @@ const Architecture = () => {
                     transition={{ duration: 0.2 }}
                     className={[
                       'surface-card absolute z-30 flex h-[180px] w-[180px] flex-col justify-between gap-4 p-4 text-center',
+                      'shadow-[0_24px_60px_rgba(0,0,0,0.42)]',
                       desktopPlacement[node.position],
                     ].join(' ')}
                   >
@@ -160,7 +197,7 @@ const Architecture = () => {
                     </span>
 
                     <div className="space-y-1.5">
-                      <h3 className="text-sm font-semibold text-nodeslix-text">{node.title}</h3>
+                      <h3 className="text-sm font-bold text-nodeslix-text">{node.title}</h3>
                       <p className="text-xs leading-5 text-nodeslix-muted">{node.subtitle}</p>
                     </div>
                   </Motion.div>

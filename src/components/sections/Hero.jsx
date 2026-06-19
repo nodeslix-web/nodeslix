@@ -12,7 +12,10 @@ const highlights = [
 const Hero = () => {
   return (
     <section id="hero" className="relative scroll-mt-20 overflow-hidden bg-nodeslix-primary py-20 sm:py-28 lg:py-32">
-      <div className="app-container">
+      {/* Ambient aura behind headline — accent glow at very low opacity */}
+      <div className="pointer-events-none absolute -left-32 top-0 h-[520px] w-[520px] rounded-full bg-nodeslix-accent/[0.055] blur-[120px]" />
+
+      <div className="app-container relative">
         {/* Hero section with messaging and command-center panel. */}
         <div className="grid items-center gap-10 lg:grid-cols-[1fr_0.9fr] lg:gap-16">
           <Motion.div
@@ -22,11 +25,11 @@ const Hero = () => {
             className="max-w-3xl space-y-9"
           >
             <div className="space-y-6">
-              <p className="section-kicker">NodeSlix</p>
-              <h1 className="text-5xl font-semibold leading-[1.05] text-nodeslix-text sm:text-6xl lg:text-7xl">
+              <p className="section-kicker">NodeSlix Platform</p>
+              <h1 className="text-5xl font-extrabold leading-[1.04] tracking-tight text-nodeslix-text sm:text-6xl lg:text-7xl">
                 Smarter Telecom Networks Powered by AI
               </h1>
-              <p className="max-w-xl text-base leading-7 text-nodeslix-muted sm:text-lg">
+              <p className="max-w-xl text-base leading-[1.8] text-nodeslix-muted sm:text-lg">
                 Monitor, analyze, and optimize large-scale telecom infrastructure through a unified intelligence platform.
               </p>
             </div>
@@ -56,26 +59,28 @@ const Hero = () => {
             <CommandCenterPanel />
           </Motion.div>
         </div>
+
+        {/* Highlight cards */}
         <div className="mt-10 grid gap-4 md:grid-cols-3">
           {highlights.map((item, index) => {
             const Icon = item.icon;
 
             return (
-            <Motion.div
-              key={item.title}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: 0.2 + index * 0.08 }}
-              className="surface-card flex items-center gap-4 p-4"
-            >
-              <span className="flex size-11 items-center justify-center rounded-xl bg-nodeslix-accent/10 text-nodeslix-accent">
-                <Icon size={19} />
-              </span>
-              <div>
-                <p className="font-semibold text-white">{item.title}</p>
-                <p className="text-sm text-nodeslix-muted">{item.description}</p>
-              </div>
-            </Motion.div>
+              <Motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: 0.2 + index * 0.08 }}
+                className="surface-card flex items-center gap-4 p-4"
+              >
+                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-nodeslix-accent/10 text-nodeslix-accent">
+                  <Icon size={19} />
+                </span>
+                <div>
+                  <p className="font-semibold text-white">{item.title}</p>
+                  <p className="text-sm text-nodeslix-muted">{item.description}</p>
+                </div>
+              </Motion.div>
             );
           })}
         </div>
