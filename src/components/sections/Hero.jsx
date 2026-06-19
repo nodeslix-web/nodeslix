@@ -46,7 +46,7 @@ const ActivityTicker = () => {
       <span className="text-xs font-semibold uppercase tracking-[0.18em] text-nodeslix-muted/60">
         Latest
       </span>
-      <span className="h-3 w-px rounded-full bg-white/12" />
+      <span className="w-px h-3 rounded-full bg-white/12" />
       <AnimatePresence mode="wait">
         <Motion.span
           key={index}
@@ -88,41 +88,14 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="relative scroll-mt-20 overflow-hidden bg-nodeslix-primary pb-24 pt-10 sm:pb-28 sm:pt-14 lg:pb-32 lg:pt-16"
+      className="relative pt-10 pb-24 overflow-hidden scroll-mt-20 bg-nodeslix-primary sm:pb-28 sm:pt-14 lg:pb-32 lg:pt-16"
     >
       {/* ── Ambient aura ── */}
       <div className="pointer-events-none absolute -left-40 top-0 h-[600px] w-[600px] rounded-full bg-nodeslix-accent/[0.048] blur-[130px]" />
       <div className="pointer-events-none absolute -right-32 bottom-0 h-[400px] w-[400px] rounded-full bg-nodeslix-accent/[0.028] blur-[110px]" />
 
-      <div className="app-container relative">
+      <div className="relative app-container">
 
-        {/* ── Status bar ── */}
-        <Motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-          className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6"
-        >
-          {/* AI Active badge */}
-          <div className="inline-flex items-center gap-2 self-start rounded-full border border-nodeslix-accent/30 bg-nodeslix-accent/8 px-3.5 py-2">
-            <Motion.span
-              animate={{ scale: [1, 1.6, 1], opacity: [0.5, 1, 0.5] }}
-              transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-              className="block size-1.5 rounded-full bg-nodeslix-accent"
-            />
-            <span className="text-xs font-bold tracking-wide text-nodeslix-accent">AI Active</span>
-          </div>
-
-          {/* Status text */}
-          <div className="flex flex-col gap-0.5">
-            <span className="text-sm font-semibold text-nodeslix-text/90">
-              Live Infrastructure Optimization
-            </span>
-            <span className="text-xs text-nodeslix-muted/70">
-              Monitoring distributed telecom ecosystems.
-            </span>
-          </div>
-        </Motion.div>
 
         {/* ── Main two-column grid ── */}
         <div className="grid items-center gap-12 lg:grid-cols-[1fr_0.92fr] lg:gap-16">
@@ -161,12 +134,12 @@ const Hero = () => {
             {/* CTA buttons */}
             <Motion.div variants={fadeSlide} className="flex flex-col gap-3 sm:flex-row">
               <Motion.div whileHover={{ y: -3 }} transition={{ duration: 0.2, ease: 'easeOut' }}>
-                <Link to="/dashboard" className="primary-button gap-2">
+                <Link to="/dashboard" className="gap-2 primary-button">
                   View Dashboard <ArrowRight size={16} />
                 </Link>
               </Motion.div>
               <Motion.div whileHover={{ y: -3 }} transition={{ duration: 0.2, ease: 'easeOut' }}>
-                <a href="#architecture" className="secondary-button gap-2">
+                <a href="#architecture" className="gap-2 secondary-button">
                   Explore Architecture <Network size={16} />
                 </a>
               </Motion.div>
@@ -219,7 +192,7 @@ const Hero = () => {
         </div>
 
         {/* ── Highlight cards (below grid) ── */}
-        <div className="mt-12 grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 mt-12 md:grid-cols-3">
           {[
             { title: 'Network Intelligence', description: 'Unified visibility across telecom operations.', icon: Activity },
             { title: 'Mesh Optimization', description: 'Improve traffic flow across connected nodes.', icon: Network },
@@ -233,9 +206,9 @@ const Hero = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.45, delay: 0.5 + index * 0.09 }}
                 whileHover={{ y: -3, borderColor: 'rgba(0,212,255,0.28)' }}
-                className="surface-card flex items-center gap-4 p-4"
+                className="flex items-center gap-4 p-4 surface-card"
               >
-                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-nodeslix-accent/10 text-nodeslix-accent">
+                <span className="flex items-center justify-center size-11 shrink-0 rounded-xl bg-nodeslix-accent/10 text-nodeslix-accent">
                   <Icon size={19} />
                 </span>
                 <div>
@@ -252,7 +225,7 @@ const Hero = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 1.1 }}
-          className="mt-14 flex flex-col items-center gap-2"
+          className="flex flex-col items-center gap-2 mt-14"
         >
           <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-nodeslix-muted/50">
             Scroll to Explore
@@ -260,7 +233,7 @@ const Hero = () => {
           <Motion.div
             animate={{ y: [0, 6, 0] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-            className="flex size-8 items-center justify-center rounded-full border border-white/10 text-nodeslix-muted/50"
+            className="flex items-center justify-center border rounded-full size-8 border-white/10 text-nodeslix-muted/50"
           >
             <ArrowDown size={14} aria-hidden="true" />
           </Motion.div>
