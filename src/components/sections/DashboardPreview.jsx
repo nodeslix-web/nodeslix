@@ -1,151 +1,325 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion as Motion } from 'framer-motion';
-import { ArrowRight, Gauge, RadioTower, ShieldCheck, Wifi } from 'lucide-react';
+import { motion as Motion, AnimatePresence } from 'framer-motion';
+import {
+  ArrowRight,
+  Activity,
+  Brain,
+  Gauge,
+  Workflow,
+  RadioTower,
+  ShieldCheck,
+  Cpu
+} from 'lucide-react';
 
-const previewCards = [
+/* ─── Compact metrics configuration for the Mockup Panel ─── */
+const metrics = [
+  { label: 'Infrastructure Uptime', value: '99.98%', icon: ShieldCheck, sub: 'Target: 99.99%' },
+  { label: 'Average Latency', value: '8ms', icon: Activity, sub: 'Optimal Route' },
+  { label: 'Active Nodes', value: '1,250', icon: RadioTower, sub: 'Global Terminals' },
+  { label: 'AI Efficiency', value: '94%', icon: Cpu, sub: 'Optimized Pathing' },
+];
+
+/* ─── Right column capabilities checklist ─── */
+const commandCapabilities = [
   {
-    label: 'Active Nodes',
-    value: '1,250',
-    trend: '+12 today',
-    trendUp: true,
-    description: 'Connected network assets across all monitored regions.',
+    title: 'Live Monitoring',
+    description: 'Track infrastructure performance across all edge and node endpoints in real time.',
     icon: RadioTower,
-    barWidth: 78,
   },
   {
-    label: 'Infrastructure Uptime',
-    value: '99.98%',
-    trend: 'Last 30 days',
-    trendUp: true,
-    description: 'Availability snapshot for all monitored infrastructure systems.',
-    icon: ShieldCheck,
-    barWidth: 99,
+    title: 'Predictive Analytics',
+    description: 'Forecast potential capacity bottlenecks and routing disruptions before they impact users.',
+    icon: Brain,
   },
   {
-    label: 'Average Latency',
-    value: '8ms',
-    trend: '↓ 2ms vs yesterday',
-    trendUp: true,
-    description: 'Performance signal across priority network routes.',
+    title: 'Traffic Optimization',
+    description: 'Dynamically balance network payloads and congestion routing across mesh links.',
     icon: Gauge,
-    barWidth: 92,
   },
   {
-    label: 'Mesh Segments',
-    value: '842',
-    trend: '+6 since last sync',
-    trendUp: true,
-    description: 'Distributed mesh paths available for review and analysis.',
-    icon: Wifi,
-    barWidth: 64,
+    title: 'Autonomous Orchestration',
+    description: 'Apply intelligent configuration policies and optimizations instantly without human delay.',
+    icon: Workflow,
   },
 ];
 
+/* ─── Running activity feed log items ─── */
+const activities = [
+  'Traffic optimized',
+  'Congestion reduced',
+  'Path rerouted',
+  'Node recovered',
+  'Infrastructure healthy',
+];
+
 const DashboardPreview = () => {
+  const [feed, setFeed] = useState([
+    'Traffic optimized',
+    'Congestion reduced',
+    'Path rerouted',
+  ]);
+
+  /* ─── Cycle the activity feed every 2.5 seconds ─── */
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFeed((prev) => {
+        const nextIndex = (activities.indexOf(prev[0]) + 1) % activities.length;
+        return [activities[nextIndex], prev[0], prev[1]];
+      });
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section id="dashboard" className="section-shell scroll-mt-20 bg-nodeslix-secondary">
+    <section id="dashboard" className="section-shell scroll-mt-20 bg-nodeslix-secondary overflow-hidden">
       <div className="app-container space-y-14">
-        {/* Dashboard preview section: large preview frame with dashboard route button. */}
+        
+        {/* ─── Section Header ─── */}
         <Motion.div
-          initial={{ opacity: 0, y: 18 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.55 }}
-          className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between"
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between"
         >
-          <div className="max-w-2xl space-y-5">
+          <div className="max-w-2xl space-y-3">
             <p className="section-kicker">Dashboard Preview</p>
-            <h2 className="section-title">Telecom Operations Center</h2>
-            <p className="section-copy">
-              Track infrastructure performance and monitor network health from a centralized workspace.
+            <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+              Telecom Operations Command Center
+            </h2>
+            <p className="text-sm leading-relaxed text-nodeslix-muted sm:text-base">
+              Explore how NodeSlix monitors, predicts, and optimizes telecom infrastructures in real time.
             </p>
           </div>
-
-          <Link
-            to="/dashboard"
-            className="primary-button gap-2 shrink-0"
-          >
-            Open Dashboard <ArrowRight size={16} />
-          </Link>
-        </Motion.div>
-
-        <Motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.6 }}
-          className="panel-shell"
-        >
-          {/* LIVE indicator */}
-          <div className="mb-5 flex items-center justify-between">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-nodeslix-muted">
-              Key Metrics
-            </p>
-            <Motion.span
-              animate={{ opacity: [0.7, 1, 0.7] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-              className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/8 px-3 py-1.5 text-xs font-bold text-emerald-400"
-            >
+          
+          {/* Status Badge */}
+          <div className="flex shrink-0 items-start">
+            <span className="inline-flex items-center gap-2 rounded-full border border-nodeslix-accent/25 bg-nodeslix-accent/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-nodeslix-accent">
               <Motion.span
-                animate={{ scale: [1, 1.6, 1] }}
-                transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
-                className="block size-1.5 rounded-full bg-emerald-400"
+                animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                className="block size-1.5 rounded-full bg-nodeslix-accent"
               />
-              LIVE
-            </Motion.span>
-          </div>
-
-          <div className="grid min-h-[420px] gap-5 lg:grid-cols-3">
-            {previewCards.map((card, index) => {
-              const Icon = card.icon;
-
-              return (
-                <Motion.div
-                  key={card.label}
-                  whileHover={{ y: -3 }}
-                  transition={{ duration: 0.2 }}
-                  className={[
-                    'surface-card flex min-h-[180px] flex-col justify-between p-5',
-                    index === 1 || index === 2 ? 'lg:col-span-2' : '',
-                  ].join(' ')}
-                >
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <span className="text-xs font-medium text-nodeslix-muted">{card.label}</span>
-                      <p className="mt-1.5 text-5xl font-bold tracking-tight text-white leading-none">
-                        {card.value}
-                      </p>
-                    </div>
-                    <span className="flex size-9 items-center justify-center rounded-xl bg-nodeslix-accent/10 text-nodeslix-accent">
-                      <Icon size={17} />
-                    </span>
-                  </div>
-
-                  <div className="space-y-3">
-                    <p className="text-sm leading-[1.7] text-nodeslix-muted">
-                      {card.description}
-                    </p>
-                    {/* Sparkline bar */}
-                    <div className="space-y-1.5">
-                      <div className="h-1 w-full overflow-hidden rounded-full bg-white/6">
-                        <Motion.div
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${card.barWidth}%` }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 1.2, delay: index * 0.1, ease: 'easeOut' }}
-                          className="h-full rounded-full bg-gradient-to-r from-nodeslix-accent/60 to-nodeslix-accent"
-                        />
-                      </div>
-                      <span className="text-xs font-semibold text-nodeslix-accent/70">
-                        {card.trend}
-                      </span>
-                    </div>
-                  </div>
-                </Motion.div>
-              );
-            })}
+              Live Preview
+            </span>
           </div>
         </Motion.div>
+
+        {/* ─── Two-Column Preview Grid ─── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
+          
+          {/* ─── Left Side: Dashboard Mockup Panel ─── */}
+          <Motion.div
+            initial={{ opacity: 0, x: -16 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.55 }}
+            className="lg:col-span-7 panel-shell relative flex flex-col justify-between space-y-6 overflow-hidden bg-gradient-to-b from-[#131313] to-[#0A0A0A]"
+          >
+            {/* Header / Badges */}
+            <div className="flex justify-between items-center border-b border-white/5 pb-4">
+              <div className="flex items-center gap-2">
+                <span className="size-2 rounded-full bg-nodeslix-accent animate-pulse" />
+                <span className="text-[10px] font-mono tracking-wider uppercase text-nodeslix-muted/80">
+                  Command Preview
+                </span>
+              </div>
+              <span className="px-2.5 py-0.5 rounded-full border border-nodeslix-accent/20 bg-nodeslix-accent/5 text-[9px] font-mono text-nodeslix-accent tracking-wider font-bold">
+                Simulation Environment
+              </span>
+            </div>
+
+            {/* Metrics 2x2 Grid */}
+            <div className="grid grid-cols-2 gap-4">
+              {metrics.map((m, idx) => {
+                const MetricIcon = m.icon;
+                return (
+                  <Motion.div
+                    key={idx}
+                    whileHover={{ y: -4 }}
+                    transition={{ type: 'tween', ease: 'easeInOut', duration: 0.25 }}
+                    className="surface-card p-4 flex flex-col justify-between min-h-[95px] group border-white/5 bg-[#0A0A0A]/50 hover:border-nodeslix-accent/30 hover:shadow-[0_0_15px_rgba(0,212,255,0.04)]"
+                  >
+                    <div className="flex justify-between items-start">
+                      <span className="text-[11px] text-nodeslix-muted font-medium">{m.label}</span>
+                      <MetricIcon size={14} className="text-nodeslix-accent/80 group-hover:scale-105 transition-transform" />
+                    </div>
+                    <div className="mt-3 flex items-baseline justify-between">
+                      <span className="text-2xl font-bold text-white tracking-tight leading-none">{m.value}</span>
+                      <span className="text-[9px] font-mono text-nodeslix-muted/40">{m.sub}</span>
+                    </div>
+                  </Motion.div>
+                );
+              })}
+            </div>
+
+            {/* Mini Network Visual (Hub & Spoke Topology) */}
+            <div className="relative py-4 bg-black/30 rounded-xl border border-white/5 flex flex-col items-center justify-center min-h-[140px]">
+              <div className="flex flex-col items-center justify-between h-28 w-full relative max-w-sm px-4">
+                
+                {/* Center Hub */}
+                <div className="z-10 flex flex-col items-center">
+                  <span className="px-3 py-1 rounded-md bg-nodeslix-accent/10 border border-nodeslix-accent/25 text-[9px] font-mono font-bold text-nodeslix-accent shadow-[0_0_10px_rgba(0,212,255,0.15)] uppercase tracking-wider">
+                    AI Core
+                  </span>
+                </div>
+
+                {/* Animated connectors */}
+                <svg className="absolute inset-0 w-full h-full pointer-events-none select-none" viewBox="0 0 300 112">
+                  <path d="M 150 25 L 30 85" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+                  <path d="M 150 25 L 90 85" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+                  <path d="M 150 25 L 150 85" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+                  <path d="M 150 25 L 210 85" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+                  <path d="M 150 25 L 270 85" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+                  
+                  {/* Dynamic glowing packet dots */}
+                  <Motion.circle
+                    r="2"
+                    fill="#00D4FF"
+                    animate={{ cx: [150, 30], cy: [25, 85] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: 'linear', delay: 0 }}
+                  />
+                  <Motion.circle
+                    r="2"
+                    fill="#00D4FF"
+                    animate={{ cx: [150, 90], cy: [25, 85] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: 'linear', delay: 0.4 }}
+                  />
+                  <Motion.circle
+                    r="2"
+                    fill="#00D4FF"
+                    animate={{ cx: [150, 150], cy: [25, 85] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: 'linear', delay: 0.8 }}
+                  />
+                  <Motion.circle
+                    r="2"
+                    fill="#00D4FF"
+                    animate={{ cx: [150, 210], cy: [25, 85] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: 'linear', delay: 1.2 }}
+                  />
+                  <Motion.circle
+                    r="2"
+                    fill="#00D4FF"
+                    animate={{ cx: [150, 270], cy: [25, 85] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: 'linear', delay: 1.6 }}
+                  />
+                </svg>
+
+                {/* Target spokes row */}
+                <div className="w-full flex justify-between items-center z-10 px-2 mt-auto">
+                  {['5G', 'Core', 'Mesh', 'Edge', 'IoT'].map((node) => (
+                    <span
+                      key={node}
+                      className="px-2 py-0.5 rounded border border-white/5 bg-[#0A0A0A]/90 text-[9px] font-mono font-semibold text-nodeslix-muted"
+                    >
+                      {node}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Scrolling Activity Feed */}
+            <div className="border border-white/5 bg-black/40 rounded-xl p-4 font-mono text-[11px] space-y-2">
+              <div className="flex justify-between items-center text-[9px] text-nodeslix-muted/40 border-b border-white/5 pb-1.5 mb-2">
+                <span>SYSTEM LOG</span>
+                <span>STREAM ACTIVE</span>
+              </div>
+              <div className="relative h-[62px] overflow-hidden flex flex-col gap-1.5">
+                <AnimatePresence mode="popLayout">
+                  {feed.map((act, index) => (
+                    <Motion.div
+                      key={act}
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: index === 0 ? 1 : 0.4, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.35, ease: 'easeOut' }}
+                      className="flex items-center gap-2"
+                    >
+                      <span className={index === 0 ? 'text-nodeslix-accent' : 'text-nodeslix-muted/30'}>▶</span>
+                      <span className={index === 0 ? 'text-white font-medium' : 'text-nodeslix-muted'}>
+                        {act}
+                      </span>
+                      {index === 0 && (
+                        <span className="ml-auto text-[8px] px-1 py-0.2 bg-nodeslix-accent/15 text-nodeslix-accent rounded font-mono font-bold scale-90">
+                          NEW
+                        </span>
+                      )}
+                    </Motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+            </div>
+
+          </Motion.div>
+
+          {/* ─── Right Side: Capability Sidebar ─── */}
+          <Motion.div
+            initial={{ opacity: 0, x: 16 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.55 }}
+            className="lg:col-span-5 flex flex-col justify-between h-full space-y-8"
+          >
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <h3 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
+                  Inside The Command Center
+                </h3>
+                <p className="text-sm text-nodeslix-muted leading-relaxed">
+                  Unlock high-fidelity insights and autonomous configuration controls across your entire network fabric.
+                </p>
+              </div>
+
+              {/* Capability cards list */}
+              <div className="space-y-4 pt-2">
+                {commandCapabilities.map((cap, idx) => {
+                  const CapIcon = cap.icon;
+                  return (
+                    <Motion.div
+                      key={idx}
+                      whileHover={{ x: 4 }}
+                      transition={{ type: 'tween', ease: 'easeOut', duration: 0.2 }}
+                      className="flex items-start gap-4 p-3 rounded-xl border border-transparent hover:border-white/5 hover:bg-white/[0.02] transition-colors group"
+                    >
+                      <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-nodeslix-accent/5 text-nodeslix-accent border border-nodeslix-accent/15 group-hover:scale-105 transition-transform">
+                        <CapIcon size={16} />
+                      </span>
+                      <div className="space-y-1">
+                        <h4 className="text-sm font-semibold text-white group-hover:text-nodeslix-accent transition-colors">
+                          {cap.title}
+                        </h4>
+                        <p className="text-xs leading-relaxed text-nodeslix-muted line-clamp-2">
+                          {cap.description}
+                        </p>
+                      </div>
+                    </Motion.div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* CTAs */}
+            <div className="flex flex-wrap gap-4 pt-6 border-t border-white/5 mt-auto">
+              <Link
+                to="/dashboard"
+                className="primary-button inline-flex items-center justify-center gap-2 text-sm font-bold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(0,212,255,0.15)] shadow-md"
+              >
+                Launch Dashboard <ArrowRight size={15} />
+              </Link>
+              <a
+                href="#architecture"
+                className="secondary-button inline-flex items-center justify-center gap-2 text-sm font-semibold border border-white/10 hover:border-white/20 transition-all duration-200 hover:-translate-y-0.5"
+              >
+                View Architecture
+              </a>
+            </div>
+
+          </Motion.div>
+          
+        </div>
+
       </div>
     </section>
   );
