@@ -1,211 +1,203 @@
 import { motion as Motion } from 'framer-motion';
-import { BrainCircuit, Cloud, RadioTower, Router, Server, Smartphone } from 'lucide-react';
+import { Database, Radar, Brain, Zap, Activity, ArrowRight, ArrowDown } from 'lucide-react';
 
-const architectureNodes = [
-  { title: '5G Towers', subtitle: 'Radio Access Layer', icon: RadioTower, position: 'top' },
-  { title: 'Core Network', subtitle: 'Traffic Management', icon: Server, position: 'left' },
-  { title: 'Mesh Nodes', subtitle: 'Distributed Connectivity', icon: Router, position: 'right' },
-  { title: 'Edge Gateways', subtitle: 'Regional Processing', icon: Cloud, position: 'bottom-left' },
-  { title: 'IoT Devices', subtitle: 'Field Endpoints', icon: Smartphone, position: 'bottom-right' },
+/* ─── 5-Step Journey ─── */
+const steps = [
+  { num: '01', title: 'Collect',  description: 'Gather telemetry from distributed infrastructures.', icon: Database },
+  { num: '02', title: 'Analyze',  description: 'Identify patterns and operational anomalies.', icon: Radar },
+  { num: '03', title: 'Predict',  description: 'Forecast future bottlenecks and risks.', icon: Brain },
+  { num: '04', title: 'Optimize', description: 'Generate intelligent optimization actions.', icon: Zap },
+  { num: '05', title: 'Monitor',  description: 'Continuously track infrastructure health.', icon: Activity },
 ];
 
-const desktopPlacement = {
-  top: 'left-1/2 top-0 -translate-x-1/2',
-  left: 'left-0 top-1/2 -translate-y-1/2',
-  right: 'right-0 top-1/2 -translate-y-1/2',
-  'bottom-left': 'bottom-0 left-[16%]',
-  'bottom-right': 'bottom-0 right-[16%]',
+/* ─── Summary Panel Pills ─── */
+const loopSteps = ['24/7 Monitoring', 'AI Learning', 'Continuous Improvement'];
+
+/* ─── Animation variants ─── */
+const stagger = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
 };
 
-const lineCoordinates = {
-  top: { x1: 50, y1: 22, x2: 50, y2: 47 },
-  left: { x1: 20, y1: 50, x2: 43, y2: 50 },
-  right: { x1: 80, y1: 50, x2: 57, y2: 50 },
-  'bottom-left': { x1: 31, y1: 78, x2: 45, y2: 58 },
-  'bottom-right': { x1: 69, y1: 78, x2: 55, y2: 58 },
+const fadeUp = {
+  hidden:  { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } },
 };
 
 const Architecture = () => {
   return (
-    <section id="architecture" className="scroll-mt-20 border-t border-white/8 bg-nodeslix-secondary py-16 sm:py-20 lg:py-24">
-      <div className="app-container space-y-11">
-        {/* Network architecture section with labeled nodes. */}
+    <section id="architecture" className="scroll-mt-20 border-t border-white/8 bg-nodeslix-secondary py-16 sm:py-20">
+      <div className="app-container space-y-12">
+        
+        {/* ── Section header ── */}
         <Motion.div
-          initial={{ opacity: 0, y: 18 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.55 }}
-          className="max-w-2xl space-y-5"
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between"
         >
-          <p className="section-kicker">Network Architecture</p>
-          <h2 className="section-title">Infrastructure Ecosystem</h2>
-          <p className="section-copy">
-            NodeSlix acts as an intelligent orchestration layer that continuously monitors and optimizes your telecom infrastructure.
-          </p>
-        </Motion.div>
-
-        <Motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.6 }}
-          className="panel-shell overflow-hidden"
-        >
-          <div className="relative">
-            {/* AI Active badge with pulsing dot */}
-            <div className="mb-6 flex justify-end">
+          <div className="max-w-2xl space-y-3">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-nodeslix-muted/70">
+              How NodeSlix Works
+            </p>
+            <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+              Technical Journey
+            </h2>
+            <p className="text-sm leading-relaxed text-nodeslix-muted sm:text-base">
+              Transforming infrastructure telemetry into intelligent optimization decisions.
+            </p>
+          </div>
+          
+          {/* Status Badge */}
+          <div className="flex shrink-0 items-start">
+            <span className="inline-flex items-center gap-2 rounded-full border border-nodeslix-accent/25 bg-nodeslix-accent/10 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-nodeslix-accent">
               <Motion.span
-                animate={{ opacity: [0.72, 1, 0.72] }}
-                transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
-                className="inline-flex items-center gap-2 rounded-full border border-nodeslix-accent/35 bg-nodeslix-accent/10 px-3 py-2 text-xs font-semibold text-nodeslix-accent"
-              >
-                <Motion.span
-                  animate={{ scale: [1, 1.5, 1], opacity: [0.6, 1, 0.6] }}
-                  transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-                  className="block size-1.5 rounded-full bg-nodeslix-accent"
-                />
-                AI Active
-              </Motion.span>
-            </div>
-
-            {/* Mobile / tablet fallback grid */}
-            <div className="grid gap-4 md:grid-cols-2 lg:hidden">
-              <div className="surface-card flex flex-col items-center justify-center gap-4 p-6 text-center md:col-span-2">
-                <Motion.span
-                  animate={{ scale: [1, 1.05, 1], opacity: [0.8, 1, 0.8] }}
-                  transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut' }}
-                  className="flex size-20 items-center justify-center rounded-full border border-nodeslix-accent/45 bg-nodeslix-accent/10 text-nodeslix-accent shadow-[0_0_42px_rgba(0,212,255,0.22)]"
-                >
-                  <BrainCircuit size={30} />
-                </Motion.span>
-                <div className="space-y-2">
-                  <h3 className="text-lg font-bold text-white">AI Orchestration Layer</h3>
-                  <p className="text-sm text-nodeslix-muted">Monitor • Analyze • Predict • Optimize</p>
-                </div>
-              </div>
-
-              {architectureNodes.map((node) => {
-                const Icon = node.icon;
-
-                return (
-                  <Motion.div
-                    key={node.title}
-                    whileHover={{ y: -4 }}
-                    transition={{ duration: 0.2 }}
-                    className="surface-card flex items-center gap-4 p-4"
-                  >
-                    <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-nodeslix-accent/10 text-nodeslix-accent">
-                      <Icon size={22} />
-                    </span>
-                    <div className="space-y-1">
-                      <h3 className="text-sm font-bold text-nodeslix-text">{node.title}</h3>
-                      <p className="text-xs leading-5 text-nodeslix-muted">{node.subtitle}</p>
-                    </div>
-                  </Motion.div>
-                );
-              })}
-            </div>
-
-            {/* Desktop SVG architecture diagram */}
-            <div className="relative hidden h-[520px] lg:block">
-              <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                {/* Solid signal lines */}
-                {architectureNodes.map((node, index) => {
-                  const line = lineCoordinates[node.position];
-
-                  return (
-                    <Motion.line
-                      key={`solid-${node.title}`}
-                      x1={line.x1}
-                      y1={line.y1}
-                      x2={line.x2}
-                      y2={line.y2}
-                      stroke="#00D4FF"
-                      strokeWidth="0.3"
-                      strokeLinecap="round"
-                      animate={{ opacity: [0.18, 0.55, 0.18] }}
-                      transition={{
-                        duration: 4,
-                        repeat: Infinity,
-                        delay: index * 0.22,
-                        ease: 'easeInOut',
-                      }}
-                    />
-                  );
-                })}
-                {/* Dashed overlay lines for signal-flow effect */}
-                {architectureNodes.map((node, index) => {
-                  const line = lineCoordinates[node.position];
-
-                  return (
-                    <Motion.line
-                      key={`dashed-${node.title}`}
-                      x1={line.x1}
-                      y1={line.y1}
-                      x2={line.x2}
-                      y2={line.y2}
-                      stroke="#00D4FF"
-                      strokeWidth="0.22"
-                      strokeLinecap="round"
-                      strokeDasharray="1.2 2.5"
-                      animate={{ opacity: [0.08, 0.35, 0.08] }}
-                      transition={{
-                        duration: 3.2,
-                        repeat: Infinity,
-                        delay: index * 0.3 + 0.6,
-                        ease: 'easeInOut',
-                      }}
-                    />
-                  );
-                })}
-              </svg>
-
-              {/* Center AI core */}
-              <div className="absolute left-1/2 top-1/2 z-20 flex size-56 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border border-nodeslix-accent/45 bg-nodeslix-accent/8 text-center shadow-[0_0_62px_rgba(0,212,255,0.2)] backdrop-blur-md">
-                <Motion.span
-                  animate={{ scale: [1, 1.06, 1], opacity: [0.5, 1, 0.5] }}
-                  transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut' }}
-                  className="mb-4 flex size-16 items-center justify-center rounded-full border border-white/10 bg-nodeslix-primary/80 text-nodeslix-accent"
-                >
-                  <BrainCircuit size={28} />
-                </Motion.span>
-                <h3 className="max-w-36 text-lg font-bold leading-tight text-white">
-                  AI Orchestration Layer
-                </h3>
-                <p className="mt-3 max-w-40 text-xs leading-5 text-nodeslix-muted">
-                  Monitor • Analyze • Predict • Optimize
-                </p>
-              </div>
-
-              {/* Peripheral nodes */}
-              {architectureNodes.map((node) => {
-                const Icon = node.icon;
-
-                return (
-                  <Motion.div
-                    key={node.title}
-                    whileHover={{ y: -4 }}
-                    transition={{ duration: 0.2 }}
-                    className={[
-                      'surface-card absolute z-30 flex h-[180px] w-[180px] flex-col justify-between gap-4 p-4 text-center',
-                      'shadow-[0_24px_60px_rgba(0,0,0,0.42)]',
-                      desktopPlacement[node.position],
-                    ].join(' ')}
-                  >
-                    <span className="mx-auto flex size-12 items-center justify-center rounded-2xl border border-white/10 bg-nodeslix-accent/10 text-nodeslix-accent">
-                      <Icon size={22} />
-                    </span>
-
-                    <div className="space-y-1.5">
-                      <h3 className="text-sm font-bold text-nodeslix-text">{node.title}</h3>
-                      <p className="text-xs leading-5 text-nodeslix-muted">{node.subtitle}</p>
-                    </div>
-                  </Motion.div>
-                );
-              })}
-            </div>
+                animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                className="block size-1.5 rounded-full bg-nodeslix-accent"
+              />
+              Operational Flow
+            </span>
           </div>
         </Motion.div>
+
+        {/* ── 5-Step Journey Timeline ── */}
+        <div className="relative mx-auto max-w-6xl">
+          
+          {/* Central Glow (Intelligence Engine) */}
+          <div className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[220px] w-[220px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-nodeslix-accent/10 blur-[60px]" />
+
+          {/* Desktop/Tablet Horizontal Connector Line */}
+          <div className="pointer-events-none absolute left-[10%] right-[10%] top-[45px] z-0 hidden h-px lg:block">
+            <div className="relative h-full w-full bg-white/10">
+              <Motion.div
+                animate={{ x: ['0%', '100%'], opacity: [0, 1, 0] }}
+                transition={{ duration: 3.5, repeat: Infinity, ease: 'linear' }}
+                className="absolute left-0 top-1/2 h-[2px] w-28 -translate-y-1/2 rounded-full bg-nodeslix-accent shadow-[0_0_12px_rgba(0,212,255,0.8)]"
+              />
+            </div>
+          </div>
+
+          <Motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            className="grid gap-5 md:grid-cols-3 lg:grid-cols-5 relative z-10"
+          >
+            {steps.map((step, index) => {
+              const Icon = step.icon;
+              const isMiddle = index === 2; // Step 3 - Predict (center)
+              
+              return (
+                <Motion.article
+                  key={step.num}
+                  variants={fadeUp}
+                  whileHover="hover"
+                  initial="rest"
+                  animate="rest"
+                  variants={{
+                    rest:  { y: 0, borderColor: isMiddle ? 'rgba(0,212,255,0.3)' : 'rgba(255,255,255,0.08)' },
+                    hover: { y: -4, borderColor: '#00D4FF' },
+                  }}
+                  transition={{ duration: 0.25 }}
+                  className={[
+                    'group relative flex flex-col gap-4 rounded-2xl bg-[#0a0a0a] p-5 shadow-[0_4px_24px_rgba(0,0,0,0.4)] transition-colors',
+                    isMiddle ? 'shadow-[0_0_32px_rgba(0,212,255,0.1)]' : '',
+                  ].join(' ')}
+                >
+                  {/* Top Row: Step Number & Status */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-bold text-white/40 group-hover:text-nodeslix-accent/70 transition-colors">
+                      STEP {step.num}
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-nodeslix-accent/20 bg-nodeslix-accent/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-nodeslix-accent">
+                      <Motion.span
+                        animate={{ opacity: [0.3, 1, 0.3] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut', delay: index * 0.2 }}
+                        className="block size-1 rounded-full bg-nodeslix-accent"
+                      />
+                      Running
+                    </span>
+                  </div>
+
+                  {/* Icon Node */}
+                  <div className="flex size-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-white transition-colors group-hover:border-nodeslix-accent/30 group-hover:bg-nodeslix-accent/10 group-hover:text-nodeslix-accent">
+                    <Icon size={20} />
+                  </div>
+
+                  {/* Content */}
+                  <div className="space-y-1.5">
+                    <h3 className="text-sm font-bold text-white">{step.title}</h3>
+                    <p className="text-[12px] leading-relaxed text-nodeslix-muted line-clamp-2">
+                      {step.description}
+                    </p>
+                  </div>
+
+                  {/* Mobile downward arrow */}
+                  {index !== steps.length - 1 && (
+                    <div className="absolute -bottom-[22px] left-1/2 flex -translate-x-1/2 md:hidden">
+                      <Motion.div
+                        animate={{ opacity: [0.2, 1, 0.2], y: [0, 2, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut', delay: index * 0.2 }}
+                      >
+                        <ArrowDown size={14} className="text-nodeslix-accent" />
+                      </Motion.div>
+                    </div>
+                  )}
+
+                  {/* Desktop right arrow (between cards) */}
+                  {index !== steps.length - 1 && (
+                    <div className="absolute -right-[15px] top-[40px] hidden lg:flex">
+                      <Motion.div
+                        animate={{ opacity: [0.3, 1, 0.3], x: [0, 2, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut', delay: index * 0.2 }}
+                      >
+                        <ArrowRight size={14} className="text-nodeslix-accent/70" />
+                      </Motion.div>
+                    </div>
+                  )}
+                </Motion.article>
+              );
+            })}
+          </Motion.div>
+        </div>
+
+        {/* ── Summary Panel ── */}
+        <Motion.div
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.45, delay: 0.2 }}
+          className="mx-auto flex max-w-fit flex-col items-center gap-4 rounded-2xl border border-white/8 bg-white/[0.02] px-6 py-5 sm:flex-row sm:px-8"
+        >
+          <p className="shrink-0 text-[10px] font-bold uppercase tracking-[0.2em] text-nodeslix-muted/70">
+            Autonomous Optimization Loop
+          </p>
+          
+          <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-3">
+            {loopSteps.map((pill, idx) => (
+              <div key={pill} className="flex flex-col items-center gap-2 sm:flex-row sm:gap-3">
+                <span className="inline-flex rounded-full border border-nodeslix-accent/15 bg-nodeslix-accent/5 px-3 py-1 text-[11px] font-semibold text-nodeslix-accent">
+                  {pill}
+                </span>
+                
+                {idx !== loopSteps.length - 1 && (
+                  <Motion.div
+                    animate={{ opacity: [0.3, 1, 0.3] }}
+                    transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+                    className="flex text-nodeslix-accent/40"
+                  >
+                    <ArrowRight size={12} className="hidden sm:block" />
+                    <ArrowDown size={12} className="block sm:hidden" />
+                  </Motion.div>
+                )}
+              </div>
+            ))}
+          </div>
+        </Motion.div>
+
       </div>
     </section>
   );
