@@ -1,6 +1,7 @@
+import { useLocation, useNavigate } from 'react-router-dom';
 import { motion as Motion } from 'framer-motion';
+import logo from '../../assets/logo.png';
 import {
-  Activity,
   ArrowUpRight,
   Mail,
   Globe,
@@ -21,39 +22,60 @@ const fadeUp = {
   }),
 };
 
-/* ─── Smooth-scroll helper ─── */
-const scrollTo = (id) => (e) => {
-  e.preventDefault();
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-};
+/* ─── Internal anchor link (smooth-scroll & multi-page hash mapping) ─── */
+const SectionLink = ({ href, children }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-/* ─── Internal anchor link (smooth-scroll) ─── */
-const SectionLink = ({ href, children }) => (
-  <li>
-    <a
-      href={`#${href}`}
-      onClick={scrollTo(href)}
-      className="group relative inline-flex cursor-pointer items-center gap-1.5 text-sm text-nodeslix-muted transition-colors duration-200 hover:text-nodeslix-accent"
-    >
-      <Motion.span
-        whileHover={{ y: -3 }}
-        transition={{ duration: 0.25, ease: 'easeOut' }}
-        className="inline-flex items-center gap-1.5"
+  const handleClick = (e) => {
+    e.preventDefault();
+    const isHome = location.pathname === '/';
+
+    // Map the external hash name to the internal DOM element ID
+    let elementId = href;
+    if (href === 'infrastructure') elementId = 'architecture';
+    if (href === 'features') elementId = 'capabilities';
+
+    const runScroll = () => {
+      const el = document.getElementById(elementId);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    if (isHome) {
+      runScroll();
+      navigate(`/#${href}`, { replace: true });
+    } else {
+      navigate(`/#${href}`);
+      setTimeout(runScroll, 120);
+    }
+  };
+
+  return (
+    <li>
+      <a
+        href={`/#${href}`}
+        onClick={handleClick}
+        className="group relative inline-flex cursor-pointer items-center gap-1.5 text-sm text-nodeslix-muted transition-colors duration-200 hover:text-nodeslix-accent"
       >
-        {children}
-      </Motion.span>
-      {/* Underline sweep */}
-      <span className="absolute -bottom-px left-0 h-px w-0 rounded-full bg-nodeslix-accent/60 transition-all duration-[250ms] group-hover:w-full" />
-    </a>
-  </li>
-);
+        <Motion.span
+          whileHover={{ y: -3 }}
+          transition={{ duration: 0.25, ease: 'easeOut' }}
+          className="inline-flex items-center gap-1.5"
+        >
+          {children}
+        </Motion.span>
+        {/* Underline sweep */}
+        <span className="absolute -bottom-px left-0 h-px w-0 rounded-full bg-nodeslix-accent/60 transition-all duration-[250ms] group-hover:w-full" />
+      </a>
+    </li>
+  );
+};
 
 /* ─── External / placeholder link ─── */
 const ExternalLink = ({ href = '#', children, soon = false, target }) => (
   <li>
     {soon ? (
-      <span className="inline-flex cursor-default items-center gap-2 text-sm text-nodeslix-muted/45">
+      <span className="inline-flex items-center gap-2 text-sm cursor-default text-nodeslix-muted/45">
         <Motion.span className="inline-flex items-center gap-1.5">
           {children}
           <span className="rounded-full border border-white/10 bg-white/5 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-nodeslix-muted/50">
@@ -110,7 +132,7 @@ const Footer = () => {
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-[340px] w-[700px] -translate-x-1/2 rounded-full bg-nodeslix-accent/[0.04] blur-[100px]" />
 
       {/* ── Main grid ── */}
-      <div className="app-container relative py-16">
+      <div className="relative py-16 app-container">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
 
           {/* ── Column 1: Brand ── */}
@@ -122,17 +144,20 @@ const Footer = () => {
             viewport={{ once: true, amount: 0.2 }}
             className="space-y-6"
           >
-            {/* Logo mark */}
-            <div className="flex items-center gap-3">
-              <span className="flex size-10 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.05] text-nodeslix-accent shadow-[0_0_18px_rgba(0,212,255,0.12)]">
-                <Activity size={18} aria-hidden="true" />
-              </span>
-              <span className="text-base font-bold tracking-tight text-nodeslix-text">NodeSlix</span>
-            </div>
+            {/* Logo */}
+            <img
+              src={logo}
+              alt="NodeSlix Logo"
+              className="h-[64px] lg:h-[80px] w-auto object-contain"
+              loading="lazy"
+            />
+
+            {/* Brand Name */}
+            <p className="text-base font-bold tracking-tight text-nodeslix-text">NodeSlix</p>
 
             {/* Tagline */}
             <p className="max-w-[220px] text-sm font-semibold leading-snug text-nodeslix-text/90">
-              Smarter Telecom Networks Powered by AI.
+              Smarter Telecom Networks Powered by AI
             </p>
 
             {/* Description */}
@@ -167,8 +192,8 @@ const Footer = () => {
             <ul className="space-y-3.5">
               <SectionLink href="overview">Overview</SectionLink>
               <SectionLink href="dashboard">Dashboard</SectionLink>
-              <SectionLink href="architecture">Infrastructure</SectionLink>
-              <SectionLink href="capabilities">Features</SectionLink>
+              <SectionLink href="infrastructure">Infrastructure</SectionLink>
+              <SectionLink href="features">Features</SectionLink>
               <SectionLink href="architecture">Architecture</SectionLink>
             </ul>
           </Motion.div>
@@ -206,7 +231,7 @@ const Footer = () => {
                 <a
                   href="mailto:support@nodeslix.com"
                   aria-label="Email NodeSlix support"
-                  className="group relative inline-flex cursor-pointer items-center gap-2 text-sm text-nodeslix-muted transition-colors duration-200 hover:text-nodeslix-accent"
+                  className="relative inline-flex items-center gap-2 text-sm transition-colors duration-200 cursor-pointer group text-nodeslix-muted hover:text-nodeslix-accent"
                 >
                   <Motion.span
                     whileHover={{ y: -3 }}
@@ -223,7 +248,7 @@ const Footer = () => {
               {/* LinkedIn */}
               <li>
                 <a href="#" aria-label="NodeSlix on LinkedIn"
-                  className="group relative inline-flex cursor-pointer items-center gap-2 text-sm text-nodeslix-muted transition-colors duration-200 hover:text-nodeslix-accent">
+                  className="relative inline-flex items-center gap-2 text-sm transition-colors duration-200 cursor-pointer group text-nodeslix-muted hover:text-nodeslix-accent">
                   <Motion.span whileHover={{ y: -3 }} transition={{ duration: 0.25, ease: 'easeOut' }} className="inline-flex items-center gap-2">
                     <Globe size={14} className="shrink-0 text-nodeslix-accent/70" aria-hidden="true" />
                     LinkedIn <ArrowUpRight size={11} className="text-nodeslix-muted/50" aria-hidden="true" />
@@ -235,7 +260,7 @@ const Footer = () => {
               {/* GitHub */}
               <li>
                 <a href="#" aria-label="NodeSlix on GitHub"
-                  className="group relative inline-flex cursor-pointer items-center gap-2 text-sm text-nodeslix-muted transition-colors duration-200 hover:text-nodeslix-accent">
+                  className="relative inline-flex items-center gap-2 text-sm transition-colors duration-200 cursor-pointer group text-nodeslix-muted hover:text-nodeslix-accent">
                   <Motion.span whileHover={{ y: -3 }} transition={{ duration: 0.25, ease: 'easeOut' }} className="inline-flex items-center gap-2">
                     <Terminal size={14} className="shrink-0 text-nodeslix-accent/70" aria-hidden="true" />
                     GitHub <ArrowUpRight size={11} className="text-nodeslix-muted/50" aria-hidden="true" />
@@ -247,7 +272,7 @@ const Footer = () => {
               {/* X (Twitter) */}
               <li>
                 <a href="#" aria-label="NodeSlix on X (Twitter)"
-                  className="group relative inline-flex cursor-pointer items-center gap-2 text-sm text-nodeslix-muted transition-colors duration-200 hover:text-nodeslix-accent">
+                  className="relative inline-flex items-center gap-2 text-sm transition-colors duration-200 cursor-pointer group text-nodeslix-muted hover:text-nodeslix-accent">
                   <Motion.span whileHover={{ y: -3 }} transition={{ duration: 0.25, ease: 'easeOut' }} className="inline-flex items-center gap-2">
                     <AtSign size={14} className="shrink-0 text-nodeslix-accent/70" aria-hidden="true" />
                     X (Twitter) <ArrowUpRight size={11} className="text-nodeslix-muted/50" aria-hidden="true" />
@@ -259,7 +284,7 @@ const Footer = () => {
               {/* YouTube */}
               <li>
                 <a href="#" aria-label="NodeSlix on YouTube"
-                  className="group relative inline-flex cursor-pointer items-center gap-2 text-sm text-nodeslix-muted transition-colors duration-200 hover:text-nodeslix-accent">
+                  className="relative inline-flex items-center gap-2 text-sm transition-colors duration-200 cursor-pointer group text-nodeslix-muted hover:text-nodeslix-accent">
                   <Motion.span whileHover={{ y: -3 }} transition={{ duration: 0.25, ease: 'easeOut' }} className="inline-flex items-center gap-2">
                     <PlayCircle size={14} className="shrink-0 text-nodeslix-accent/70" aria-hidden="true" />
                     YouTube <ArrowUpRight size={11} className="text-nodeslix-muted/50" aria-hidden="true" />
@@ -271,7 +296,7 @@ const Footer = () => {
               {/* Contact */}
               <li>
                 <a href="#" aria-label="Contact NodeSlix"
-                  className="group relative inline-flex cursor-pointer items-center gap-2 text-sm text-nodeslix-muted transition-colors duration-200 hover:text-nodeslix-accent">
+                  className="relative inline-flex items-center gap-2 text-sm transition-colors duration-200 cursor-pointer group text-nodeslix-muted hover:text-nodeslix-accent">
                   <Motion.span whileHover={{ y: -3 }} transition={{ duration: 0.25, ease: 'easeOut' }} className="inline-flex items-center gap-2">
                     <MessageSquare size={14} className="shrink-0 text-nodeslix-accent/70" aria-hidden="true" />
                     Contact
@@ -291,7 +316,7 @@ const Footer = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="app-container flex flex-col gap-3 py-5 sm:flex-row sm:items-center sm:justify-between"
+          className="flex flex-col gap-3 py-5 app-container sm:flex-row sm:items-center sm:justify-between"
         >
           <p className="text-xs text-nodeslix-muted/70">
             © 2026 NodeSlix. All rights reserved.

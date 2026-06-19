@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
+import logo from '../assets/logo.png';
 import { Link } from 'react-router-dom';
 import { AnimatePresence, motion as Motion } from 'framer-motion';
 import {
-  Activity, BrainCircuit, CheckCircle2, ChevronRight, Cloud,
-  Command, RadioTower, Router, Server, Smartphone, Zap,
+  BrainCircuit, CheckCircle2, ChevronRight, Cloud,
+  RadioTower, Router, Server, Smartphone, Zap,
 } from 'lucide-react';
 import InputWidget from '../components/dashboard/InputWidget.jsx';
 import AIProcessWidget from '../components/dashboard/AIProcessWidget.jsx';
@@ -224,11 +225,8 @@ const Dashboard = () => (
         <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
           {/* Title block */}
           <div className="space-y-3">
-            <div className="flex items-center gap-2.5">
-              <span className="flex size-9 items-center justify-center rounded-xl bg-nodeslix-accent/10 text-nodeslix-accent">
-                <Command size={17} />
-              </span>
-              <p className="section-kicker">NodeSlix</p>
+            <div className="flex items-center">
+              <img src={logo} alt="NodeSlix Logo" className="h-8 w-auto object-contain" />
             </div>
             <h1 className="text-3xl font-extrabold tracking-tight text-nodeslix-text sm:text-4xl lg:text-5xl">
               Telecom Operations<br className="hidden sm:block" /> Command Center

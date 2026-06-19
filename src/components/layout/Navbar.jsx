@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion as Motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { Activity, ArrowUpRight, Menu, X } from 'lucide-react';
+import { ArrowUpRight, Menu, X } from 'lucide-react';
+import logo from '../../assets/logo.png';
 
 /* ─── Nav items: label shown + actual section id to scroll to ─── */
 const navItems = [
@@ -128,24 +129,21 @@ const Navbar = () => {
           type="button"
           aria-label="Go to top of page"
           onClick={() => scrollToSection('hero')}
-          className="flex items-center gap-3 text-left cursor-pointer group shrink-0"
+          className="flex items-center gap-5 text-left cursor-pointer group shrink-0"
         >
           {/* Icon mark */}
-          <Motion.span
+          <Motion.div
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="flex size-10 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-nodeslix-accent transition-all duration-200 group-hover:border-nodeslix-accent/45 group-hover:bg-nodeslix-accent/8 group-hover:shadow-[0_0_16px_rgba(0,212,255,0.2)]"
+            className="flex items-center justify-center transition-all duration-200"
           >
-            <Activity size={18} aria-hidden="true" />
-          </Motion.span>
-
-          {/* Wordmark + subtitle */}
-          <span className="flex flex-col leading-tight">
-            <span className="text-sm font-bold tracking-tight text-nodeslix-text">NodeSlix</span>
-            <span className="hidden text-[10px] font-medium tracking-wide text-nodeslix-muted/70 sm:block">
-              AI Telecom Intelligence Platform
-            </span>
-          </span>
+            <img
+              src={logo}
+              alt="NodeSlix Logo"
+              className="h-[72px] md:h-[60px] lg:h-[64px] w-130px object-contain"
+            />
+          </Motion.div>
+          
         </button>
 
         {/* ══ CENTER: Nav links (desktop) ══ */}
@@ -265,14 +263,12 @@ const Navbar = () => {
             >
               {/* Drawer header */}
               <div className="flex items-center justify-between p-5 border-b border-white/8">
-                <div className="flex items-center gap-3">
-                  <span className="flex size-9 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-nodeslix-accent">
-                    <Activity size={16} aria-hidden="true" />
-                  </span>
-                  <div>
-                    <p className="text-sm font-bold leading-tight text-white">NodeSlix</p>
-                    <p className="text-[10px] text-nodeslix-muted">AI Telecom Intelligence Platform</p>
-                  </div>
+                <div className="flex items-center">
+                  <img
+                    src={logo}
+                    alt="NodeSlix Logo"
+                    className="h-[52px] w-auto object-contain"
+                  />
                 </div>
 
                 <button
