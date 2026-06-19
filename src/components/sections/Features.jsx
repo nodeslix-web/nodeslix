@@ -1,85 +1,218 @@
 import { motion as Motion } from 'framer-motion';
-import { BrainCircuit, Gauge, Radar, Workflow } from 'lucide-react';
+import { BrainCircuit, Activity, Gauge, Radar, Workflow, BarChart3, ArrowRight } from 'lucide-react';
 
+/* ─── Staggered animation containers ─── */
+const stagger = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08 } },
+};
+
+const fadeUp = {
+  hidden:  { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' } },
+};
+
+/* ─── 6 Capability Cards ─── */
 const capabilities = [
   {
     title: 'Network Intelligence',
-    description: 'Understand network behavior in real time with AI-driven signal analysis and anomaly detection.',
-    stat: 'Up to 40% fewer incidents',
+    description: 'Continuously understand infrastructure behavior and identify operational patterns.',
     icon: Radar,
   },
   {
     title: 'Traffic Optimization',
-    description: 'Detect bottlenecks and redistribute traffic intelligently across all connected segments.',
-    stat: '3× faster rerouting',
+    description: 'Detect bottlenecks and balance workloads across distributed systems.',
     icon: Gauge,
   },
   {
     title: 'Predictive Analytics',
-    description: 'Identify potential failures before they impact users using historical pattern modeling.',
-    stat: '72h advance warning',
+    description: 'Identify risks before they affect network performance.',
     icon: BrainCircuit,
   },
   {
-    title: 'Autonomous Operations',
-    description: 'Automate repetitive optimization tasks and reduce manual intervention across your fleet.',
-    stat: '85% ops automation rate',
+    title: 'Autonomous Orchestration',
+    description: 'Apply intelligent optimization without manual intervention.',
     icon: Workflow,
   },
+  {
+    title: 'Infrastructure Monitoring',
+    description: 'Track the health and availability of connected systems in real time.',
+    icon: Activity,
+  },
+  {
+    title: 'Performance Insights',
+    description: 'Transform telemetry data into actionable recommendations.',
+    icon: BarChart3,
+  },
 ];
+
+/* ─── Capability Highlight Pills ─── */
+const highlights = [
+  '24/7 Monitoring',
+  'Real-time Insights',
+  'Predictive Learning',
+  'Smart Optimization',
+  'Enterprise Ready',
+];
+
+/* ─── Operational Workflow Steps ─── */
+const workflowSteps = ['Monitor', 'Analyze', 'Predict', 'Optimize'];
+
+/* ══════════════════════════════════════════════════ */
 
 const Features = () => {
   return (
     <section id="capabilities" className="section-shell scroll-mt-20 bg-nodeslix-primary">
-      <div className="app-container space-y-14">
-        {/* AI capabilities section: four-card responsive grid. */}
+      <div className="app-container space-y-16">
+        
+        {/* ── Section header ── */}
         <Motion.div
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.55 }}
           className="max-w-2xl space-y-5"
         >
-          <p className="section-kicker">AI Capabilities</p>
-          <h2 className="section-title">Built for Intelligent Networks</h2>
+          <p className="section-kicker">Capability Center</p>
+          <h2 className="section-title">Core Platform Capabilities</h2>
           <p className="section-copy">
-            AI capabilities organized around visibility, performance, prediction, and assisted operations.
+            Intelligent systems that continuously monitor and optimize telecom infrastructures.
           </p>
         </Motion.div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {capabilities.map((capability, index) => {
+        {/* ── Capability Cards Grid ── */}
+        <Motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {capabilities.map((capability) => {
             const Icon = capability.icon;
 
             return (
               <Motion.article
                 key={capability.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                whileHover={{ y: -4 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.45, delay: index * 0.07 }}
-                className="accent-card min-h-72 space-y-5 p-6"
+                variants={fadeUp}
+                whileHover="hover"
+                initial="rest"
+                animate="rest"
+                variants={{
+                  rest:  { y: 0, borderColor: 'rgba(255,255,255,0.08)', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' },
+                  hover: { y: -4, borderColor: '#00D4FF', boxShadow: '0 12px 32px rgba(0,212,255,0.12)' },
+                }}
+                transition={{ duration: 0.25, ease: 'easeOut' }}
+                className="group flex flex-col gap-5 rounded-3xl bg-white/[0.025] p-7 transition-colors"
               >
-                <div className="flex size-14 items-center justify-center rounded-3xl border border-white/10 bg-nodeslix-accent/10 text-nodeslix-accent">
-                  <Icon size={22} />
+                {/* Header: Icon + Status Badge */}
+                <div className="flex items-start justify-between">
+                  <Motion.div
+                    variants={{
+                      rest:  { rotate: 0 },
+                      hover: { rotate: 2 },
+                    }}
+                    transition={{ duration: 0.25 }}
+                    className="flex size-12 items-center justify-center rounded-2xl border border-white/10 bg-nodeslix-accent/10 text-nodeslix-accent transition-colors duration-300 group-hover:bg-nodeslix-accent/20"
+                  >
+                    <Icon size={20} />
+                  </Motion.div>
+                  
+                  {/* Status Badge */}
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-nodeslix-accent/20 bg-nodeslix-accent/8 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-nodeslix-accent">
+                    <Motion.span
+                      animate={{ opacity: [0.4, 1, 0.4] }}
+                      transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+                      className="block size-1.5 rounded-full bg-nodeslix-accent"
+                    />
+                    Active
+                  </span>
                 </div>
-                <div className="space-y-3 flex-1">
+
+                {/* Content */}
+                <div className="space-y-2.5 flex-1 pt-1">
                   <h3 className="text-lg font-bold tracking-tight text-nodeslix-text">{capability.title}</h3>
-                  <p className="text-sm leading-[1.75] text-nodeslix-muted">
+                  <p className="text-sm leading-[1.7] text-nodeslix-muted line-clamp-2">
                     {capability.description}
                   </p>
-                </div>
-                {/* Stat badge */}
-                <div className="pt-3 border-t border-white/6">
-                  <span className="text-xs font-semibold text-nodeslix-accent tracking-wide">
-                    {capability.stat}
-                  </span>
                 </div>
               </Motion.article>
             );
           })}
-        </div>
+        </Motion.div>
+
+        {/* ── Capability Highlight Bar ── */}
+        <Motion.div
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.45 }}
+          className="flex flex-wrap items-center justify-center gap-3"
+        >
+          {highlights.map((highlight, i) => (
+            <Motion.span
+              key={highlight}
+              initial={{ opacity: 0, scale: 0.92 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.03 }}
+              transition={{ duration: 0.2, delay: 0.1 + i * 0.05 }}
+              className="inline-flex cursor-default items-center rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-xs font-semibold text-nodeslix-muted backdrop-blur-sm transition-colors hover:border-nodeslix-accent/40 hover:text-white"
+            >
+              {highlight}
+            </Motion.span>
+          ))}
+        </Motion.div>
+
+        {/* ── Operational Workflow Summary Panel ── */}
+        <Motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.5 }}
+          className="mx-auto max-w-4xl rounded-3xl border border-white/8 bg-[#0A0A0A]/60 p-6 sm:p-8"
+        >
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+            {/* Title */}
+            <div className="shrink-0 text-center sm:text-left">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-nodeslix-muted/60">
+                System flow
+              </p>
+              <h3 className="mt-1 text-base font-bold text-nodeslix-text">Operational Workflow</h3>
+            </div>
+            
+            {/* Flow Steps */}
+            <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4 flex-1 justify-end">
+              {workflowSteps.map((step, index) => (
+                <div key={step} className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
+                  <div className="rounded-xl border border-white/6 bg-white/[0.02] px-4 py-2 text-sm font-semibold text-nodeslix-muted">
+                    {step}
+                  </div>
+                  
+                  {index < workflowSteps.length - 1 && (
+                    <div className="flex items-center text-nodeslix-accent/50">
+                      <Motion.div
+                        animate={{ opacity: [0.3, 1, 0.3], x: [0, 2, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut', delay: index * 0.3 }}
+                        className="hidden sm:block"
+                      >
+                        <ArrowRight size={14} />
+                      </Motion.div>
+                      <Motion.div
+                        animate={{ opacity: [0.3, 1, 0.3], y: [0, 2, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut', delay: index * 0.3 }}
+                        className="block sm:hidden"
+                      >
+                        <ArrowRight size={14} className="rotate-90" />
+                      </Motion.div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </Motion.div>
+
       </div>
     </section>
   );
