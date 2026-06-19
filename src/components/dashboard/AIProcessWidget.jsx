@@ -2,88 +2,94 @@ import { motion as Motion } from 'framer-motion';
 import { BrainCircuit, Cpu, GitBranch, Radar, WandSparkles } from 'lucide-react';
 
 const processSteps = [
-  { label: 'Telemetry Ingestion', description: 'Collect operational data.', icon: Radar },
-  { label: 'Traffic Optimization', description: 'Balance network workloads.', icon: Cpu },
-  { label: 'Routing Intelligence', description: 'Improve path selection.', icon: GitBranch },
-  { label: 'Predictive Analytics', description: 'Forecast possible incidents.', icon: BrainCircuit },
-  { label: 'Autonomous Orchestration', description: 'Apply automated improvements.', icon: WandSparkles },
+  { label: 'Telemetry Ingestion',    description: 'Collect raw operational data from all network layers.',  icon: Radar,         chip: 'Running',   chipColor: 'emerald' },
+  { label: 'Traffic Optimization',   description: 'Balance and redistribute network workloads dynamically.', icon: Cpu,           chip: 'Analyzing',  chipColor: 'accent' },
+  { label: 'Routing Intelligence',   description: 'Select optimal signal paths using live topology data.',   icon: GitBranch,     chip: 'Learning',   chipColor: 'accent' },
+  { label: 'Predictive Analytics',   description: 'Forecast failure probability across infrastructure nodes.', icon: BrainCircuit,  chip: 'Optimizing', chipColor: 'accent' },
+  { label: 'Autonomous Orchestration', description: 'Apply AI-generated improvements without human input.', icon: WandSparkles,  chip: 'Executing',  chipColor: 'emerald' },
 ];
 
-const AIProcessWidget = () => {
-  return (
-    <section className="panel-shell min-h-full space-y-7 p-6 sm:p-8">
-      {/* AI process visualizer without live logic or charts. */}
-      <div className="space-y-3">
-        <h2 className="text-2xl font-semibold text-nodeslix-text">AI Intelligence Engine</h2>
-        <div className="inline-flex rounded-full border border-nodeslix-accent/35 bg-nodeslix-accent/10 px-3 py-1.5 text-xs font-semibold text-nodeslix-accent">
-          Powered by NVIDIA SDK
-        </div>
-        <p className="text-sm leading-6 text-nodeslix-muted">
-          AI-powered analysis pipeline.
-        </p>
-      </div>
-
-      <div className="rounded-2xl border border-white/10 bg-black/20 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">
-        <div className="space-y-0">
-          {processSteps.map((step, index) => {
-            const Icon = step.icon;
-
-            return (
-            <div key={step.label} className="relative">
-              {index < processSteps.length - 1 ? (
-                <div className="pointer-events-none absolute left-[1.65rem] top-14 h-[calc(100%-1.5rem)] w-px overflow-hidden">
-                  <Motion.span
-                    animate={{ opacity: [0.24, 0.72, 0.24] }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      delay: index * 0.18,
-                      ease: 'easeInOut',
-                    }}
-                    className="absolute inset-0 bg-nodeslix-accent/55 shadow-[0_0_20px_rgba(0,212,255,0.3)]"
-                  />
-                  <Motion.span
-                    animate={{ y: [-8, 72] }}
-                    transition={{
-                      duration: 2.2,
-                      repeat: Infinity,
-                      delay: index * 0.28,
-                      ease: 'linear',
-                    }}
-                    className="absolute -left-[3px] top-0 size-2 rounded-full bg-[#D9F8FF] shadow-[0_0_14px_rgba(0,212,255,0.9)]"
-                  />
-                </div>
-              ) : null}
-              <Motion.article
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.25, delay: index * 0.04 }}
-                className="surface-card mb-3 p-6 hover:border-nodeslix-accent/45"
-              >
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <span className="flex size-9 items-center justify-center rounded-xl bg-nodeslix-accent/10 text-nodeslix-accent">
-                      <Icon size={17} />
-                    </span>
-                    <div>
-                      <h3 className="text-sm font-medium text-nodeslix-text">{step.label}</h3>
-                      <p className="mt-1 text-xs text-nodeslix-muted">{step.description}</p>
-                    </div>
-                  </div>
-                  <span className="size-2 rounded-full bg-nodeslix-accent shadow-[0_0_12px_rgba(0,212,255,0.65)]" />
-                </div>
-              </Motion.article>
-              {index < processSteps.length - 1 ? (
-                <div className="mb-3 h-5" />
-              ) : null}
-            </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
+const chipClass = {
+  emerald: 'border-emerald-500/25 bg-emerald-500/8 text-emerald-400',
+  accent:  'border-nodeslix-accent/22 bg-nodeslix-accent/8 text-nodeslix-accent',
 };
+
+const AIProcessWidget = () => (
+  <section className="panel-shell flex h-full flex-col gap-6 p-6 sm:p-7">
+    {/* Header */}
+    <div className="space-y-1.5">
+      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-nodeslix-muted/70">
+        AI Intelligence Engine
+      </p>
+      <div className="flex items-center gap-2.5">
+        <h2 className="text-xl font-bold tracking-tight text-nodeslix-text">
+          AI Process Pipeline
+        </h2>
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-nodeslix-accent/25 bg-nodeslix-accent/8 px-2.5 py-1 text-[10px] font-bold text-nodeslix-accent">
+          <Motion.span
+            animate={{ opacity: [0.4, 1, 0.4] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+            className="block size-1.5 rounded-full bg-nodeslix-accent"
+          />
+          Live
+        </span>
+      </div>
+      <p className="text-xs leading-[1.7] text-nodeslix-muted">
+        AI-powered analysis and optimization pipeline.
+      </p>
+    </div>
+
+    {/* Vertical timeline */}
+    <div className="relative flex flex-col gap-0">
+      {processSteps.map((step, index) => {
+        const Icon = step.icon;
+        const isLast = index === processSteps.length - 1;
+
+        return (
+          <div key={step.label} className="relative flex gap-4">
+            {/* Timeline spine */}
+            <div className="flex flex-col items-center">
+              {/* Node circle */}
+              <Motion.div
+                animate={{ boxShadow: ['0 0 0px rgba(0,212,255,0)', '0 0 14px rgba(0,212,255,0.5)', '0 0 0px rgba(0,212,255,0)'] }}
+                transition={{ duration: 2.8, repeat: Infinity, delay: index * 0.3, ease: 'easeInOut' }}
+                className="z-10 flex size-9 shrink-0 items-center justify-center rounded-xl border border-nodeslix-accent/28 bg-nodeslix-accent/10 text-nodeslix-accent"
+              >
+                <Icon size={15} />
+              </Motion.div>
+              {/* Connector line */}
+              {!isLast && (
+                <div className="relative w-px flex-1 overflow-hidden bg-white/8" style={{ minHeight: 28 }}>
+                  <Motion.span
+                    animate={{ y: ['-100%', '200%'] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: index * 0.28, ease: 'linear' }}
+                    className="absolute inset-x-0 h-1/2 rounded-full bg-nodeslix-accent/50 shadow-[0_0_8px_rgba(0,212,255,0.6)]"
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Step content */}
+            <Motion.div
+              initial={{ opacity: 0, x: -8 }}
+              animate={{ opacity: 1, x: 0 }}
+              whileHover={{ x: 3 }}
+              transition={{ duration: 0.28, delay: 0.08 + index * 0.06 }}
+              className={['pb-5', isLast ? 'pb-0' : ''].join(' ')}
+            >
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="text-sm font-bold text-nodeslix-text">{step.label}</h3>
+                <span className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${chipClass[step.chipColor]}`}>
+                  {step.chip}
+                </span>
+              </div>
+              <p className="mt-1 text-[11px] leading-[1.65] text-nodeslix-muted">{step.description}</p>
+            </Motion.div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+);
 
 export default AIProcessWidget;
