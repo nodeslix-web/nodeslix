@@ -1,95 +1,308 @@
 import { motion as Motion } from 'framer-motion';
-import { Activity, ArrowRight, BrainCircuit, Eye, Route, WandSparkles } from 'lucide-react';
+import { Plug, Database, Brain, Zap, Rocket, BarChart3 } from 'lucide-react';
 
+/* ─── Workflow steps data with specific icons, descriptions, and statuses ─── */
 const workflowSteps = [
   {
-    step: '01',
-    title: 'Telemetry Ingestion',
-    description: 'Collect raw network telemetry from towers, gateways, and edge devices at scale.',
-    icon: Activity,
+    num: '01',
+    title: 'Connect Infrastructure',
+    description: 'Connect telecom infrastructures to NodeSlix.',
+    icon: Plug,
+    status: 'Connected',
   },
   {
-    step: '02',
-    title: 'AI Analysis',
-    description: 'Process and analyze incoming infrastructure data to surface patterns and anomalies.',
-    icon: BrainCircuit,
+    num: '02',
+    title: 'Collect Telemetry',
+    description: 'Gather operational data from all connected systems.',
+    icon: Database,
+    status: 'Ingesting',
   },
   {
-    step: '03',
-    title: 'Action Recommendations',
-    description: 'Generate targeted optimization actions ranked by priority and predicted impact.',
-    icon: Route,
+    num: '03',
+    title: 'Process Intelligence',
+    description: 'Analyze traffic patterns and infrastructure behavior.',
+    icon: Brain,
+    status: 'Analyzing',
   },
   {
-    step: '04',
-    title: 'Continuous Monitoring',
-    description: 'Track performance signals in real time and recalibrate models as conditions change.',
-    icon: Eye,
+    num: '04',
+    title: 'Generate Optimizations',
+    description: 'Produce intelligent recommendations automatically.',
+    icon: Zap,
+    status: 'Optimizing',
   },
   {
-    step: '05',
-    title: 'Autonomous Execution',
-    description: 'Execute approved improvements automatically without manual operator intervention.',
-    icon: WandSparkles,
+    num: '05',
+    title: 'Deploy Actions',
+    description: 'Apply optimization strategies safely.',
+    icon: Rocket,
+    status: 'Deploying',
+  },
+  {
+    num: '06',
+    title: 'Measure Results',
+    description: 'Track outcomes and continuously improve.',
+    icon: BarChart3,
+    status: 'Measuring',
   },
 ];
 
+/* ─── Live indicators config ─── */
+const liveIndicators = [
+  { label: 'Traffic Healthy' },
+  { label: 'Latency Stable' },
+  { label: 'Congestion Low' },
+  { label: 'Infrastructure Connected' },
+];
+
+/* ─── Framer Motion variants for stagger entry ─── */
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: 'easeOut' },
+  },
+};
+
 const Workflow = () => {
   return (
-    <section id="workflow" className="section-shell scroll-mt-20 bg-nodeslix-primary">
-      <div className="app-container space-y-14">
-        {/* AI workflow section: horizontal desktop flow with responsive stacking. */}
+    <section id="workflow" className="overflow-hidden section-shell scroll-mt-20 bg-nodeslix-primary">
+      <div className="space-y-16 app-container">
+        
+        {/* ─── Header Section ─── */}
         <Motion.div
-          initial={{ opacity: 0, y: 18 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.55 }}
-          className="max-w-2xl space-y-5"
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between"
         >
-          <p className="section-kicker">AI Workflow</p>
-          <h2 className="section-title">How NodeSlix Operates</h2>
-          <p className="section-copy">
-            The workflow shows how network signals move from collection to AI-assisted action.
-          </p>
+          <div className="max-w-2xl space-y-3">
+            <p className="section-kicker">Workflow</p>
+            <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+              Autonomous Telecom Operations Lifecycle
+            </h2>
+            <p className="text-sm leading-relaxed text-nodeslix-muted sm:text-base">
+              From infrastructure onboarding to continuous optimization.
+            </p>
+          </div>
+          
+          {/* Status Badge */}
+          <div className="flex items-start shrink-0">
+            <span className="inline-flex items-center gap-2 rounded-full border border-nodeslix-accent/25 bg-nodeslix-accent/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-nodeslix-accent">
+              <Motion.span
+                animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                className="block size-1.5 rounded-full bg-nodeslix-accent"
+              />
+              Live Workflow
+            </span>
+          </div>
         </Motion.div>
 
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-stretch">
-          {workflowSteps.map((step, index) => (
-            <div key={step.title} className="flex flex-1 flex-col gap-4 lg:flex-row lg:items-center">
-              <Motion.article
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                whileHover={{ y: -4 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.45, delay: index * 0.06 }}
-                className="accent-card relative flex min-h-52 flex-1 flex-col justify-between p-6 text-center"
-              >
-                {/* Step number badge */}
-                <span className="absolute right-4 top-4 text-[10px] font-bold tracking-[0.22em] text-nodeslix-accent/38 select-none">
-                  {step.step}
-                </span>
-
-                <span className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-nodeslix-accent/10 text-nodeslix-accent">
-                  <step.icon size={21} />
-                </span>
-
-                <div className="space-y-2">
-                  <h3 className="text-base font-bold tracking-tight text-nodeslix-text">{step.title}</h3>
-                  <p className="text-sm leading-[1.7] text-nodeslix-muted">{step.description}</p>
-                </div>
-              </Motion.article>
-
-              {/* Connector arrow */}
-              {index < workflowSteps.length - 1 ? (
-                <div className="flex items-center justify-center text-nodeslix-accent/50 lg:w-8 lg:shrink-0">
-                  {/* Vertical on mobile, horizontal on desktop */}
-                  <ArrowRight size={18} className="hidden lg:block" />
-                  <ArrowRight size={18} className="rotate-90 lg:hidden" />
-                </div>
-              ) : null}
+        {/* ─── Live Indicators Status Bar ─── */}
+        <Motion.div
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="flex flex-wrap items-center gap-3 py-4 border-t border-b border-white/5"
+        >
+          <span className="mr-2 font-mono text-xs text-nodeslix-muted/60">System Status:</span>
+          {liveIndicators.map((ind, i) => (
+            <div
+              key={i}
+              className="flex items-center gap-2 px-3 py-1 rounded-full bg-nodeslix-accent/[0.04] border border-nodeslix-accent/10 text-xs font-mono text-white/90"
+            >
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-nodeslix-accent"></span>
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-nodeslix-accent"></span>
+              </span>
+              {ind.label}
             </div>
           ))}
-        </div>
+        </Motion.div>
+
+        {/* ─── Cards Layout (Desktop/Tablet Grid) ─── */}
+        <Motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          className="relative hidden gap-6 md:grid md:grid-cols-3 lg:grid-cols-6"
+        >
+          {workflowSteps.map((step, index) => {
+            const Icon = step.icon;
+            return (
+              <Motion.div
+                key={index}
+                variants={cardVariants}
+                whileHover={{ y: -4 }}
+                transition={{
+                  y: { duration: 0.25, ease: 'easeInOut' },
+                  default: { duration: 0.45, ease: 'easeOut' },
+                }}
+                className="relative group rounded-2xl border border-white/6 bg-[#0E0E0E]/85 backdrop-blur-xl p-5 flex flex-col justify-between min-h-[220px] transition-colors duration-300 hover:border-nodeslix-accent/40 hover:shadow-[0_0_20px_rgba(0,212,255,0.06)]"
+              >
+                {/* Step Indicator Top */}
+                <div className="flex items-start justify-between mb-4">
+                  <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-nodeslix-muted/40">
+                    STEP {step.num}
+                  </span>
+                  <span className="flex items-center justify-center transition-colors border size-9 rounded-xl bg-nodeslix-accent/5 text-nodeslix-accent border-nodeslix-accent/15 group-hover:bg-nodeslix-accent/10">
+                    <Icon size={18} />
+                  </span>
+                </div>
+
+                {/* Content */}
+                <div className="mt-auto mb-4 space-y-2">
+                  <h3 className="text-sm font-semibold tracking-tight text-white transition-colors group-hover:text-nodeslix-accent">
+                    {step.title}
+                  </h3>
+                  <p className="text-[12px] leading-relaxed text-nodeslix-muted/80 line-clamp-2">
+                    {step.description}
+                  </p>
+                </div>
+
+                {/* Status Indicator */}
+                <div className="flex items-center gap-1.5 border-t border-white/5 pt-3 mt-auto text-[9px] font-mono tracking-wider uppercase text-nodeslix-accent/80">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-nodeslix-accent"></span>
+                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-nodeslix-accent"></span>
+                  </span>
+                  {step.status}
+                </div>
+
+                {/* --- Animated Connectors --- */}
+                {/* Desktop Horizontal Connector (index < 5) */}
+                {index < 5 && (
+                  <div className="absolute right-[-20px] top-1/2 -translate-y-1/2 w-7 h-[2px] hidden lg:block overflow-hidden pointer-events-none">
+                    <svg className="w-full h-full" viewBox="0 0 28 2" fill="none">
+                      <Motion.line
+                        x1="0"
+                        y1="1"
+                        x2="28"
+                        y2="1"
+                        stroke="#00D4FF"
+                        strokeWidth="1.5"
+                        strokeDasharray="4 4"
+                        animate={{ strokeDashoffset: [-8, 0] }}
+                        transition={{ repeat: Infinity, ease: 'linear', duration: 1 }}
+                      />
+                    </svg>
+                  </div>
+                )}
+
+                {/* Tablet Horizontal Connector */}
+                {(index === 0 || index === 1 || index === 3 || index === 4) && (
+                  <div className="absolute right-[-20px] top-1/2 -translate-y-1/2 w-7 h-[2px] hidden md:block lg:hidden overflow-hidden pointer-events-none">
+                    <svg className="w-full h-full" viewBox="0 0 28 2" fill="none">
+                      <Motion.line
+                        x1="0"
+                        y1="1"
+                        x2="28"
+                        y2="1"
+                        stroke="#00D4FF"
+                        strokeWidth="1.5"
+                        strokeDasharray="4 4"
+                        animate={{ strokeDashoffset: [-8, 0] }}
+                        transition={{ repeat: Infinity, ease: 'linear', duration: 1 }}
+                      />
+                    </svg>
+                  </div>
+                )}
+
+                {/* Tablet Downward Connector after Row 1 */}
+                {index === 2 && (
+                  <div className="absolute bottom-[-20px] left-1/2 -translate-x-1/2 w-[2px] h-6 hidden md:block lg:hidden overflow-hidden pointer-events-none">
+                    <svg className="w-full h-full" viewBox="0 0 2 24" fill="none">
+                      <Motion.line
+                        x1="1"
+                        y1="0"
+                        x2="1"
+                        y2="24"
+                        stroke="#00D4FF"
+                        strokeWidth="1.5"
+                        strokeDasharray="4 4"
+                        animate={{ strokeDashoffset: [-8, 0] }}
+                        transition={{ repeat: Infinity, ease: 'linear', duration: 1 }}
+                      />
+                    </svg>
+                  </div>
+                )}
+              </Motion.div>
+            );
+          })}
+        </Motion.div>
+
+        {/* ─── Mobile Timeline Layout ─── */}
+        <Motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          className="relative block pl-6 space-y-6 md:hidden"
+        >
+          {/* Continuous vertical timeline connector line */}
+          <div className="absolute left-[13px] top-2 bottom-2 w-[1px] bg-white/5 overflow-hidden">
+            <Motion.div
+              className="w-full h-full bg-gradient-to-b from-[#00D4FF] via-[#00D4FF]/30 to-transparent origin-top"
+              animate={{ y: ['-100%', '100%'] }}
+              transition={{ repeat: Infinity, ease: 'linear', duration: 4 }}
+            />
+          </div>
+
+          {workflowSteps.map((step, index) => {
+            const Icon = step.icon;
+            return (
+              <Motion.div
+                key={index}
+                variants={cardVariants}
+                className="relative flex gap-4"
+              >
+                {/* Timeline Node Icon */}
+                <div className="absolute left-[-22px] top-1.5 z-10 flex size-7 items-center justify-center rounded-full bg-[#0A0A0A] border border-nodeslix-accent/40 text-nodeslix-accent">
+                  <Icon size={12} />
+                </div>
+
+                {/* Card Content */}
+                <div className="flex-1 rounded-xl border border-white/6 bg-[#0E0E0E]/85 backdrop-blur-xl p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[9px] font-mono font-bold tracking-wider text-nodeslix-muted/40">
+                      STEP {step.num}
+                    </span>
+                    <div className="flex items-center gap-1.5 text-[9px] font-mono tracking-wider uppercase text-nodeslix-accent/80">
+                      <span className="relative flex h-1.5 w-1.5">
+                        <span className="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-nodeslix-accent"></span>
+                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-nodeslix-accent"></span>
+                      </span>
+                      {step.status}
+                    </div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <h3 className="text-sm font-semibold tracking-tight text-white">
+                      {step.title}
+                    </h3>
+                    <p className="text-[12px] leading-relaxed text-nodeslix-muted/80">
+                      {step.description}
+                    </p>
+                  </div>
+                </div>
+              </Motion.div>
+            );
+          })}
+        </Motion.div>
       </div>
     </section>
   );

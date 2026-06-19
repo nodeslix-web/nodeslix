@@ -72,12 +72,13 @@ const Architecture = () => {
           <div className="pointer-events-none absolute left-[10%] right-[10%] top-[45px] z-0 hidden h-px lg:block">
             <div className="relative h-full w-full bg-white/10">
               <Motion.div
-                animate={{ x: ['0%', '100%'], opacity: [0, 1, 0] }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: 'linear' }}
-                className="absolute left-0 top-1/2 h-[2px] w-28 -translate-y-1/2 rounded-full bg-nodeslix-accent shadow-[0_0_12px_rgba(0,212,255,0.8)]"
+                animate={{ left: ['0%', '100%'], opacity: [0, 1, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+                className="absolute top-1/2 h-[2px] w-28 -translate-y-1/2 -translate-x-1/2 rounded-full bg-nodeslix-accent shadow-[0_0_12px_rgba(0,212,255,0.8)]"
               />
             </div>
           </div>
+
 
           <Motion.div
             variants={stagger}
