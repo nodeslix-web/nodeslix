@@ -9,13 +9,14 @@ const navItems = [
   { label: 'Overview',       id: 'overview' },
   { label: 'Features',       id: 'capabilities' },
   { label: 'Architecture',   id: 'architecture' },
-  { label: 'Workflow',   id: 'workflow' },
+  { label: 'Workflow',       id: 'workflow' },
   { label: 'Dashboard',      id: 'dashboard' },
+  { label: 'Contact',        id: 'contact' },
   { label: 'Docs',           id: 'docs' },
 ];
 
 /* ─── All section ids for active-tracking ─── */
-const sectionIds = ['hero', 'overview', 'dashboard', 'architecture', 'capabilities', 'workflow', 'docs'];
+const sectionIds = ['hero', 'overview', 'dashboard', 'architecture', 'capabilities', 'workflow', 'contact', 'docs'];
 
 /* ─── Drawer item stagger ─── */
 const drawerItemVariants = {
@@ -220,7 +221,7 @@ const Navbar = () => {
             onClick={() => navigate('/product')}
             className="gap-2 cursor-pointer primary-button"
           >
-            Launch Dashboard <ArrowUpRight size={15} aria-hidden="true" />
+            Telemetry <ArrowUpRight size={15} aria-hidden="true" />
           </Motion.button>
         </div>
 

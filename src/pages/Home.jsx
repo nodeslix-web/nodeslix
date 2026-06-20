@@ -4,6 +4,7 @@ import Features from '../components/sections/Features.jsx';
 import Architecture from '../components/sections/Architecture.jsx';
 import Workflow from '../components/sections/Workflow.jsx';
 import DashboardPreview from '../components/sections/DashboardPreview.jsx';
+import Contact from '../components/sections/Contact.jsx';
 import Documentation from '../components/sections/Documentation.jsx';
 
 const Home = () => {
@@ -16,6 +17,7 @@ const Home = () => {
       <Architecture />
       <Workflow />
       <DashboardPreview />
+      <Contact />
       <Documentation />
     </>
   );
