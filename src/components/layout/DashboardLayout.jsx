@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion as Motion } from 'framer-motion';
 import logo from '../../assets/logo.png';
 import {
-  Activity, BarChart3, Bell, BrainCircuit, ChevronDown,
+  Activity, BarChart3, Bell, BrainCircuit, ChevronDown, CheckCircle2,
   LayoutDashboard, LogOut, Menu, Network, Search, Server,
-  Settings, Sliders, Users, X,
+  Settings, Sliders, Users, X, RefreshCw, User, Moon,
+  HelpCircle, Command, Palette, Check
 } from 'lucide-react';
 
 /* ─── Nav items (links to nested routes) ─── */
@@ -18,6 +19,27 @@ const navItems = [
   { label: 'Analytics',      icon: BarChart3,        path: '/dashboard/analytics'      },
   { label: 'Users',          icon: Users,            path: '/dashboard/users'          },
   { label: 'Settings',       icon: Settings,         path: '/dashboard/settings'       },
+];
+
+/* ─── Mock Data ─── */
+const mockNotifications = [
+  { id: 1, text: 'Traffic optimized', time: '2 min ago', read: false },
+  { id: 2, text: 'Congestion reduced', time: '6 min ago', read: false },
+  { id: 3, text: 'Node recovered', time: '11 min ago', read: false },
+  { id: 4, text: 'Latency stabilized', time: '18 min ago', read: true },
+  { id: 5, text: 'New engineer signed in', time: '22 min ago', read: true },
+];
+
+const searchIndex = [
+  { title: 'Users', path: '/dashboard/users', type: 'Page' },
+  { title: 'Analytics', path: '/dashboard/analytics', type: 'Page' },
+  { title: 'Topology', path: '/dashboard/topology', type: 'Page' },
+  { title: 'Operations', path: '/dashboard/operations', type: 'Page' },
+  { title: 'Infrastructure', path: '/dashboard/infrastructure', type: 'Page' },
+  { title: 'AI Engine', path: '/dashboard/ai-engine', type: 'Page' },
+  { title: 'Settings', path: '/dashboard/settings', type: 'Page' },
+  { title: 'Mesh Nodes', path: '/dashboard/topology', type: 'Widget' },
+  { title: 'Latency', path: '/dashboard/analytics', type: 'Widget' },
 ];
 
 /* ─────────────────────────────────────────
@@ -125,7 +147,12 @@ const Sidebar = ({ collapsed, onClose }) => {
               <p className="text-xs font-bold text-white leading-tight">Administrator</p>
               <p className="text-[10px] text-emerald-400 font-medium">● Online</p>
             </div>
-            <button type="button" title="Logout" className="text-nodeslix-muted hover:text-red-400 transition-colors shrink-0">
+            <button
+              type="button"
+              title="Logout"
+              onClick={() => document.dispatchEvent(new CustomEvent('open-logout'))}
+              className="text-nodeslix-muted hover:text-red-400 transition-colors shrink-0"
+            >
               <LogOut size={14} />
             </button>
           </div>
@@ -137,7 +164,12 @@ const Sidebar = ({ collapsed, onClose }) => {
               </div>
               <span className="absolute -bottom-0.5 -right-0.5 block size-2 rounded-full bg-emerald-400 border-2 border-[#0c0c0c]" />
             </div>
-            <button type="button" title="Logout" className="text-nodeslix-muted hover:text-red-400 transition-colors">
+            <button
+              type="button"
+              title="Logout"
+              onClick={() => document.dispatchEvent(new CustomEvent('open-logout'))}
+              className="text-nodeslix-muted hover:text-red-400 transition-colors"
+            >
               <LogOut size={13} />
             </button>
           </div>
@@ -148,18 +180,121 @@ const Sidebar = ({ collapsed, onClose }) => {
 };
 
 /* ─────────────────────────────────────────
+   TOAST SYSTEM
+───────────────────────────────────────── */
+let toastId = 0;
+export const addToastEvent = (title, desc = '', Icon = CheckCircle2, iconColor = 'text-emerald-400', iconBg = 'bg-emerald-500/15') => {
+  document.dispatchEvent(new CustomEvent('add-toast', { detail: { title, desc, Icon, iconColor, iconBg } }));
+};
+
+const ToastContainer = () => {
+  const [toasts, setToasts] = useState([]);
+
+  useEffect(() => {
+    const handleAdd = (e) => {
+      const id = ++toastId;
+      setToasts((prev) => [...prev, { id, ...e.detail }]);
+      setTimeout(() => setToasts((prev) => prev.filter((t) => t.id !== id)), 4000);
+    };
+    document.addEventListener('add-toast', handleAdd);
+    return () => document.removeEventListener('add-toast', handleAdd);
+  }, []);
+
+  const onRemove = (id) => setToasts((prev) => prev.filter((t) => t.id !== id));
+
+  return (
+    <div className="fixed top-5 right-5 z-[200] flex flex-col gap-2 pointer-events-none">
+      <AnimatePresence>
+        {toasts.map((t) => (
+          <Motion.div
+            key={t.id}
+            initial={{ opacity: 0, x: 60, scale: 0.92 }}
+            animate={{ opacity: 1, x: 0,  scale: 1    }}
+            exit={{    opacity: 0, x: 60, scale: 0.92 }}
+            transition={{ duration: 0.28, ease: [0.32, 0.72, 0, 1] }}
+            className="pointer-events-auto flex items-center gap-3 pl-4 pr-3 py-3 rounded-2xl border border-white/10 bg-[#141414]/95 backdrop-blur-xl shadow-2xl min-w-[260px] max-w-[340px]"
+          >
+            <div className={`flex size-7 shrink-0 items-center justify-center rounded-lg ${t.iconBg}`}>
+              <t.Icon size={14} className={t.iconColor} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-bold text-white">{t.title}</p>
+              {t.desc && <p className="text-[10px] text-nodeslix-muted/70 mt-0.5 truncate">{t.desc}</p>}
+            </div>
+            <button
+              type="button"
+              onClick={() => onRemove(t.id)}
+              className="shrink-0 flex size-5 items-center justify-center rounded-md text-nodeslix-muted/40 hover:text-white transition-colors"
+            >
+              <X size={11} />
+            </button>
+          </Motion.div>
+        ))}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+/* ─────────────────────────────────────────
    TOP NAVBAR
 ───────────────────────────────────────── */
-const TopNavbar = ({ onMenuClick }) => {
+const TopNavbar = ({ onMenuClick, onLogout }) => {
+  const navigate = useNavigate();
   const location = useLocation();
+
+  const [aiOpen, setAiOpen] = useState(false);
+  const [searchFocused, setSearchFocused] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [notifOpen, setNotifOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+
+  const [notifications, setNotifications] = useState(mockNotifications);
+  const [lastSync, setLastSync] = useState('2 seconds ago');
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const unreadCount = notifications.filter((n) => !n.read).length;
+
+  const handleRefreshSync = () => {
+    setIsRefreshing(true);
+    setTimeout(() => {
+      setLastSync('Just now');
+      setIsRefreshing(false);
+    }, 600);
+  };
+
   const activeLabel = navItems.find(n =>
     n.path === '/dashboard'
       ? location.pathname === '/dashboard' || location.pathname === '/dashboard/'
       : location.pathname.startsWith(n.path)
   )?.label ?? 'Overview';
 
+  const filteredSearch = searchIndex.filter((item) =>
+    item.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const clearNotifications = () => {
+    setNotifications([]);
+    addToastEvent('Notifications cleared', 'All alerts removed from panel', CheckCircle2, 'text-emerald-400', 'bg-emerald-500/15');
+  };
+
+  const markAllRead = () => {
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+  };
+
+  /* Close popovers on outside click */
+  useEffect(() => {
+    const handler = (e) => {
+      if (!e.target.closest('[data-popover="ai"]')) setAiOpen(false);
+      if (!e.target.closest('[data-popover="search"]')) setSearchFocused(false);
+      if (!e.target.closest('[data-popover="notif"]')) setNotifOpen(false);
+      if (!e.target.closest('[data-popover="profile"]')) setProfileOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
   return (
-    <header className="flex items-center justify-between h-16 px-6 border-b border-white/[0.07] bg-[#0a0a0a]/90 backdrop-blur-xl shrink-0">
+    <header className="relative flex items-center justify-between h-16 px-6 border-b border-white/[0.07] bg-[#0a0a0a]/90 backdrop-blur-xl shrink-0 z-40">
       {/* Left */}
       <div className="flex items-center gap-3 min-w-0">
         <button
@@ -179,52 +314,594 @@ const TopNavbar = ({ onMenuClick }) => {
 
       {/* Right controls */}
       <div className="flex items-center gap-2 shrink-0">
+
         {/* AI Active badge */}
-        <div className="hidden sm:flex items-center gap-1.5 rounded-full border border-nodeslix-accent/25 bg-nodeslix-accent/8 px-3 py-1.5">
-          <Motion.span
-            animate={{ scale: [1, 1.55, 1], opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 1.7, repeat: Infinity, ease: 'easeInOut' }}
-            className="block size-1.5 rounded-full bg-nodeslix-accent"
-          />
-          <span className="text-[10px] font-bold text-nodeslix-accent">AI Active</span>
+        <div className="relative" data-popover="ai">
+          <button
+            type="button"
+            onClick={() => { setAiOpen(!aiOpen); setNotifOpen(false); setProfileOpen(false); }}
+            className={`hidden sm:flex items-center gap-1.5 rounded-full border px-3 py-1.5 transition-colors ${
+              aiOpen ? 'bg-nodeslix-accent/15 border-nodeslix-accent/40' : 'bg-nodeslix-accent/8 border-nodeslix-accent/25 hover:bg-nodeslix-accent/15'
+            }`}
+          >
+            <Motion.span
+              animate={{ scale: [1, 1.55, 1], opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 1.7, repeat: Infinity, ease: 'easeInOut' }}
+              className="block size-1.5 rounded-full bg-nodeslix-accent"
+            />
+            <span className="text-[10px] font-bold text-nodeslix-accent">AI Active</span>
+          </button>
+          <AnimatePresence>
+            {aiOpen && (
+              <Motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                transition={{ duration: 0.15 }}
+                className="absolute right-0 top-[calc(100%+12px)] w-64 rounded-2xl bg-[#141414] border border-white/10 shadow-2xl p-4 z-50"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-sm font-bold text-white">AI System Status</h3>
+                  <BrainCircuit size={14} className="text-nodeslix-accent" />
+                </div>
+                <div className="space-y-3 mb-4">
+                  {[
+                    { label: 'Telemetry Engine', status: 'Healthy', color: 'text-emerald-400' },
+                    { label: 'Traffic Optimization', status: 'Running', color: 'text-nodeslix-accent' },
+                    { label: 'Predictive Analytics', status: 'Running', color: 'text-nodeslix-accent' },
+                    { label: 'Autonomous Orchestration', status: 'Active', color: 'text-emerald-400' },
+                  ].map((s) => (
+                    <div key={s.label} className="flex justify-between items-center text-xs">
+                      <span className="text-nodeslix-muted">{s.label}</span>
+                      <span className={`font-semibold ${s.color}`}>{s.status}</span>
+                    </div>
+                  ))}
+                  <div className="flex justify-between items-center text-xs pt-2 border-t border-white/10">
+                    <span className="text-nodeslix-muted">Last Sync</span>
+                    <span className="text-white font-medium">{lastSync}</span>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleRefreshSync}
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs font-semibold text-white transition-colors"
+                  >
+                    <Motion.div animate={{ rotate: isRefreshing ? 360 : 0 }} transition={{ duration: 0.6, repeat: isRefreshing ? Infinity : 0, ease: 'linear' }}>
+                      <RefreshCw size={12} />
+                    </Motion.div>
+                    Refresh
+                  </button>
+                  <button
+                    onClick={() => setAiOpen(false)}
+                    className="flex-1 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs font-semibold text-white transition-colors"
+                  >
+                    Close
+                  </button>
+                </div>
+              </Motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Search */}
-        <div className="hidden md:flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 focus-within:border-nodeslix-accent/40 transition-colors">
-          <Search size={13} className="text-nodeslix-muted/60 shrink-0" />
-          <input
-            type="search"
-            placeholder="Search..."
-            className="bg-transparent text-xs text-nodeslix-muted placeholder-nodeslix-muted/40 outline-none w-28 focus:w-36 transition-all duration-300"
-          />
+        <div className="relative hidden md:block" data-popover="search">
+          <div className={`flex items-center gap-2 rounded-xl border px-3 py-2 transition-colors ${
+            searchFocused ? 'border-nodeslix-accent/40 bg-white/5' : 'border-white/10 bg-white/[0.03]'
+          }`}>
+            <Search size={13} className="text-nodeslix-muted/60 shrink-0" />
+            <input
+              type="search"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => setSearchFocused(true)}
+              className="bg-transparent text-xs text-white placeholder-nodeslix-muted/40 outline-none w-28 focus:w-48 transition-all duration-300"
+            />
+          </div>
+          <AnimatePresence>
+            {searchFocused && searchQuery.length > 0 && (
+              <Motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                transition={{ duration: 0.15 }}
+                className="absolute right-0 top-[calc(100%+12px)] w-64 rounded-2xl bg-[#141414] border border-white/10 shadow-2xl py-2 z-50 max-h-[300px] overflow-y-auto"
+              >
+                {filteredSearch.length > 0 ? (
+                  filteredSearch.map((item, i) => (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        navigate(item.path);
+                        setSearchFocused(false);
+                        setSearchQuery('');
+                        addToastEvent('Search navigated', `Went to ${item.title}`, Search, 'text-nodeslix-accent', 'bg-nodeslix-accent/15');
+                      }}
+                      className="w-full flex items-center justify-between px-4 py-2 hover:bg-white/5 transition-colors text-left"
+                    >
+                      <span className="text-xs font-medium text-white">{item.title}</span>
+                      <span className="text-[10px] text-nodeslix-muted">{item.type}</span>
+                    </button>
+                  ))
+                ) : (
+                  <div className="px-4 py-3 text-xs text-nodeslix-muted text-center">
+                    No results found.
+                  </div>
+                )}
+              </Motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Notifications */}
-        <button type="button" className="relative flex size-9 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-nodeslix-muted hover:text-white hover:border-white/20 transition-colors">
-          <Bell size={14} />
-          <span className="absolute top-1.5 right-1.5 block size-1.5 rounded-full bg-nodeslix-accent" />
-        </button>
+        <div className="relative" data-popover="notif">
+          <button
+            type="button"
+            onClick={() => { setNotifOpen(!notifOpen); setAiOpen(false); setProfileOpen(false); }}
+            className={`relative flex size-9 items-center justify-center rounded-xl border transition-colors ${
+              notifOpen ? 'bg-white/10 border-white/20 text-white' : 'border-white/10 bg-white/[0.03] text-nodeslix-muted hover:text-white hover:border-white/20'
+            }`}
+          >
+            <Bell size={14} />
+            {unreadCount > 0 && (
+              <span className="absolute top-1.5 right-1.5 flex size-2 rounded-full bg-nodeslix-accent items-center justify-center">
+                <span className="absolute inline-flex w-full h-full rounded-full opacity-75 animate-ping bg-nodeslix-accent" />
+              </span>
+            )}
+          </button>
+          <AnimatePresence>
+            {notifOpen && (
+              <Motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                transition={{ duration: 0.15 }}
+                className="absolute right-0 top-[calc(100%+12px)] w-72 rounded-2xl bg-[#141414] border border-white/10 shadow-2xl overflow-hidden z-50"
+              >
+                <div className="flex items-center justify-between px-4 py-3 border-b border-white/5">
+                  <h3 className="text-sm font-bold text-white">Notifications</h3>
+                  {unreadCount > 0 && (
+                    <span className="text-[10px] bg-nodeslix-accent/20 text-nodeslix-accent px-2 py-0.5 rounded-full font-bold">
+                      {unreadCount} new
+                    </span>
+                  )}
+                </div>
+                <div className="max-h-[280px] overflow-y-auto">
+                  {notifications.length > 0 ? (
+                    notifications.map((n) => (
+                      <div key={n.id} className={`flex flex-col px-4 py-3 border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors ${!n.read ? 'bg-white/[0.02]' : ''}`}>
+                        <span className={`text-xs ${!n.read ? 'font-bold text-white' : 'font-medium text-nodeslix-muted'}`}>
+                          {n.text}
+                        </span>
+                        <span className="text-[10px] text-nodeslix-muted/60 mt-1">{n.time}</span>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="px-4 py-6 text-center">
+                      <Bell size={24} className="mx-auto text-nodeslix-muted/30 mb-2" />
+                      <p className="text-xs text-nodeslix-muted">You're all caught up!</p>
+                    </div>
+                  )}
+                </div>
+                {notifications.length > 0 && (
+                  <div className="flex border-t border-white/5">
+                    <button
+                      onClick={markAllRead}
+                      className="flex-1 py-2.5 text-xs font-semibold text-nodeslix-muted hover:text-white hover:bg-white/5 transition-colors"
+                    >
+                      Mark all as read
+                    </button>
+                    <div className="w-px bg-white/5" />
+                    <button
+                      onClick={clearNotifications}
+                      className="flex-1 py-2.5 text-xs font-semibold text-nodeslix-muted hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                    >
+                      Clear All
+                    </button>
+                  </div>
+                )}
+              </Motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
         {/* Profile button */}
-        <button type="button" className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-2.5 py-1.5 hover:border-white/20 transition-colors">
-          <div className="flex size-6 items-center justify-center rounded-full bg-gradient-to-br from-nodeslix-accent/30 to-blue-600/30 text-nodeslix-accent text-xs font-bold">
-            A
-          </div>
-          <span className="hidden sm:block text-xs font-medium text-white">Admin</span>
-          <ChevronDown size={11} className="text-nodeslix-muted" />
-        </button>
+        <div className="relative" data-popover="profile">
+          <button
+            type="button"
+            onClick={() => { setProfileOpen(!profileOpen); setAiOpen(false); setNotifOpen(false); }}
+            className={`flex items-center gap-2 rounded-xl border px-2.5 py-1.5 transition-colors ${
+              profileOpen ? 'bg-white/10 border-white/20' : 'border-white/10 bg-white/[0.03] hover:border-white/20'
+            }`}
+          >
+            <div className="flex size-6 items-center justify-center rounded-full bg-gradient-to-br from-nodeslix-accent/30 to-blue-600/30 text-nodeslix-accent text-xs font-bold">
+              A
+            </div>
+            <span className="hidden sm:block text-xs font-medium text-white">Admin</span>
+            <ChevronDown size={11} className="text-nodeslix-muted" />
+          </button>
+          <AnimatePresence>
+            {profileOpen && (
+              <Motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                transition={{ duration: 0.15 }}
+                className="absolute right-0 top-[calc(100%+12px)] w-52 rounded-2xl bg-[#141414] border border-white/10 shadow-2xl overflow-hidden z-50 py-1"
+              >
+                <div className="px-4 py-3 border-b border-white/5 mb-1">
+                  <p className="text-xs font-bold text-white">Administrator</p>
+                  <p className="text-[10px] text-nodeslix-muted">admin@nodeslix.com</p>
+                </div>
+                {[
+                  { label: 'View Profile', icon: User, action: 'profile' },
+                  { label: 'Account Settings', icon: Settings, action: 'settings' },
+                  { label: 'Dashboard Preferences', icon: Sliders, action: 'prefs' },
+                ].map((item) => (
+                  <button
+                    key={item.label}
+                    onClick={() => {
+                      setProfileOpen(false);
+                      document.dispatchEvent(new CustomEvent(`open-${item.action}`));
+                    }}
+                    className="w-full flex items-center gap-2.5 px-4 py-2 text-xs text-nodeslix-muted hover:text-white hover:bg-white/5 transition-colors"
+                  >
+                    <item.icon size={13} />
+                    {item.label}
+                  </button>
+                ))}
+                
+                <div className="mx-3 my-1 border-t border-white/5" />
+                
+                {/* Theme toggle dummy */}
+                <button
+                  className="w-full flex items-center justify-between px-4 py-2 text-xs text-nodeslix-muted hover:text-white hover:bg-white/5 transition-colors group"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <Moon size={13} />
+                    Theme (Dark)
+                  </div>
+                  <span className="text-[9px] bg-white/10 px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">Locked</span>
+                </button>
+
+                <button
+                  onClick={() => { setProfileOpen(false); document.dispatchEvent(new CustomEvent('open-help')); }}
+                  className="w-full flex items-center gap-2.5 px-4 py-2 text-xs text-nodeslix-muted hover:text-white hover:bg-white/5 transition-colors"
+                >
+                  <HelpCircle size={13} />
+                  Help Center
+                </button>
+
+                <div className="mx-3 my-1 border-t border-white/5" />
+
+                <button
+                  onClick={() => { setProfileOpen(false); document.dispatchEvent(new CustomEvent('open-logout')); }}
+                  className="w-full flex items-center gap-2.5 px-4 py-2 text-xs text-red-400 hover:bg-red-500/10 transition-colors"
+                >
+                  <LogOut size={13} />
+                  Logout
+                </button>
+              </Motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </header>
   );
 };
 
 /* ─────────────────────────────────────────
+   PROFILE MODALS / DRAWERS
+───────────────────────────────────────── */
+
+const ModalOverlay = ({ children, onClose }) => (
+  <Motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.2 }}
+    className="fixed inset-0 z-[150] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+    onClick={onClose}
+  >
+    {children}
+  </Motion.div>
+);
+
+const ViewProfileModal = ({ onClose }) => {
+  useEffect(() => {
+    addToastEvent('Profile opened', 'Viewing administrator details', User, 'text-nodeslix-accent', 'bg-nodeslix-accent/15');
+  }, []);
+
+  return (
+    <ModalOverlay onClose={onClose}>
+      <Motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 10 }}
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-[400px] bg-[#0e0e0e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
+      >
+        <div className="flex items-center justify-between px-6 py-5 border-b border-white/5">
+          <h3 className="text-base font-bold text-white">View Profile</h3>
+          <button onClick={onClose} className="text-nodeslix-muted hover:text-white transition-colors">
+            <X size={16} />
+          </button>
+        </div>
+        <div className="p-6 flex flex-col items-center gap-4 border-b border-white/5">
+          <div className="relative">
+            <div className="flex size-20 items-center justify-center rounded-2xl bg-gradient-to-br from-nodeslix-accent/30 to-blue-600/30 text-nodeslix-accent text-2xl font-bold border border-nodeslix-accent/20">
+              A
+            </div>
+            <span className="absolute -bottom-1 -right-1 block size-4 rounded-full bg-emerald-400 border-[3px] border-[#0e0e0e]" />
+          </div>
+          <div className="text-center">
+            <p className="text-lg font-bold text-white">Administrator</p>
+            <p className="text-xs text-nodeslix-muted">admin@nodeslix.com</p>
+          </div>
+        </div>
+        <div className="p-6 space-y-4">
+          <div className="flex justify-between text-sm">
+            <span className="text-nodeslix-muted">Status</span>
+            <span className="text-emerald-400 font-semibold">Online</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-nodeslix-muted">Region</span>
+            <span className="text-white font-medium">Region 01</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span className="text-nodeslix-muted">Last Login</span>
+            <span className="text-white font-medium">Today</span>
+          </div>
+        </div>
+        <div className="p-6 pt-0">
+          <button onClick={onClose} className="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white text-xs font-semibold transition-colors">
+            Close
+          </button>
+        </div>
+      </Motion.div>
+    </ModalOverlay>
+  );
+};
+
+const AccountSettingsModal = ({ onClose }) => {
+  const handleSave = () => {
+    addToastEvent('Settings saved', 'Account info updated locally', CheckCircle2, 'text-emerald-400', 'bg-emerald-500/15');
+    onClose();
+  };
+
+  return (
+    <ModalOverlay onClose={onClose}>
+      <Motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 10 }}
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-[420px] bg-[#0e0e0e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
+      >
+        <div className="px-6 py-5 border-b border-white/5">
+          <h3 className="text-base font-bold text-white">Account Settings</h3>
+        </div>
+        <div className="p-6 space-y-4">
+          <div className="space-y-1">
+            <label className="text-xs text-nodeslix-muted">Name</label>
+            <input type="text" defaultValue="Administrator" className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-nodeslix-accent/50" />
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs text-nodeslix-muted">Email</label>
+            <input type="email" defaultValue="admin@nodeslix.com" className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-nodeslix-accent/50" />
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs text-nodeslix-muted">Region</label>
+            <select className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-nodeslix-accent/50 appearance-none">
+              <option>Region 01</option>
+              <option>Global</option>
+            </select>
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs text-nodeslix-muted">Department</label>
+            <input type="text" defaultValue="Operations Center" className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-nodeslix-accent/50" />
+          </div>
+        </div>
+        <div className="flex gap-3 px-6 pb-6">
+          <button onClick={onClose} className="flex-1 py-2.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-nodeslix-muted hover:text-white text-xs font-semibold transition-colors">
+            Cancel
+          </button>
+          <button onClick={handleSave} className="flex-1 py-2.5 rounded-xl bg-nodeslix-accent/15 border border-nodeslix-accent/30 hover:bg-nodeslix-accent/25 text-nodeslix-accent text-xs font-bold transition-colors">
+            Save
+          </button>
+        </div>
+      </Motion.div>
+    </ModalOverlay>
+  );
+};
+
+const PreferencesDrawer = ({ onClose }) => {
+  const [density, setDensity] = useState('Compact');
+  
+  const handleSave = () => {
+    addToastEvent('Preferences updated', 'Dashboard layout refreshed', Sliders, 'text-nodeslix-accent', 'bg-nodeslix-accent/15');
+    onClose();
+  };
+
+  return (
+    <Motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="fixed inset-0 z-[150] bg-black/55 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <Motion.aside
+        initial={{ x: '100%' }}
+        animate={{ x: 0 }}
+        exit={{ x: '100%' }}
+        transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }}
+        onClick={(e) => e.stopPropagation()}
+        className="absolute inset-y-0 right-0 w-full max-w-[360px] bg-[#0e0e0e] border-l border-white/[0.08] flex flex-col overflow-y-auto"
+      >
+        <div className="flex items-center justify-between px-6 py-5 border-b border-white/5 shrink-0">
+          <h3 className="text-base font-bold text-white">Dashboard Preferences</h3>
+          <button onClick={onClose} className="text-nodeslix-muted hover:text-white transition-colors">
+            <X size={16} />
+          </button>
+        </div>
+
+        <div className="flex-1 p-6 space-y-6">
+          <div className="space-y-3">
+            <label className="text-xs font-semibold text-nodeslix-muted uppercase tracking-wider">Layout Mode</label>
+            <div className="grid grid-cols-2 gap-3">
+              {['Compact Mode', 'Expanded Mode'].map((m) => (
+                <button
+                  key={m}
+                  onClick={() => setDensity(m === 'Compact Mode' ? 'Compact' : 'Expanded')}
+                  className={`py-3 rounded-xl border text-xs font-medium transition-colors ${
+                    (m === 'Compact Mode' && density === 'Compact') || (m === 'Expanded Mode' && density === 'Expanded')
+                    ? 'bg-nodeslix-accent/15 border-nodeslix-accent/40 text-nodeslix-accent'
+                    : 'bg-white/5 border-white/10 text-nodeslix-muted hover:text-white'
+                  }`}
+                >
+                  {m}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <label className="text-xs font-semibold text-nodeslix-muted uppercase tracking-wider">Widget Density</label>
+            <select className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none appearance-none">
+              <option>High Density</option>
+              <option>Standard</option>
+              <option>Spacious</option>
+            </select>
+          </div>
+
+          <div className="space-y-3">
+            <label className="text-xs font-semibold text-nodeslix-muted uppercase tracking-wider">Default Landing Page</label>
+            <select className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none appearance-none">
+              <option>Overview</option>
+              <option>Topology</option>
+              <option>Operations</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="p-6 border-t border-white/5 shrink-0 flex gap-3">
+          <button onClick={onClose} className="flex-1 py-2.5 rounded-xl border border-white/10 bg-white/5 text-nodeslix-muted hover:text-white text-xs font-semibold transition-colors">
+            Cancel
+          </button>
+          <button onClick={handleSave} className="flex-1 py-2.5 rounded-xl bg-nodeslix-accent/15 border border-nodeslix-accent/30 text-nodeslix-accent hover:bg-nodeslix-accent/25 text-xs font-bold transition-colors">
+            Apply
+          </button>
+        </div>
+      </Motion.aside>
+    </Motion.div>
+  );
+};
+
+const HelpCenterModal = ({ onClose }) => (
+  <ModalOverlay onClose={onClose}>
+    <Motion.div
+      initial={{ opacity: 0, scale: 0.95, y: 10 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95, y: 10 }}
+      onClick={(e) => e.stopPropagation()}
+      className="w-full max-w-[500px] bg-[#0e0e0e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
+    >
+      <div className="flex items-center justify-between px-6 py-5 border-b border-white/5">
+        <h3 className="text-base font-bold text-white flex items-center gap-2">
+          <HelpCircle size={18} className="text-nodeslix-accent" />
+          Help Center
+        </h3>
+        <button onClick={onClose} className="text-nodeslix-muted hover:text-white transition-colors">
+          <X size={16} />
+        </button>
+      </div>
+      <div className="p-6 grid grid-cols-2 gap-4">
+        {[
+          { label: 'Documentation', desc: 'Platform guides', icon: Menu },
+          { label: 'Support', desc: 'Contact 24/7 team', icon: Users },
+          { label: 'Keyboard Shortcuts', desc: 'Speed up workflow', icon: Command },
+          { label: 'System Version', desc: 'v3.12.1', icon: Server },
+        ].map((item) => (
+          <button key={item.label} onClick={() => { addToastEvent(`Opened ${item.label}`, '', item.icon, 'text-nodeslix-accent', 'bg-nodeslix-accent/15'); onClose(); }} className="flex flex-col items-start gap-2 p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors text-left">
+            <item.icon size={20} className="text-nodeslix-muted" />
+            <div>
+              <p className="text-sm font-semibold text-white">{item.label}</p>
+              <p className="text-[10px] text-nodeslix-muted">{item.desc}</p>
+            </div>
+          </button>
+        ))}
+      </div>
+    </Motion.div>
+  </ModalOverlay>
+);
+
+const LogoutModal = ({ onClose, onConfirm }) => (
+  <ModalOverlay onClose={onClose}>
+    <Motion.div
+      initial={{ opacity: 0, scale: 0.95, y: 10 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95, y: 10 }}
+      onClick={(e) => e.stopPropagation()}
+      className="w-full max-w-[360px] bg-[#0e0e0e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden text-center p-6"
+    >
+      <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-red-500/10 border border-red-500/20 mb-4">
+        <LogOut size={20} className="text-red-400" />
+      </div>
+      <h3 className="text-lg font-bold text-white mb-2">Sign out?</h3>
+      <p className="text-sm text-nodeslix-muted mb-6">Are you sure you want to end your session? You will be returned to the home screen.</p>
+      
+      <div className="flex gap-3">
+        <button onClick={onClose} className="flex-1 py-2.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-white text-xs font-semibold transition-colors">
+          Cancel
+        </button>
+        <button onClick={onConfirm} className="flex-1 py-2.5 rounded-xl bg-red-500/15 border border-red-500/30 hover:bg-red-500/25 text-red-400 text-xs font-bold transition-colors">
+          Logout
+        </button>
+      </div>
+    </Motion.div>
+  </ModalOverlay>
+);
+
+/* ─────────────────────────────────────────
    DASHBOARD LAYOUT
 ───────────────────────────────────────── */
 const DashboardLayout = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const location = useLocation();
+
+  // Modals state
+  const [activeModal, setActiveModal] = useState(null); // 'profile', 'settings', 'prefs', 'help', 'logout'
+
+  useEffect(() => {
+    const handleProfile = () => setActiveModal('profile');
+    const handleSettings = () => setActiveModal('settings');
+    const handlePrefs = () => setActiveModal('prefs');
+    const handleHelp = () => setActiveModal('help');
+    const handleLogout = () => setActiveModal('logout');
+
+    document.addEventListener('open-profile', handleProfile);
+    document.addEventListener('open-settings', handleSettings);
+    document.addEventListener('open-prefs', handlePrefs);
+    document.addEventListener('open-help', handleHelp);
+    document.addEventListener('open-logout', handleLogout);
+
+    return () => {
+      document.removeEventListener('open-profile', handleProfile);
+      document.removeEventListener('open-settings', handleSettings);
+      document.removeEventListener('open-prefs', handlePrefs);
+      document.removeEventListener('open-help', handleHelp);
+      document.removeEventListener('open-logout', handleLogout);
+    };
+  }, []);
+
+  const handleLogoutConfirm = () => {
+    setActiveModal(null);
+    navigate('/');
+  };
 
   // Close mobile drawer on route change
   useEffect(() => {
@@ -240,10 +917,22 @@ const DashboardLayout = () => {
 
   return (
     <div className="flex h-screen bg-nodeslix-primary overflow-hidden">
+      
+      {/* ── GLOBAL TOASTS ── */}
+      <ToastContainer />
+
+      {/* ── MODALS ── */}
+      <AnimatePresence>
+        {activeModal === 'profile' && <ViewProfileModal onClose={() => setActiveModal(null)} />}
+        {activeModal === 'settings' && <AccountSettingsModal onClose={() => setActiveModal(null)} />}
+        {activeModal === 'prefs' && <PreferencesDrawer onClose={() => setActiveModal(null)} />}
+        {activeModal === 'help' && <HelpCenterModal onClose={() => setActiveModal(null)} />}
+        {activeModal === 'logout' && <LogoutModal onClose={() => setActiveModal(null)} onConfirm={handleLogoutConfirm} />}
+      </AnimatePresence>
 
       {/* ── DESKTOP SIDEBAR ── */}
       <div
-        className="hidden lg:flex flex-col flex-shrink-0 h-full transition-all duration-300"
+        className="hidden lg:flex flex-col flex-shrink-0 h-full transition-all duration-300 relative z-30"
         style={{ width: sidebarCollapsed ? 70 : 280 }}
       >
         <Sidebar collapsed={sidebarCollapsed} />
@@ -276,7 +965,7 @@ const DashboardLayout = () => {
       </AnimatePresence>
 
       {/* ── RIGHT SIDE ── */}
-      <div className="flex flex-col flex-1 min-w-0 h-full">
+      <div className="flex flex-col flex-1 min-w-0 h-full relative z-20">
 
         {/* Top Navbar */}
         <TopNavbar onMenuClick={() => setSidebarOpen(true)} />
@@ -294,7 +983,7 @@ const DashboardLayout = () => {
         </div>
 
         {/* ── PAGE CONTENT (Outlet) ── */}
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto z-10">
           <AnimatePresence mode="wait">
             <Motion.div
               key={location.pathname}
