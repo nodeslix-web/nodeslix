@@ -1,15 +1,22 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion as Motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
-import { ArrowDown, ArrowRight, Network, ShieldCheck, Zap, Server, Activity } from 'lucide-react';
+import { ArrowDown, ArrowRight, Network } from 'lucide-react';
+import ActivitySvg from '../../assets/icons/home-Network-Intelligence.svg'
+import NetworkSvg from '../../assets/icons/home-Mesh-Optimization.svg'
+import ServerSvg from '../../assets/icons/home-Infrastructure-Signals.svg'
+import Nodes from '../../assets/icons/Dashboard Preview(Active Nodes).svg'
+import Zap from '../../assets/icons/Dashboard Preview(Average Latency).svg'
+import Enterprise from '../../assets/icons/Dashboard Preview(Mesh Segments).svg'
+import ShieldCheck from '../../assets/icons/Dashboard Preview(Infrastructure Uptime).svg'
 import CommandCenterPanel from '../panels/CommandCenterPanel.jsx';
 
 /* ─── Trust badges ─── */
 const trustBadges = [
   { label: '99.98% Uptime',      icon: ShieldCheck },
   { label: '8ms Latency',        icon: Zap },
-  { label: '1,250 Active Nodes', icon: Server },
-  { label: 'Enterprise Ready',   icon: Activity },
+  { label: '1,250 Active Nodes', icon: Nodes },
+  { label: 'Enterprise Ready',   icon: Enterprise },
 ];
 
 /* ─── Activity ticker messages ─── */
@@ -156,7 +163,11 @@ const Hero = () => {
                     transition={{ duration: 0.2, ease: 'easeOut' }}
                     className="inline-flex cursor-default items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-semibold text-nodeslix-muted backdrop-blur-sm"
                   >
-                    <Icon size={12} className="text-nodeslix-accent/80" aria-hidden="true" />
+                    {typeof Icon === 'string' ? (
+                      <img src={Icon} className="object-contain w-3 h-3 opacity-80 text-nodeslix-accent" aria-hidden="true" />
+                    ) : (
+                      <Icon size={12} className="text-nodeslix-accent/80" aria-hidden="true" />
+                    )}
                     {badge.label}
                   </Motion.span>
                 );
@@ -194,9 +205,9 @@ const Hero = () => {
         {/* ── Highlight cards (below grid) ── */}
         <div className="grid gap-4 mt-12 md:grid-cols-3">
           {[
-            { title: 'Network Intelligence', description: 'Unified visibility across telecom operations.', icon: Activity },
-            { title: 'Mesh Optimization', description: 'Improve traffic flow across connected nodes.', icon: Network },
-            { title: 'Infrastructure Signals', description: 'Monitor tower, gateway, and device health.', icon: Server },
+            { title: 'Network Intelligence', description: 'Unified visibility across telecom operations.', icon: ActivitySvg },
+            { title: 'Mesh Optimization', description: 'Improve traffic flow across connected nodes.', icon: NetworkSvg },
+            { title: 'Infrastructure Signals', description: 'Monitor tower, gateway, and device health.', icon: ServerSvg },
           ].map((item, index) => {
             const Icon = item.icon;
             return (
@@ -208,8 +219,12 @@ const Hero = () => {
                 whileHover={{ y: -3, borderColor: 'rgba(0,212,255,0.28)' }}
                 className="flex items-center gap-4 p-4 surface-card"
               >
-                <span className="flex items-center justify-center size-11 shrink-0 rounded-xl bg-nodeslix-accent/10 text-nodeslix-accent">
-                  <Icon size={19} />
+                <span className="flex items-center justify-center text-center size-11 shrink-0 rounded-xl bg-nodeslix-accent/10 text-nodeslix-accent">
+                  {typeof Icon === 'string' ? (
+                    <img src={Icon} className="object-contain w-5 h-5 opacity-90" aria-hidden="true" />
+                  ) : (
+                    <Icon size={19} />
+                  )}
                 </span>
                 <div>
                   <p className="font-semibold text-white">{item.title}</p>

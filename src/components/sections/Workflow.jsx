@@ -1,5 +1,10 @@
 import { motion as Motion } from 'framer-motion';
-import { Plug, Database, Brain, Zap, Rocket, BarChart3 } from 'lucide-react';
+import { Database, Brain, Zap, Rocket, BarChart3 } from 'lucide-react';
+import PlugSvg from '../../assets/icons/AI Workflow(Step 1).svg'
+import DatabaseSvg from '../../assets/icons/AI Workflow(Step 2).svg'
+import BrainSvg from '../../assets/icons/AI Workflow(Step 3).svg'
+import ZapSvg from '../../assets/icons/AI Workflow(Step 4).svg'
+import RocketSvg from '../../assets/icons/AI Workflow(Step 5).svg'
 
 /* ─── Workflow steps data with specific icons, descriptions, and statuses ─── */
 const workflowSteps = [
@@ -7,35 +12,35 @@ const workflowSteps = [
     num: '01',
     title: 'Connect Infrastructure',
     description: 'Connect telecom infrastructures to NodeSlix.',
-    icon: Plug,
+    icon: PlugSvg,
     status: 'Connected',
   },
   {
     num: '02',
     title: 'Collect Telemetry',
     description: 'Gather operational data from all connected systems.',
-    icon: Database,
+    icon: DatabaseSvg,
     status: 'Ingesting',
   },
   {
     num: '03',
     title: 'Process Intelligence',
     description: 'Analyze traffic patterns and infrastructure behavior.',
-    icon: Brain,
+    icon: BrainSvg,
     status: 'Analyzing',
   },
   {
     num: '04',
     title: 'Generate Optimizations',
     description: 'Produce intelligent recommendations automatically.',
-    icon: Zap,
+    icon: ZapSvg,
     status: 'Optimizing',
   },
   {
     num: '05',
     title: 'Deploy Actions',
     description: 'Apply optimization strategies safely.',
-    icon: Rocket,
+    icon: RocketSvg,
     status: 'Deploying',
   },
   {
@@ -160,7 +165,11 @@ const Workflow = () => {
                     STEP {step.num}
                   </span>
                   <span className="flex items-center justify-center transition-colors border size-9 rounded-xl bg-nodeslix-accent/5 text-nodeslix-accent border-nodeslix-accent/15 group-hover:bg-nodeslix-accent/10">
-                    <Icon size={18} />
+                    {typeof Icon === 'string' ? (
+                      <img src={Icon} className="w-5 h-5 opacity-90 object-contain" aria-hidden="true" />
+                    ) : (
+                      <Icon size={18} />
+                    )}
                   </span>
                 </div>
 
@@ -272,7 +281,11 @@ const Workflow = () => {
               >
                 {/* Timeline Node Icon */}
                 <div className="absolute left-[-22px] top-1.5 z-10 flex size-7 items-center justify-center rounded-full bg-[#0A0A0A] border border-nodeslix-accent/40 text-nodeslix-accent">
-                  <Icon size={12} />
+                  {typeof Icon === 'string' ? (
+                    <img src={Icon} className="w-3 h-3 opacity-90 object-contain" aria-hidden="true" />
+                  ) : (
+                    <Icon size={12} />
+                  )}
                 </div>
 
                 {/* Card Content */}

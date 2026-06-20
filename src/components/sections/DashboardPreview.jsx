@@ -1,16 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion as Motion, AnimatePresence } from 'framer-motion';
-import {
-  ArrowRight,
-  Activity,
-  Brain,
-  Gauge,
-  Workflow,
-  RadioTower,
-  ShieldCheck,
-  Cpu
-} from 'lucide-react';
+import { ArrowRight, Brain, Gauge, Workflow } from 'lucide-react';
+import RadioTower from '../../assets/icons/Dashboard Preview(Active Nodes).svg'
+import Activity from '../../assets/icons/Dashboard Preview(Average Latency).svg'
+import ShieldCheck from '../../assets/icons/Dashboard Preview(Infrastructure Uptime).svg'
+import Cpu from '../../assets/icons/Dashboard Preview(Mesh Segments).svg'
 
 /* ─── Compact metrics configuration for the Mockup Panel ─── */
 const metrics = [
@@ -72,7 +67,7 @@ const DashboardPreview = () => {
   }, []);
 
   return (
-    <section id="dashboard" className="section-shell scroll-mt-20 bg-nodeslix-secondary overflow-hidden">
+    <section id="dashboard" className="overflow-hidden section-shell scroll-mt-20 bg-nodeslix-secondary">
       <div className="app-container space-y-14">
         
         {/* ─── Section Header ─── */}
@@ -94,7 +89,7 @@ const DashboardPreview = () => {
           </div>
           
           {/* Status Badge */}
-          <div className="flex shrink-0 items-start">
+          <div className="flex items-start shrink-0">
             <span className="inline-flex items-center gap-2 rounded-full border border-nodeslix-accent/25 bg-nodeslix-accent/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-nodeslix-accent">
               <Motion.span
                 animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.2, 1] }}
@@ -107,7 +102,7 @@ const DashboardPreview = () => {
         </Motion.div>
 
         {/* ─── Two-Column Preview Grid ─── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
+        <div className="grid items-stretch grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">
           
           {/* ─── Left Side: Dashboard Mockup Panel ─── */}
           <Motion.div
@@ -118,9 +113,9 @@ const DashboardPreview = () => {
             className="lg:col-span-7 panel-shell relative flex flex-col justify-between space-y-6 overflow-hidden bg-gradient-to-b from-[#131313] to-[#0A0A0A]"
           >
             {/* Header / Badges */}
-            <div className="flex justify-between items-center border-b border-white/5 pb-4">
+            <div className="flex items-center justify-between pb-4 border-b border-white/5">
               <div className="flex items-center gap-2">
-                <span className="size-2 rounded-full bg-nodeslix-accent animate-pulse" />
+                <span className="rounded-full size-2 bg-nodeslix-accent animate-pulse" />
                 <span className="text-[10px] font-mono tracking-wider uppercase text-nodeslix-muted/80">
                   Command Preview
                 </span>
@@ -141,12 +136,16 @@ const DashboardPreview = () => {
                     transition={{ type: 'tween', ease: 'easeInOut', duration: 0.25 }}
                     className="surface-card p-4 flex flex-col justify-between min-h-[95px] group border-white/5 bg-[#0A0A0A]/50 hover:border-nodeslix-accent/30 hover:shadow-[0_0_15px_rgba(0,212,255,0.04)]"
                   >
-                    <div className="flex justify-between items-start">
+                    <div className="flex items-start justify-between">
                       <span className="text-[11px] text-nodeslix-muted font-medium">{m.label}</span>
-                      <MetricIcon size={14} className="text-nodeslix-accent/80 group-hover:scale-105 transition-transform" />
+                      {typeof MetricIcon === 'string' ? (
+                        <img src={MetricIcon} className="w-3.5 h-3.5 opacity-90 object-contain text-nodeslix-accent" aria-hidden="true" />
+                      ) : (
+                        <MetricIcon size={14} className="transition-transform text-nodeslix-accent/80 group-hover:scale-105" />
+                      )}
                     </div>
-                    <div className="mt-3 flex items-baseline justify-between">
-                      <span className="text-2xl font-bold text-white tracking-tight leading-none">{m.value}</span>
+                    <div className="flex items-baseline justify-between mt-3">
+                      <span className="text-2xl font-bold leading-none tracking-tight text-white">{m.value}</span>
                       <span className="text-[9px] font-mono text-nodeslix-muted/40">{m.sub}</span>
                     </div>
                   </Motion.div>
@@ -156,7 +155,7 @@ const DashboardPreview = () => {
 
             {/* Mini Network Visual (Hub & Spoke Topology) */}
             <div className="relative py-4 bg-black/30 rounded-xl border border-white/5 flex flex-col items-center justify-center min-h-[140px]">
-              <div className="flex flex-col items-center justify-between h-28 w-full relative max-w-sm px-4">
+              <div className="relative flex flex-col items-center justify-between w-full max-w-sm px-4 h-28">
                 
                 {/* Center Hub */}
                 <div className="z-10 flex flex-col items-center">
@@ -207,7 +206,7 @@ const DashboardPreview = () => {
                 </svg>
 
                 {/* Target spokes row */}
-                <div className="w-full flex justify-between items-center z-10 px-2 mt-auto">
+                <div className="z-10 flex items-center justify-between w-full px-2 mt-auto">
                   {['5G', 'Core', 'Mesh', 'Edge', 'IoT'].map((node) => (
                     <span
                       key={node}
@@ -260,20 +259,20 @@ const DashboardPreview = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.55 }}
-            className="lg:col-span-5 flex flex-col justify-between h-full space-y-8"
+            className="flex flex-col justify-between h-full space-y-8 lg:col-span-5"
           >
             <div className="space-y-6">
               <div className="space-y-2">
                 <h3 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
                   Inside The Command Center
                 </h3>
-                <p className="text-sm text-nodeslix-muted leading-relaxed">
+                <p className="text-sm leading-relaxed text-nodeslix-muted">
                   Unlock high-fidelity insights and autonomous configuration controls across your entire network fabric.
                 </p>
               </div>
 
               {/* Capability cards list */}
-              <div className="space-y-4 pt-2">
+              <div className="pt-2 space-y-4">
                 {commandCapabilities.map((cap, idx) => {
                   const CapIcon = cap.icon;
                   return (
@@ -283,11 +282,15 @@ const DashboardPreview = () => {
                       transition={{ type: 'tween', ease: 'easeOut', duration: 0.2 }}
                       className="flex items-start gap-4 p-3 rounded-xl border border-transparent hover:border-white/5 hover:bg-white/[0.02] transition-colors group"
                     >
-                      <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-nodeslix-accent/5 text-nodeslix-accent border border-nodeslix-accent/15 group-hover:scale-105 transition-transform">
-                        <CapIcon size={16} />
+                      <span className="flex items-center justify-center transition-transform border rounded-lg size-10 shrink-0 bg-nodeslix-accent/5 text-nodeslix-accent border-nodeslix-accent/15 group-hover:scale-105">
+                        {typeof CapIcon === 'string' ? (
+                          <img src={CapIcon} className="w-4 h-4 opacity-90 object-contain" aria-hidden="true" />
+                        ) : (
+                          <CapIcon size={16} />
+                        )}
                       </span>
                       <div className="space-y-1">
-                        <h4 className="text-sm font-semibold text-white group-hover:text-nodeslix-accent transition-colors">
+                        <h4 className="text-sm font-semibold text-white transition-colors group-hover:text-nodeslix-accent">
                           {cap.title}
                         </h4>
                         <p className="text-xs leading-relaxed text-nodeslix-muted line-clamp-2">
@@ -301,7 +304,7 @@ const DashboardPreview = () => {
             </div>
 
             {/* CTAs */}
-            <div className="flex flex-wrap gap-4 pt-6 border-t border-white/5 mt-auto">
+            <div className="flex flex-wrap gap-4 pt-6 mt-auto border-t border-white/5">
               <Link
                 to="/dashboard"
                 className="primary-button inline-flex items-center justify-center gap-2 text-sm font-bold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(0,212,255,0.15)] shadow-md"

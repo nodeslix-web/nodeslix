@@ -1,5 +1,8 @@
 import { motion as Motion } from 'framer-motion';
-import { AlertTriangle, BrainCircuit, TrendingUp, ShieldCheck, ArrowRight } from 'lucide-react';
+import { ShieldCheck, ArrowRight } from 'lucide-react';
+import AlertTriangleSvg from '../../assets/icons/Product Overview(Challenge).svg'
+import BrainCircuitSvg from '../../assets/icons/Product Overview(Solution).svg'
+import TrendingUpSvg from '../../assets/icons/Product Overview(Impact).svg'
 
 /* ─── Stagger container ─── */
 const stagger = {
@@ -19,7 +22,7 @@ const storyCards = [
     label:       '01 — Challenge',
     title:       'The Problem',
     description: 'Modern telecom infrastructures generate massive amounts of operational data that are difficult to monitor manually.',
-    icon:        AlertTriangle,
+    icon:        AlertTriangleSvg,
     accent:      false,
   },
   {
@@ -27,7 +30,7 @@ const storyCards = [
     label:       '02 — Intelligence',
     title:       'The Solution',
     description: 'NodeSlix continuously analyzes network behavior and identifies opportunities for optimization.',
-    icon:        BrainCircuit,
+    icon:        BrainCircuitSvg,
     accent:      true,   /* featured card */
   },
   {
@@ -35,7 +38,7 @@ const storyCards = [
     label:       '03 — Impact',
     title:       'The Result',
     description: 'Improve reliability, reduce latency, and increase infrastructure efficiency across every node.',
-    icon:        TrendingUp,
+    icon:        TrendingUpSvg,
     accent:      false,
   },
 ];
@@ -60,7 +63,7 @@ const miniSteps = [
 
 const ProductOverview = () => (
   <section id="overview" className="section-shell scroll-mt-20 bg-nodeslix-secondary">
-    <div className="app-container space-y-16">
+    <div className="space-y-16 app-container">
 
       {/* ── Section header ── */}
       <Motion.div
@@ -94,13 +97,13 @@ const ProductOverview = () => (
 
         {/* Vertical connector line — mobile & tablet only */}
         <div className="pointer-events-none absolute bottom-[10%] left-1/2 top-[10%] flex w-px -translate-x-1/2 flex-col items-center lg:hidden" aria-hidden="true">
-          <div className="w-full flex-1 bg-gradient-to-b from-transparent via-nodeslix-accent/20 to-nodeslix-accent/40" />
+          <div className="flex-1 w-full bg-gradient-to-b from-transparent via-nodeslix-accent/20 to-nodeslix-accent/40" />
           <Motion.span
             animate={{ opacity: [0.3, 1, 0.3] }}
             transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
             className="my-2 block size-1.5 shrink-0 rounded-full bg-nodeslix-accent"
           />
-          <div className="w-full flex-1 bg-gradient-to-b from-nodeslix-accent/40 via-nodeslix-accent/20 to-transparent" />
+          <div className="flex-1 w-full bg-gradient-to-b from-nodeslix-accent/40 via-nodeslix-accent/20 to-transparent" />
         </div>
 
         <Motion.div
@@ -108,7 +111,7 @@ const ProductOverview = () => (
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
-          className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 relative z-10"
+          className="relative z-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
         >
           {storyCards.map((card, index) => {
             const Icon = card.icon;
@@ -143,7 +146,11 @@ const ProductOverview = () => (
                     ? 'border-nodeslix-accent/30 bg-nodeslix-accent/10 text-nodeslix-accent group-hover:shadow-[0_0_20px_rgba(0,212,255,0.22)]'
                     : 'border-white/10 bg-white/[0.04] text-nodeslix-accent/80',
                 ].join(' ')}>
-                  <Icon size={20} aria-hidden="true" />
+                  {typeof Icon === 'string' ? (
+                    <img src={Icon} className="w-5 h-5 opacity-90 object-contain" aria-hidden="true" />
+                  ) : (
+                    <Icon size={20} aria-hidden="true" />
+                  )}
                 </div>
 
                 {/* Text */}
@@ -225,19 +232,19 @@ const ProductOverview = () => (
           </div>
 
           {/* Right — 4-step mini flow */}
-          <div className="flex flex-1 flex-col gap-3 sm:flex-row sm:items-center sm:gap-0">
+          <div className="flex flex-col flex-1 gap-3 sm:flex-row sm:items-center sm:gap-0">
             {miniSteps.map((step, index) => (
               <div key={step.label} className="flex items-center sm:flex-1">
                 {/* Step pill */}
                 <Motion.div
                   whileHover={{ y: -3, transition: { duration: 0.2 } }}
-                  className="flex flex-1 flex-col items-center gap-2 rounded-2xl border border-white/8 bg-black/20 px-4 py-4 text-center sm:mx-1"
+                  className="flex flex-col items-center flex-1 gap-2 px-4 py-4 text-center border rounded-2xl border-white/8 bg-black/20 sm:mx-1"
                 >
                   <span className="text-[10px] font-bold text-nodeslix-accent/60">{step.num}</span>
                   <span className="text-sm font-bold text-nodeslix-text">{step.label}</span>
                   {/* Animated underline */}
                   <Motion.div
-                    className="h-px w-0 rounded-full bg-nodeslix-accent/50"
+                    className="w-0 h-px rounded-full bg-nodeslix-accent/50"
                     whileInView={{ width: '40%' }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.2 + index * 0.12, ease: 'easeOut' }}
@@ -246,7 +253,7 @@ const ProductOverview = () => (
 
                 {/* Arrow connector */}
                 {index < miniSteps.length - 1 && (
-                  <div className="hidden items-center sm:flex">
+                  <div className="items-center hidden sm:flex">
                     <Motion.div
                       animate={{ opacity: [0.3, 1, 0.3], x: [0, 3, 0] }}
                       transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut', delay: index * 0.4 }}

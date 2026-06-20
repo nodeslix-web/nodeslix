@@ -1,5 +1,9 @@
 import { motion as Motion } from 'framer-motion';
-import { BrainCircuit, Activity, Gauge, Radar, Workflow, BarChart3, ArrowRight } from 'lucide-react';
+import { Activity, BarChart3, ArrowRight } from 'lucide-react';
+import Workflow from '../../assets/icons/AI Capabilities(Autonomous Operations).svg'
+import Radar from '../../assets/icons/AI Capabilities(Network Intelligence).svg'
+import BrainCircuit from '../../assets/icons/AI Capabilities(Predictive Analytics).svg'
+import Gauge from '../../assets/icons/AI Capabilities(Traffic Optimization).svg'
 
 /* ─── Staggered animation containers ─── */
 const stagger = {
@@ -63,7 +67,7 @@ const workflowSteps = ['Monitor', 'Analyze', 'Predict', 'Optimize'];
 const Features = () => {
   return (
     <section id="capabilities" className="section-shell scroll-mt-20 bg-nodeslix-primary">
-      <div className="app-container space-y-16">
+      <div className="space-y-16 app-container">
         
         {/* ── Section header ── */}
         <Motion.div
@@ -113,9 +117,13 @@ const Features = () => {
                       hover: { rotate: 2 },
                     }}
                     transition={{ duration: 0.25 }}
-                    className="flex size-12 items-center justify-center rounded-2xl border border-white/10 bg-nodeslix-accent/10 text-nodeslix-accent transition-colors duration-300 group-hover:bg-nodeslix-accent/20"
+                    className="flex items-center justify-center transition-colors duration-300 border size-12 rounded-2xl border-white/10 bg-nodeslix-accent/10 text-nodeslix-accent group-hover:bg-nodeslix-accent/20"
                   >
-                    <Icon size={20} />
+                    {typeof Icon === 'string' ? (
+                      <img src={Icon} className="w-5 h-5 opacity-90 object-contain text-nodeslix-accent" aria-hidden="true" />
+                    ) : (
+                      <Icon size={20} />
+                    )}
                   </Motion.div>
                   
                   {/* Status Badge */}
@@ -174,7 +182,7 @@ const Features = () => {
         >
           <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
             {/* Title */}
-            <div className="shrink-0 text-center sm:text-left">
+            <div className="text-center shrink-0 sm:text-left">
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-nodeslix-muted/60">
                 System flow
               </p>
@@ -182,7 +190,7 @@ const Features = () => {
             </div>
             
             {/* Flow Steps */}
-            <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4 flex-1 justify-end">
+            <div className="flex flex-col items-center justify-end flex-1 gap-3 sm:flex-row sm:gap-4">
               {workflowSteps.map((step, index) => (
                 <div key={step} className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
                   <div className="rounded-xl border border-white/6 bg-white/[0.02] px-4 py-2 text-sm font-semibold text-nodeslix-muted">

@@ -1,12 +1,17 @@
 import { motion as Motion } from 'framer-motion';
 import { BrainCircuit, Cloud, RadioTower, Router, Server, Smartphone } from 'lucide-react';
+import RadioTowerSvg from '../../assets/icons/Network Architecture(5G Towers).svg'
+import ServerSvg from '../../assets/icons/Network Architecture(Core Network).svg'
+import RouterSvg from '../../assets/icons/Network Architecture(Mesh Nodes).svg'
+import CloudSvg from '../../assets/icons/Network Architecture(Edge Gateways).svg'
+import SmartphoneSvg from '../../assets/icons/Network Architecture(IoT Devices).svg'
 
 const nodes = [
-  { label: '5G', position: 'left-1/2 top-[8%] -translate-x-1/2', point: { x: 50, y: 16 }, icon: RadioTower },
-  { label: 'Core', position: 'left-[7%] top-1/2 -translate-y-1/2', point: { x: 16, y: 50 }, icon: Server },
-  { label: 'Mesh', position: 'right-[7%] top-1/2 -translate-y-1/2', point: { x: 84, y: 50 }, icon: Router },
-  { label: 'Edge', position: 'bottom-[10%] left-[18%]', point: { x: 26, y: 82 }, icon: Cloud },
-  { label: 'IoT', position: 'bottom-[10%] right-[18%]', point: { x: 74, y: 82 }, icon: Smartphone },
+  { label: '5G', position: 'left-1/2 top-[8%] -translate-x-1/2', point: { x: 50, y: 16 }, icon: RadioTowerSvg },
+  { label: 'Core', position: 'left-[7%] top-1/2 -translate-y-1/2', point: { x: 16, y: 50 }, icon: ServerSvg },
+  { label: 'Mesh', position: 'right-[7%] top-1/2 -translate-y-1/2', point: { x: 84, y: 50 }, icon: RouterSvg },
+  { label: 'Edge', position: 'bottom-[10%] left-[18%]', point: { x: 26, y: 82 }, icon: CloudSvg },
+  { label: 'IoT', position: 'bottom-[10%] right-[18%]', point: { x: 74, y: 82 }, icon: SmartphoneSvg },
 ];
 
 const metrics = [
@@ -75,7 +80,7 @@ const CommandCenterPanel = () => {
               <Motion.span
                 animate={{ opacity: [0.4, 1, 0.4] }}
                 transition={{ duration: 2, repeat: Infinity, delay: chip.delay, ease: 'easeInOut' }}
-                className="block size-1 rounded-full bg-nodeslix-accent"
+                className="block rounded-full size-1 bg-nodeslix-accent"
               />
               {chip.label}
             </span>
@@ -86,7 +91,7 @@ const CommandCenterPanel = () => {
         <div className="absolute inset-0 overflow-hidden rounded-[1.5rem] border border-white/8 bg-black/22">
 
           {/* SVG connection lines + packets */}
-          <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
             {/* Ambient radial pulse from center */}
             <Motion.circle
               cx={center.x} cy={center.y} r="8"
@@ -132,7 +137,7 @@ const CommandCenterPanel = () => {
             <Motion.div
               animate={{ rotate: -360 }}
               transition={{ duration: 36, repeat: Infinity, ease: 'linear' }}
-              className="absolute inset-0 -m-6 rounded-full border border-dashed border-nodeslix-accent/16"
+              className="absolute inset-0 -m-6 border border-dashed rounded-full border-nodeslix-accent/16"
             />
             <Motion.div
               animate={{ rotate: 360, scale: [1, 1.04, 1] }}
@@ -169,7 +174,11 @@ const CommandCenterPanel = () => {
                   node.position,
                 ].join(' ')}
               >
-                <Icon size={17} className="text-[#7BE7FF]" />
+                {typeof Icon === 'string' ? (
+                  <img src={Icon} className="w-[17px] h-[17px] opacity-90 object-contain text-[#7BE7FF]" aria-hidden="true" />
+                ) : (
+                  <Icon size={17} className="text-[#7BE7FF]" />
+                )}
                 <span className="text-xs font-bold text-[#D9F8FF]">{node.label}</span>
                 <Motion.span
                   animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.4, 1] }}
@@ -189,11 +198,11 @@ const CommandCenterPanel = () => {
             key={metric.label}
             whileHover={{ borderColor: 'rgba(0,212,255,0.30)', y: -2 }}
             transition={{ duration: 0.2 }}
-            className="space-y-2 rounded-2xl border border-white/8 bg-black/28 p-4"
+            className="p-4 space-y-2 border rounded-2xl border-white/8 bg-black/28"
           >
             <p className="text-xl font-bold leading-none text-white">{metric.value}</p>
             <p className="text-xs leading-5 text-nodeslix-muted">{metric.label}</p>
-            <div className="h-px w-full overflow-hidden rounded-full bg-white/6">
+            <div className="w-full h-px overflow-hidden rounded-full bg-white/6">
               <Motion.div
                 initial={{ width: 0 }}
                 animate={{ width: ['0%', '100%', '0%'] }}
