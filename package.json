@@ -19,6 +19,7 @@
     "react-dom": "latest",
     "react-icons": "latest",
     "react-router-dom": "latest",
+    "react-turnstile": "^1.1.5",
     "vite": "latest"
   },
   "devDependencies": {

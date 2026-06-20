@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, ValidationError } from '@formspree/react';
 import { motion as Motion } from 'framer-motion';
 import { Shield, Zap, Cpu, Activity, Layers, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Turnstile } from 'react-turnstile';
 
 const contactInfoCards = [
   {
@@ -33,6 +34,24 @@ const contactInfoCards = [
 
 const Contact = () => {
   const [state, handleSubmit] = useForm('mqeorngo');
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileStatus, setTurnstileStatus] = useState('required'); // 'required', 'verified', 'expired', 'error'
+
+  const getStatusDisplay = () => {
+    switch (turnstileStatus) {
+      case 'verified':
+        return { text: 'Verification Complete', color: 'text-emerald-400', dot: '🟢' };
+      case 'expired':
+        return { text: 'Verification Expired', color: 'text-amber-400', dot: '🟠' };
+      case 'error':
+        return { text: 'Verification Failed', color: 'text-rose-400', dot: '🔴' };
+      case 'required':
+      default:
+        return { text: 'Human Verification Required', color: 'text-nodeslix-muted', dot: '⚪' };
+    }
+  };
+
+  const statusInfo = getStatusDisplay();
 
   return (
     <section id="contact" className="section-shell bg-gradient-to-b from-[#0A0A0A] to-[#0f0f0f] border-t border-white/5 scroll-mt-20">
@@ -149,6 +168,9 @@ const Contact = () => {
                     </Motion.div>
                   )}
 
+                  {/* Hidden Turnstile input for Formspree */}
+                  <input type="hidden" name="cf-turnstile-response" value={turnstileToken} />
+
                   {/* Name */}
                   <div className="flex flex-col gap-1.5">
                     <label htmlFor="fullName" className="text-xs font-bold text-nodeslix-muted/80 uppercase tracking-wider">
@@ -246,15 +268,55 @@ const Contact = () => {
                     <ValidationError prefix="Message" field="message" errors={state.errors} className="text-xs text-rose-400 mt-1" />
                   </div>
 
+                  {/* Turnstile Verification Widget */}
+                  <div className="flex flex-col gap-2.5 pt-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-nodeslix-muted/80 uppercase tracking-wider">
+                        Security Check
+                      </span>
+                      
+                      <Motion.div
+                        key={turnstileStatus}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.3 }}
+                        className={`text-xs font-semibold flex items-center gap-1.5 ${statusInfo.color}`}
+                        aria-live="polite"
+                      >
+                        <span>{statusInfo.dot}</span>
+                        <span>{statusInfo.text}</span>
+                      </Motion.div>
+                    </div>
+
+                    <div className="rounded-lg overflow-hidden border border-white/5 bg-black/25 p-2.5 flex justify-center">
+                      <Turnstile
+                        sitekey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+                        onVerify={(token) => {
+                          setTurnstileToken(token);
+                          setTurnstileStatus('verified');
+                        }}
+                        onExpire={() => {
+                          setTurnstileToken('');
+                          setTurnstileStatus('expired');
+                        }}
+                        onError={() => {
+                          setTurnstileToken('');
+                          setTurnstileStatus('error');
+                        }}
+                        theme="dark"
+                      />
+                    </div>
+                  </div>
+
                   {/* Submit button */}
                   <div className="pt-2">
                     <Motion.button
                       type="submit"
-                      disabled={state.submitting}
-                      whileHover={{ y: -3, boxShadow: '0 8px 24px rgba(0,212,255,0.22)' }}
-                      whileTap={{ scale: 0.98 }}
+                      disabled={!turnstileToken || state.submitting}
+                      whileHover={turnstileToken ? { y: -3, boxShadow: '0 8px 24px rgba(0,212,255,0.22)' } : {}}
+                      whileTap={turnstileToken ? { scale: 0.98 } : {}}
                       transition={{ duration: 0.2 }}
-                      className="w-full primary-button font-bold text-sm h-12 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full primary-button font-bold text-sm h-12 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none"
                     >
                       {state.submitting ? 'Sending...' : 'Send Inquiry'}
                     </Motion.button>
