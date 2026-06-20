@@ -141,7 +141,7 @@ const Hero = () => {
             {/* CTA buttons */}
             <Motion.div variants={fadeSlide} className="flex flex-col gap-3 sm:flex-row">
               <Motion.div whileHover={{ y: -3 }} transition={{ duration: 0.2, ease: 'easeOut' }}>
-                <Link to="/dashboard" className="gap-2 primary-button">
+                <Link to="/product" className="gap-2 primary-button">
                   View Dashboard <ArrowRight size={16} />
                 </Link>
               </Motion.div>

@@ -217,7 +217,7 @@ const Navbar = () => {
             aria-label="Launch Dashboard"
             whileHover={{ y: -3, boxShadow: '0 10px 32px rgba(0,212,255,0.28)' }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate('/product')}
             className="gap-2 cursor-pointer primary-button"
           >
             Launch Dashboard <ArrowUpRight size={15} aria-hidden="true" />
@@ -340,10 +340,10 @@ const Navbar = () => {
                   type="button"
                   whileHover={{ y: -2 }}
                   transition={{ duration: 0.2 }}
-                  onClick={() => { setIsDrawerOpen(false); navigate('/dashboard'); }}
+                  onClick={() => { setIsDrawerOpen(false); navigate('/product'); }}
                   className="w-full gap-2 cursor-pointer primary-button"
                 >
-                  Launch Dashboard <ArrowUpRight size={15} aria-hidden="true" />
+                  Telemetry <ArrowUpRight size={15} aria-hidden="true" />
                 </Motion.button>
               </div>
             </Motion.aside>

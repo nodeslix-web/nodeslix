@@ -4,6 +4,7 @@ import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import MainLayout from './components/layout/MainLayout.jsx';
 import DashboardLayout from './components/layout/DashboardLayout.jsx';
 import Home from './pages/Home.jsx';
+import ProductPage from './pages/ProductPage.jsx';
 import OverviewPage from './pages/dashboard/OverviewPage.jsx';
 import InfrastructurePage from './pages/dashboard/InfrastructurePage.jsx';
 import AIEnginePage from './pages/dashboard/AIEnginePage.jsx';
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: 'product',
+        element: <ProductPage />,
       },
     ],
   },
