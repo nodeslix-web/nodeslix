@@ -199,4 +199,10 @@ npm run build
 
 ## 📝 License
 
-This project is licensed under the **MIT License**. See the LICENSE file for details.
+Copyright © 2026 Altitude1.
+
+All rights reserved.
+
+This project and its source code are proprietary to Altitude1.
+
+Unauthorized copying, distribution, modification, or commercial use of this software is prohibited without explicit written permission.
