@@ -263,7 +263,7 @@ const Footer = () => {
                     className="inline-flex items-center gap-2"
                   >
                     <Mail size={14} className="shrink-0 text-nodeslix-accent/70" aria-hidden="true" />
-                    support@nodeslix.com
+                    help@nodeslix.com
                   </Motion.span>
                   <span className="absolute -bottom-px left-0 h-px w-0 rounded-full bg-nodeslix-accent/60 transition-all duration-[250ms] group-hover:w-full" />
                 </a>
