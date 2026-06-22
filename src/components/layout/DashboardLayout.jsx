@@ -5,7 +5,7 @@ import logo from '../../assets/logo.png';
 import {
   Activity, BarChart3, Bell, BrainCircuit, ChevronDown, CheckCircle2,
   LayoutDashboard, LogOut, Menu, Network, Search, Server,
-  Settings, Sliders, Users, X, RefreshCw, User, Moon,
+  Settings, Sliders, Users, X, RefreshCw, User as UserIcon, Moon, Lock as LockIcon,
   HelpCircle, Command, Palette, Check
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -51,7 +51,7 @@ const Sidebar = ({ collapsed, onClose }) => {
   const location = useLocation();
   const { user } = useAuth();
 
-  const displayName = user?.displayName ?? user?.email?.split('@')[0] ?? 'Admin';
+  const displayName = user?.displayName || 'NodeSlix User';
   const initials    = displayName.slice(0, 2).toUpperCase();
   const photoURL    = user?.photoURL ?? null;
 
@@ -268,9 +268,9 @@ const TopNavbar = ({ onMenuClick, onLogout }) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   /* Derive display name and initials from Firebase user */
-  const displayName = user?.displayName ?? user?.email?.split('@')[0] ?? 'Admin';
+  const displayName = user?.displayName || 'NodeSlix User';
   const initials    = displayName.slice(0, 2).toUpperCase();
-  const userEmail   = user?.email ?? 'admin@nodeslix.com';
+  const userEmail   = user?.email || 'admin@nodeslix.com';
   const photoURL    = user?.photoURL ?? null;
 
   const unreadCount = notifications.filter((n) => !n.read).length;
@@ -568,8 +568,9 @@ const TopNavbar = ({ onMenuClick, onLogout }) => {
                   </div>
                 </div>
                 {[
-                  { label: 'View Profile', icon: User, action: 'profile' },
+                  { label: 'View Profile', icon: UserIcon, action: 'profile' },
                   { label: 'Account Settings', icon: Settings, action: 'settings' },
+                  { label: 'Change Password', icon: LockIcon, action: 'password' },
                   { label: 'Dashboard Preferences', icon: Sliders, action: 'prefs' },
                 ].map((item) => (
                   <button
@@ -641,10 +642,45 @@ const ModalOverlay = ({ children, onClose }) => (
   </Motion.div>
 );
 
+/* ─── Helpers for Firebase User Data ─── */
+const getProviderLabel = (user) => {
+  const provider = user?.providerData?.[0]?.providerId;
+  if (provider === 'password') return 'Email & Password';
+  if (provider === 'google.com') return 'Google';
+  return 'Firebase Auth';
+};
+
+const formatDate = (dateStr) => {
+  if (!dateStr) return 'N/A';
+  try {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    }) + ' — ' + d.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  } catch (e) {
+    return dateStr;
+  }
+};
+
 const ViewProfileModal = ({ onClose }) => {
+  const { user } = useAuth();
   useEffect(() => {
-    addToastEvent('Profile opened', 'Viewing administrator details', User, 'text-nodeslix-accent', 'bg-nodeslix-accent/15');
+    addToastEvent('Profile opened', 'Viewing administrator details', UserIcon, 'text-nodeslix-accent', 'bg-nodeslix-accent/15');
   }, []);
+
+  const displayName = user?.displayName || 'NodeSlix User';
+  const initials    = displayName.slice(0, 2).toUpperCase();
+  const userEmail   = user?.email || 'admin@nodeslix.com';
+  const photoURL    = user?.photoURL ?? null;
+  const provider    = getProviderLabel(user);
+  const created     = formatDate(user?.metadata?.creationTime);
+  const lastLogin   = formatDate(user?.metadata?.lastSignInTime);
+  const uid         = user?.uid || 'N/A';
 
   return (
     <ModalOverlay onClose={onClose}>
@@ -663,28 +699,40 @@ const ViewProfileModal = ({ onClose }) => {
         </div>
         <div className="p-6 flex flex-col items-center gap-4 border-b border-white/5">
           <div className="relative">
-            <div className="flex size-20 items-center justify-center rounded-2xl bg-gradient-to-br from-nodeslix-accent/30 to-blue-600/30 text-nodeslix-accent text-2xl font-bold border border-nodeslix-accent/20">
-              A
-            </div>
+            {photoURL ? (
+              <img src={photoURL} alt={displayName} className="size-20 rounded-2xl object-cover border border-nodeslix-accent/20" referrerPolicy="no-referrer" />
+            ) : (
+              <div className="flex size-20 items-center justify-center rounded-2xl bg-gradient-to-br from-nodeslix-accent/30 to-blue-600/30 text-nodeslix-accent text-2xl font-bold border border-nodeslix-accent/20">
+                {initials}
+              </div>
+            )}
             <span className="absolute -bottom-1 -right-1 block size-4 rounded-full bg-emerald-400 border-[3px] border-[#0e0e0e]" />
           </div>
           <div className="text-center">
-            <p className="text-lg font-bold text-white">Administrator</p>
-            <p className="text-xs text-nodeslix-muted">admin@nodeslix.com</p>
+            <p className="text-lg font-bold text-white">{displayName}</p>
+            <p className="text-xs text-nodeslix-muted">{userEmail}</p>
           </div>
         </div>
-        <div className="p-6 space-y-4">
-          <div className="flex justify-between text-sm">
+        <div className="p-6 space-y-3.5">
+          <div className="flex justify-between text-xs">
             <span className="text-nodeslix-muted">Status</span>
             <span className="text-emerald-400 font-semibold">Online</span>
           </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-nodeslix-muted">Region</span>
-            <span className="text-white font-medium">Region 01</span>
+          <div className="flex justify-between text-xs">
+            <span className="text-nodeslix-muted">Authentication Provider</span>
+            <span className="text-white font-medium">{provider}</span>
           </div>
-          <div className="flex justify-between text-sm">
+          <div className="flex justify-between text-xs">
+            <span className="text-nodeslix-muted">Account Created</span>
+            <span className="text-white font-medium">{created}</span>
+          </div>
+          <div className="flex justify-between text-xs">
             <span className="text-nodeslix-muted">Last Login</span>
-            <span className="text-white font-medium">Today</span>
+            <span className="text-white font-medium">{lastLogin}</span>
+          </div>
+          <div className="flex justify-between text-xs">
+            <span className="text-nodeslix-muted">UID</span>
+            <span className="text-nodeslix-muted/80 font-mono select-all">{uid}</span>
           </div>
         </div>
         <div className="p-6 pt-0">
@@ -698,9 +746,29 @@ const ViewProfileModal = ({ onClose }) => {
 };
 
 const AccountSettingsModal = ({ onClose }) => {
-  const handleSave = () => {
-    addToastEvent('Settings saved', 'Account info updated locally', CheckCircle2, 'text-emerald-400', 'bg-emerald-500/15');
-    onClose();
+  const { user, updateUserProfile } = useAuth();
+  const [displayName, setDisplayName] = useState(user?.displayName || 'NodeSlix User');
+  const [photoURL, setPhotoURL] = useState(user?.photoURL || '');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    if (!displayName.trim()) {
+      setError('Display name is required');
+      return;
+    }
+    setError('');
+    setSubmitting(true);
+    try {
+      await updateUserProfile(displayName.trim(), photoURL.trim() || null);
+      addToastEvent('Settings saved', 'Account info updated in Firebase', CheckCircle2, 'text-emerald-400', 'bg-emerald-500/15');
+      onClose();
+    } catch (err) {
+      setError(err.message || 'Failed to update profile');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -712,38 +780,147 @@ const AccountSettingsModal = ({ onClose }) => {
         onClick={(e) => e.stopPropagation()}
         className="w-full max-w-[420px] bg-[#0e0e0e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
       >
-        <div className="px-6 py-5 border-b border-white/5">
-          <h3 className="text-base font-bold text-white">Account Settings</h3>
-        </div>
-        <div className="p-6 space-y-4">
-          <div className="space-y-1">
-            <label className="text-xs text-nodeslix-muted">Name</label>
-            <input type="text" defaultValue="Administrator" className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-nodeslix-accent/50" />
+        <form onSubmit={handleSave}>
+          <div className="px-6 py-5 border-b border-white/5">
+            <h3 className="text-base font-bold text-white">Account Settings</h3>
           </div>
-          <div className="space-y-1">
-            <label className="text-xs text-nodeslix-muted">Email</label>
-            <input type="email" defaultValue="admin@nodeslix.com" className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-nodeslix-accent/50" />
+          <div className="p-6 space-y-4">
+            {error && (
+              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs">
+                {error}
+              </div>
+            )}
+            <div className="space-y-1.5">
+              <label className="text-xs text-nodeslix-muted">Name</label>
+              <input
+                type="text"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-nodeslix-accent/50 bg-[#121212]"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs text-nodeslix-muted">Photo URL</label>
+              <input
+                type="text"
+                value={photoURL}
+                onChange={(e) => setPhotoURL(e.target.value)}
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-nodeslix-accent/50 bg-[#121212]"
+                placeholder="https://example.com/avatar.jpg"
+              />
+            </div>
           </div>
-          <div className="space-y-1">
-            <label className="text-xs text-nodeslix-muted">Region</label>
-            <select className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-nodeslix-accent/50 appearance-none">
-              <option>Region 01</option>
-              <option>Global</option>
-            </select>
+          <div className="flex gap-3 px-6 pb-6">
+            <button
+              type="button"
+              onClick={onClose}
+              disabled={submitting}
+              className="flex-1 py-2.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-nodeslix-muted hover:text-white text-xs font-semibold transition-colors disabled:opacity-50"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="flex-1 py-2.5 rounded-xl bg-[#00D4FF] text-[#0A0A0A] hover:bg-[#00D4FF]/90 text-xs font-bold transition-colors disabled:opacity-50"
+            >
+              {submitting ? 'Saving...' : 'Save Changes'}
+            </button>
           </div>
-          <div className="space-y-1">
-            <label className="text-xs text-nodeslix-muted">Department</label>
-            <input type="text" defaultValue="Operations Center" className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-nodeslix-accent/50" />
+        </form>
+      </Motion.div>
+    </ModalOverlay>
+  );
+};
+
+const ChangePasswordModal = ({ onClose }) => {
+  const { updateUserPassword } = useAuth();
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (newPassword.length < 8) {
+      setError('Password must be at least 8 characters');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+    setError('');
+    setSubmitting(true);
+    try {
+      await updateUserPassword(newPassword);
+      addToastEvent('Password changed', 'Security credentials updated in Firebase', CheckCircle2, 'text-emerald-400', 'bg-emerald-500/15');
+      onClose();
+    } catch (err) {
+      setError(err.message || 'Failed to update password');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <ModalOverlay onClose={onClose}>
+      <Motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 10 }}
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-[420px] bg-[#0e0e0e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
+      >
+        <form onSubmit={handleSubmit}>
+          <div className="px-6 py-5 border-b border-white/5">
+            <h3 className="text-base font-bold text-white">Change Password</h3>
           </div>
-        </div>
-        <div className="flex gap-3 px-6 pb-6">
-          <button onClick={onClose} className="flex-1 py-2.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-nodeslix-muted hover:text-white text-xs font-semibold transition-colors">
-            Cancel
-          </button>
-          <button onClick={handleSave} className="flex-1 py-2.5 rounded-xl bg-nodeslix-accent/15 border border-nodeslix-accent/30 hover:bg-nodeslix-accent/25 text-nodeslix-accent text-xs font-bold transition-colors">
-            Save
-          </button>
-        </div>
+          <div className="p-6 space-y-4">
+            {error && (
+              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs">
+                {error}
+              </div>
+            )}
+            <div className="space-y-1.5">
+              <label className="text-xs text-nodeslix-muted">New Password</label>
+              <input
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-nodeslix-accent/50 bg-[#121212]"
+                placeholder="Min. 8 characters"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs text-nodeslix-muted">Confirm Password</label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-nodeslix-accent/50 bg-[#121212]"
+                placeholder="Re-enter password"
+              />
+            </div>
+          </div>
+          <div className="flex gap-3 px-6 pb-6">
+            <button
+              type="button"
+              onClick={onClose}
+              disabled={submitting}
+              className="flex-1 py-2.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-nodeslix-muted hover:text-white text-xs font-semibold transition-colors disabled:opacity-50"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="flex-1 py-2.5 rounded-xl bg-[#00D4FF] text-[#0A0A0A] hover:bg-[#00D4FF]/90 text-xs font-bold transition-colors disabled:opacity-50"
+            >
+              {submitting ? 'Updating...' : 'Update Password'}
+            </button>
+          </div>
+        </form>
       </Motion.div>
     </ModalOverlay>
   );
@@ -909,17 +1086,19 @@ const DashboardLayout = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   // Modals state
-  const [activeModal, setActiveModal] = useState(null); // 'profile', 'settings', 'prefs', 'help', 'logout'
+  const [activeModal, setActiveModal] = useState(null); // 'profile', 'settings', 'password', 'prefs', 'help', 'logout'
 
   useEffect(() => {
     const handleProfile = () => setActiveModal('profile');
     const handleSettings = () => setActiveModal('settings');
+    const handlePassword = () => setActiveModal('password');
     const handlePrefs = () => setActiveModal('prefs');
     const handleHelp = () => setActiveModal('help');
     const handleLogout = () => setActiveModal('logout');
 
     document.addEventListener('open-profile', handleProfile);
     document.addEventListener('open-settings', handleSettings);
+    document.addEventListener('open-password', handlePassword);
     document.addEventListener('open-prefs', handlePrefs);
     document.addEventListener('open-help', handleHelp);
     document.addEventListener('open-logout', handleLogout);
@@ -927,6 +1106,7 @@ const DashboardLayout = () => {
     return () => {
       document.removeEventListener('open-profile', handleProfile);
       document.removeEventListener('open-settings', handleSettings);
+      document.removeEventListener('open-password', handlePassword);
       document.removeEventListener('open-prefs', handlePrefs);
       document.removeEventListener('open-help', handleHelp);
       document.removeEventListener('open-logout', handleLogout);
@@ -935,7 +1115,7 @@ const DashboardLayout = () => {
 
   const handleLogoutConfirm = async () => {
     setActiveModal(null);
-    await logout(); // Firebase signOut → redirects to /login
+    await logout(); // Firebase signOut → redirects to /
   };
 
   // Close mobile drawer on route change
@@ -960,6 +1140,7 @@ const DashboardLayout = () => {
       <AnimatePresence>
         {activeModal === 'profile' && <ViewProfileModal onClose={() => setActiveModal(null)} />}
         {activeModal === 'settings' && <AccountSettingsModal onClose={() => setActiveModal(null)} />}
+        {activeModal === 'password' && <ChangePasswordModal onClose={() => setActiveModal(null)} />}
         {activeModal === 'prefs' && <PreferencesDrawer onClose={() => setActiveModal(null)} />}
         {activeModal === 'help' && <HelpCenterModal onClose={() => setActiveModal(null)} />}
         {activeModal === 'logout' && <LogoutModal onClose={() => setActiveModal(null)} onConfirm={handleLogoutConfirm} />}

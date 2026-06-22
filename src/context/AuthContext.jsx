@@ -51,10 +51,10 @@ export const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, provider);
   }, []);
 
-  /* Sign out → redirect to /login */
+  /* Sign out → redirect to / */
   const logout = useCallback(async () => {
     await signOut(auth);
-    navigate('/login', { replace: true });
+    navigate('/', { replace: true });
   }, [navigate]);
 
   /* Update Profile */
