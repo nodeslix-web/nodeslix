@@ -1,9 +1,11 @@
 import { motion as Motion } from 'framer-motion';
-import { Activity, BarChart3, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Workflow from '../../assets/icons/AI Capabilities(Autonomous Operations).svg'
 import Radar from '../../assets/icons/AI Capabilities(Network Intelligence).svg'
 import BrainCircuit from '../../assets/icons/AI Capabilities(Predictive Analytics).svg'
 import Gauge from '../../assets/icons/AI Capabilities(Traffic Optimization).svg'
+import Activity from '../../assets/icons/AI Capabilities(Infrastructure Monitoring).svg'
+import BarChart3 from '../../assets/icons/AI Capabilities(Performance Insights).svg'
 
 /* ─── Staggered animation containers ─── */
 const stagger = {
@@ -120,7 +122,7 @@ const Features = () => {
                     className="flex items-center justify-center transition-colors duration-300 border size-12 rounded-2xl border-white/10 bg-nodeslix-accent/10 text-nodeslix-accent group-hover:bg-nodeslix-accent/20"
                   >
                     {typeof Icon === 'string' ? (
-                      <img src={Icon} className="object-contain w-8 h-8 opacity-90 text-nodeslix-accent" aria-hidden="true" />
+                    <img src={Icon} className="object-contain w-8 h-8 opacity-90 text-nodeslix-accent" aria-hidden="true" />
                     ) : (
                       <Icon size={20} />
                     )}

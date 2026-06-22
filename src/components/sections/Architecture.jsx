@@ -1,13 +1,18 @@
 import { motion as Motion } from 'framer-motion';
-import { Database, Radar, Brain, Zap, Activity, ArrowRight, ArrowDown } from 'lucide-react';
+import { ArrowRight, ArrowDown } from 'lucide-react';
+import DatabaseSvg from '../../assets/icons/Technical Journey.svg'
+import RadarSvg from '../../assets/icons/Technical Journey (2).svg'
+import BrainSvg from '../../assets/icons/Technical Journey (3).svg'
+import ZapSvg from '../../assets/icons/Technical Journey (4).svg'
+import ActivitySvg from '../../assets/icons/Technical Journey (5).svg'
 
 /* ─── 5-Step Journey ─── */
 const steps = [
-  { num: '01', title: 'Collect',  description: 'Gather telemetry from distributed infrastructures.', icon: Database },
-  { num: '02', title: 'Analyze',  description: 'Identify patterns and operational anomalies.', icon: Radar },
-  { num: '03', title: 'Predict',  description: 'Forecast future bottlenecks and risks.', icon: Brain },
-  { num: '04', title: 'Optimize', description: 'Generate intelligent optimization actions.', icon: Zap },
-  { num: '05', title: 'Monitor',  description: 'Continuously track infrastructure health.', icon: Activity },
+  { num: '01', title: 'Collect',  description: 'Gather telemetry from distributed infrastructures.', icon: DatabaseSvg },
+  { num: '02', title: 'Analyze',  description: 'Identify patterns and operational anomalies.', icon: RadarSvg },
+  { num: '03', title: 'Predict',  description: 'Forecast future bottlenecks and risks.', icon: BrainSvg },
+  { num: '04', title: 'Optimize', description: 'Generate intelligent optimization actions.', icon: ZapSvg },
+  { num: '05', title: 'Monitor',  description: 'Continuously track infrastructure health.', icon: ActivitySvg },
 ];
 
 /* ─── Summary Panel Pills ─── */
@@ -26,8 +31,8 @@ const fadeUp = {
 
 const Architecture = () => {
   return (
-    <section id="architecture" className="scroll-mt-20 border-t border-white/8 bg-nodeslix-secondary py-16 sm:py-20">
-      <div className="app-container space-y-12">
+    <section id="architecture" className="py-16 border-t scroll-mt-20 border-white/8 bg-nodeslix-secondary sm:py-20">
+      <div className="space-y-12 app-container">
         
         {/* ── Section header ── */}
         <Motion.div
@@ -50,7 +55,7 @@ const Architecture = () => {
           </div>
           
           {/* Status Badge */}
-          <div className="flex shrink-0 items-start">
+          <div className="flex items-start shrink-0">
             <span className="inline-flex items-center gap-2 rounded-full border border-nodeslix-accent/25 bg-nodeslix-accent/10 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-nodeslix-accent">
               <Motion.span
                 animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.2, 1] }}
@@ -63,14 +68,14 @@ const Architecture = () => {
         </Motion.div>
 
         {/* ── 5-Step Journey Timeline ── */}
-        <div className="relative mx-auto max-w-6xl">
+        <div className="relative max-w-6xl mx-auto">
           
           {/* Central Glow (Intelligence Engine) */}
           <div className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[220px] w-[220px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-nodeslix-accent/10 blur-[60px]" />
 
           {/* Desktop/Tablet Horizontal Connector Line */}
           <div className="pointer-events-none absolute left-[10%] right-[10%] top-[45px] z-0 hidden h-px lg:block">
-            <div className="relative h-full w-full bg-white/10">
+            <div className="relative w-full h-full bg-white/10">
               <Motion.div
                 animate={{ left: ['0%', '100%'], opacity: [0, 1, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
@@ -85,7 +90,7 @@ const Architecture = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
-            className="grid gap-5 md:grid-cols-3 lg:grid-cols-5 relative z-10"
+            className="relative z-10 grid gap-5 md:grid-cols-3 lg:grid-cols-5"
           >
             {steps.map((step, index) => {
               const Icon = step.icon;
@@ -117,7 +122,7 @@ const Architecture = () => {
                       <Motion.span
                         animate={{ opacity: [0.3, 1, 0.3] }}
                         transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut', delay: index * 0.2 }}
-                        className="block size-1 rounded-full bg-nodeslix-accent"
+                        className="block rounded-full size-1 bg-nodeslix-accent"
                       />
                       Running
                     </span>
@@ -125,7 +130,11 @@ const Architecture = () => {
 
                   {/* Icon Node */}
                   <div className="flex size-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-white transition-colors group-hover:border-nodeslix-accent/30 group-hover:bg-nodeslix-accent/10 group-hover:text-nodeslix-accent">
-                    <Icon size={20} />
+                    {typeof Icon === 'string' ? (
+                      <img src={Icon} className="object-contain w-6 h-6 opacity-95 group-hover:opacity-100" aria-hidden="true" />
+                    ) : (
+                      <Icon size={20} />
+                    )}
                   </div>
 
                   {/* Content */}

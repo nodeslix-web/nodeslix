@@ -164,7 +164,7 @@ const Hero = () => {
                     className="inline-flex cursor-default items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-semibold text-nodeslix-muted backdrop-blur-sm"
                   >
                     {typeof Icon === 'string' ? (
-                      <img src={Icon} className="object-contain w-6 h-6 opacity-80 text-nodeslix-accent" aria-hidden="true" />
+                      <img src={Icon} className="object-contain w-5 h-5 opacity-80 text-nodeslix-accent" aria-hidden="true" />
                     ) : (
                       <Icon size={12} className="text-nodeslix-accent/80" aria-hidden="true" />
                     )}

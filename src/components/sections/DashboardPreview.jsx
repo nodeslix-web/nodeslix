@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion as Motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Brain, Gauge, Workflow } from 'lucide-react';
-import RadioTower from '../../assets/icons/Dashboard Preview(Active Nodes).svg'
+import { ArrowRight } from 'lucide-react';
+import RadioTower from '../../assets/icons/Inside The Command Center.svg'
+import Brain from '../../assets/icons/Inside The Command Center (2).svg'
+import Gauge from '../../assets/icons/Inside The Command Center (3).svg'
+import Workflow from '../../assets/icons/Inside The Command Center (4).svg'
 import Activity from '../../assets/icons/Dashboard Preview(Average Latency).svg'
 import ShieldCheck from '../../assets/icons/Dashboard Preview(Infrastructure Uptime).svg'
 import Cpu from '../../assets/icons/Dashboard Preview(Mesh Segments).svg'
@@ -139,7 +142,7 @@ const DashboardPreview = () => {
                     <div className="flex items-start justify-between">
                       <span className="text-[11px] text-nodeslix-muted font-medium">{m.label}</span>
                       {typeof MetricIcon === 'string' ? (
-                        <img src={MetricIcon} className="w-3.5 h-3.5 opacity-90 object-contain text-nodeslix-accent" aria-hidden="true" />
+                        <img src={MetricIcon} className="object-contain w-6 h-6 opacity-90 text-nodeslix-accent" aria-hidden="true" />
                       ) : (
                         <MetricIcon size={14} className="transition-transform text-nodeslix-accent/80 group-hover:scale-105" />
                       )}
@@ -284,7 +287,7 @@ const DashboardPreview = () => {
                     >
                       <span className="flex items-center justify-center transition-transform border rounded-lg size-10 shrink-0 bg-nodeslix-accent/5 text-nodeslix-accent border-nodeslix-accent/15 group-hover:scale-105">
                         {typeof CapIcon === 'string' ? (
-                          <img src={CapIcon} className="w-4 h-4 opacity-90 object-contain" aria-hidden="true" />
+                          <img src={CapIcon} className="object-contain w-6 h-6 opacity-90" aria-hidden="true" />
                         ) : (
                           <CapIcon size={16} />
                         )}
