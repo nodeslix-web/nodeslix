@@ -53,25 +53,25 @@ NodeSlix provides telecom operators and network engineers with a premium visual 
 ## 🏗️ Application Flow
 
 ```text
-       ┌──────────────┐
-       │  Home Page   │
-       └──────┬───────┘
-              │
-              ▼
-       ┌──────────────┐
-       │ Product Page │
-       └──────┬───────┘
-              │
-              ▼
-       ┌──────────────┐
-       │ Pricing Sec  |
-       └──────┬───────┘        
-              │ 
-              │        
-              │       
-              │        
-              │         
-              ▼   
+               ┌──────────────┐
+               │  Home Page   │
+               └──────┬───────┘
+                      │
+                      ▼
+               ┌──────────────┐
+               │ Product Page │
+               └──────┬───────┘
+                      │
+                      ▼
+               ┌──────────────┐
+               │ Pricing Sec  |
+               └──────┬───────┘        
+                      │ 
+                      │        
+                      │       
+                      │        
+                      │         
+                      ▼   
        ┌──────────────────────────────┐
        │ Stripe Sandbox Hosted Links  │
        └──────────────┬───────────────┘
@@ -177,17 +177,6 @@ Build the optimized production assets:
 ```bash
 npm run build
 ```
-
----
-
-## 🖼️ Screenshots
-
-* **Hero Interface**: `[Placeholder: /public/screenshots/hero.png]`
-* **Product Catalog**: `[Placeholder: /public/screenshots/product.png]`
-* **Pricing & checkout plans**: `[Placeholder: /public/screenshots/pricing.png]`
-* **Operator Console (Dashboard)**: `[Placeholder: /public/screenshots/dashboard.png]`
-* **Analytics Panel**: `[Placeholder: /public/screenshots/analytics.png]`
-* **Operator Registration**: `[Placeholder: /public/screenshots/auth.png]`
 
 ---
 
