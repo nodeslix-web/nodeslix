@@ -6,6 +6,32 @@ import {
   UserX, Users, X, ChevronDown, MapPin, Clock,
   Server, Wifi, RadioTower,
 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+
+/* ─── Helpers for Firebase User Data ─── */
+const getProviderLabel = (user) => {
+  const provider = user?.providerData?.[0]?.providerId;
+  if (provider === 'password') return 'Email & Password';
+  if (provider === 'google.com') return 'Google';
+  return 'Firebase Auth';
+};
+
+const formatDate = (dateStr) => {
+  if (!dateStr) return 'N/A';
+  try {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    }) + ' — ' + d.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  } catch (e) {
+    return dateStr;
+  }
+};
 
 /* ─────────────────────────────────────────
    MOCK DATA
@@ -127,7 +153,8 @@ const ToastContainer = ({ toasts, onRemove }) => (
    PROFILE DRAWER
 ───────────────────────────────────────── */
 const ProfileDrawer = ({ user, onClose }) => {
-  const avColor = avatarColors[user.id % avatarColors.length];
+  const isMe = user.id === 'current-user';
+  const avColor = isMe ? avatarColors[0] : avatarColors[user.id % avatarColors.length];
   const rc = getRoleConfig(user.role);
   const RoleIcon = rc.icon;
 
@@ -166,9 +193,13 @@ const ProfileDrawer = ({ user, onClose }) => {
         {/* Avatar + name */}
         <div className="flex flex-col items-center gap-3 py-8 px-6 border-b border-white/[0.06]">
           <div className="relative">
-            <div className={`flex size-20 items-center justify-center rounded-2xl bg-gradient-to-br ${avColor} text-xl font-extrabold border border-white/12 shadow-xl`}>
-              {user.avatar}
-            </div>
+            {user.avatarURL ? (
+              <img src={user.avatarURL} alt={user.name} className="size-20 rounded-2xl object-cover border border-white/12 shadow-xl" referrerPolicy="no-referrer" />
+            ) : (
+              <div className={`flex size-20 items-center justify-center rounded-2xl bg-gradient-to-br ${avColor} text-xl font-extrabold border border-white/12 shadow-xl`}>
+                {user.avatar}
+              </div>
+            )}
             <span className={`absolute -bottom-1 -right-1 block size-4 rounded-full border-[3px] border-[#0e0e0e] ${statusDot[user.status]}`} />
           </div>
           <div className="text-center">
@@ -184,21 +215,41 @@ const ProfileDrawer = ({ user, onClose }) => {
         <div className="flex-1 px-6 py-5 space-y-5">
           {/* Info rows */}
           <div className="space-y-0 surface-card overflow-hidden divide-y divide-white/[0.05]">
-            {[
-              { icon: Shield,   label: 'Status',      value: user.status,    valueColor: user.status === 'Active' ? 'text-emerald-400' : 'text-nodeslix-muted/60' },
-              { icon: MapPin,   label: 'Region',      value: user.region,    valueColor: 'text-white' },
-              { icon: Clock,    label: 'Last Seen',   value: user.lastSeen,  valueColor: 'text-white' },
-              { icon: Lock,     label: 'Last Login',  value: user.lastLogin, valueColor: 'text-nodeslix-muted/70' },
-            ].map((row) => {
-              const RowIcon = row.icon;
-              return (
-                <div key={row.label} className="flex items-center gap-3 px-4 py-3">
-                  <RowIcon size={13} className="text-nodeslix-muted/50 shrink-0" />
-                  <span className="text-xs text-nodeslix-muted flex-1">{row.label}</span>
-                  <span className={`text-xs font-semibold ${row.valueColor}`}>{row.value}</span>
+            {isMe ? (
+              <>
+                <div className="flex items-center gap-3 px-4 py-3">
+                  <Shield size={13} className="text-nodeslix-muted/50 shrink-0" />
+                  <span className="text-xs text-nodeslix-muted flex-1">Authentication Provider</span>
+                  <span className="text-xs font-semibold text-white">{user.provider}</span>
                 </div>
-              );
-            })}
+                <div className="flex items-center gap-3 px-4 py-3">
+                  <Clock size={13} className="text-nodeslix-muted/50 shrink-0" />
+                  <span className="text-xs text-nodeslix-muted flex-1">Account Created</span>
+                  <span className="text-xs font-semibold text-white">{user.created}</span>
+                </div>
+                <div className="flex items-center gap-3 px-4 py-3">
+                  <Lock size={13} className="text-nodeslix-muted/50 shrink-0" />
+                  <span className="text-xs text-nodeslix-muted flex-1">Last Login</span>
+                  <span className="text-xs font-semibold text-nodeslix-muted/70">{user.lastLogin}</span>
+                </div>
+              </>
+            ) : (
+              [
+                { icon: Shield,   label: 'Status',      value: user.status,    valueColor: user.status === 'Active' ? 'text-emerald-400' : 'text-nodeslix-muted/60' },
+                { icon: MapPin,   label: 'Region',      value: user.region,    valueColor: 'text-white' },
+                { icon: Clock,    label: 'Last Seen',   value: user.lastSeen,  valueColor: 'text-white' },
+                { icon: Lock,     label: 'Last Login',  value: user.lastLogin, valueColor: 'text-nodeslix-muted/70' },
+              ].map((row) => {
+                const RowIcon = row.icon;
+                return (
+                  <div key={row.label} className="flex items-center gap-3 px-4 py-3">
+                    <RowIcon size={13} className="text-nodeslix-muted/50 shrink-0" />
+                    <span className="text-xs text-nodeslix-muted flex-1">{row.label}</span>
+                    <span className={`text-xs font-semibold ${row.valueColor}`}>{row.value}</span>
+                  </div>
+                );
+              })
+            )}
           </div>
 
           {/* Assigned Infrastructure */}
@@ -468,9 +519,251 @@ const DeactivateModal = ({ user, onClose, onConfirm }) => (
 );
 
 /* ─────────────────────────────────────────
+   EDIT PROFILE MODAL
+───────────────────────────────────────── */
+const EditProfileModal = ({ user, onClose, onSave }) => {
+  const [displayName, setDisplayName] = useState(user.name);
+  const [photoURL, setPhotoURL] = useState(user.avatarURL || '');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!displayName.trim()) {
+      setError('Display name is required');
+      return;
+    }
+    setError('');
+    setSubmitting(true);
+    try {
+      await onSave(displayName.trim(), photoURL.trim() || null);
+      onClose();
+    } catch (err) {
+      setError(err.message || 'Failed to update profile');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <Motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <Motion.div
+        initial={{ opacity: 0, scale: 0.92, y: 12 }}
+        animate={{ opacity: 1, scale: 1,    y: 0  }}
+        exit={{    opacity: 0, scale: 0.92, y: 12 }}
+        transition={{ duration: 0.22, ease: [0.32, 0.72, 0, 1] }}
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-[420px] bg-[#0e0e0e] border border-white/[0.1] rounded-2xl shadow-2xl overflow-hidden"
+      >
+        <form onSubmit={handleSubmit}>
+          {/* Modal header */}
+          <div className="flex items-center justify-between px-6 py-5 border-b border-white/[0.07]">
+            <div>
+              <p className="section-kicker">My Profile</p>
+              <h3 className="text-base font-extrabold text-white mt-0.5">Edit Profile</h3>
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex size-8 items-center justify-center rounded-xl border border-white/10 text-nodeslix-muted hover:text-white transition-colors"
+            >
+              <X size={15} />
+            </button>
+          </div>
+
+          <div className="px-6 py-5 space-y-4">
+            {error && (
+              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs">
+                {error}
+              </div>
+            )}
+
+            <div className="space-y-1.5">
+              <label className="block text-xs font-semibold text-nodeslix-muted">
+                Display Name
+              </label>
+              <input
+                type="text"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-nodeslix-accent/50 bg-[#121212]"
+                placeholder="Full Name · Company"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="block text-xs font-semibold text-nodeslix-muted">
+                Profile Picture URL
+              </label>
+              <input
+                type="url"
+                value={photoURL}
+                onChange={(e) => setPhotoURL(e.target.value)}
+                className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-nodeslix-accent/50 bg-[#121212]"
+                placeholder="https://example.com/avatar.jpg"
+              />
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="flex gap-3 px-6 py-5 border-t border-white/[0.07]">
+            <button
+              type="button"
+              onClick={onClose}
+              disabled={submitting}
+              className="flex-1 py-2.5 rounded-xl border border-white/12 bg-white/[0.03] text-nodeslix-muted hover:text-white hover:border-white/20 text-xs font-semibold transition-all duration-200 disabled:opacity-50"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="flex-1 py-2.5 rounded-xl bg-[#00D4FF] hover:bg-[#00D4FF]/90 text-[#0A0A0A] text-xs font-bold transition-all duration-200 disabled:opacity-50"
+            >
+              {submitting ? 'Saving...' : 'Save Changes'}
+            </button>
+          </div>
+        </form>
+      </Motion.div>
+    </Motion.div>
+  );
+};
+
+/* ─────────────────────────────────────────
+   CHANGE PASSWORD MODAL
+───────────────────────────────────────── */
+const ChangePasswordModal = ({ onClose, onSave }) => {
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (newPassword.length < 8) {
+      setError('Password must be at least 8 characters');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+    setError('');
+    setSubmitting(true);
+    try {
+      await onSave(newPassword);
+      onClose();
+    } catch (err) {
+      setError(err.message || 'Failed to update password');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <Motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <Motion.div
+        initial={{ opacity: 0, scale: 0.92, y: 12 }}
+        animate={{ opacity: 1, scale: 1,    y: 0  }}
+        exit={{    opacity: 0, scale: 0.92, y: 12 }}
+        transition={{ duration: 0.22, ease: [0.32, 0.72, 0, 1] }}
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-[420px] bg-[#0e0e0e] border border-white/[0.1] rounded-2xl shadow-2xl overflow-hidden"
+      >
+        <form onSubmit={handleSubmit}>
+          {/* Modal header */}
+          <div className="flex items-center justify-between px-6 py-5 border-b border-white/[0.07]">
+            <div>
+              <p className="section-kicker">Security</p>
+              <h3 className="text-base font-extrabold text-white mt-0.5">Change Password</h3>
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex size-8 items-center justify-center rounded-xl border border-white/10 text-nodeslix-muted hover:text-white transition-colors"
+            >
+              <X size={15} />
+            </button>
+          </div>
+
+          <div className="px-6 py-5 space-y-4">
+            {error && (
+              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs">
+                {error}
+              </div>
+            )}
+
+            <div className="space-y-1.5">
+              <label className="block text-xs font-semibold text-nodeslix-muted">
+                New Password
+              </label>
+              <input
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-nodeslix-accent/50 bg-[#121212]"
+                placeholder="Min. 8 characters"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="block text-xs font-semibold text-nodeslix-muted">
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-nodeslix-accent/50 bg-[#121212]"
+                placeholder="Re-enter password"
+              />
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="flex gap-3 px-6 py-5 border-t border-white/[0.07]">
+            <button
+              type="button"
+              onClick={onClose}
+              disabled={submitting}
+              className="flex-1 py-2.5 rounded-xl border border-white/12 bg-white/[0.03] text-nodeslix-muted hover:text-white hover:border-white/20 text-xs font-semibold transition-all duration-200 disabled:opacity-50"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="flex-1 py-2.5 rounded-xl bg-[#00D4FF] hover:bg-[#00D4FF]/90 text-[#0A0A0A] text-xs font-bold transition-all duration-200 disabled:opacity-50"
+            >
+              {submitting ? 'Updating...' : 'Update Password'}
+            </button>
+          </div>
+        </form>
+      </Motion.div>
+    </Motion.div>
+  );
+};
+
+/* ─────────────────────────────────────────
    USERS PAGE
 ───────────────────────────────────────── */
 const UsersPage = () => {
+  const { user, updateUserProfile, updateUserPassword } = useAuth();
+
   /* ── User data (mutable local state) ── */
   const [userList, setUserList] = useState(INITIAL_USERS);
 
@@ -484,6 +777,8 @@ const UsersPage = () => {
   const [editRoleUser,   setEditRoleUser]   = useState(null); // modal
   const [resetUser,      setResetUser]      = useState(null); // modal
   const [deactivateUser, setDeactivateUser] = useState(null); // modal
+  const [editProfileOpen, setEditProfileOpen] = useState(false); // modal
+  const [changePasswordOpen, setChangePasswordOpen] = useState(false); // modal
 
   /* ── Toast notifications ── */
   const [toasts, setToasts] = useState([]);
@@ -578,21 +873,67 @@ const UsersPage = () => {
     });
   };
 
+  const handleSaveProfile = async (displayName, photoURL) => {
+    await updateUserProfile(displayName, photoURL);
+    addToast({
+      title: 'Profile Updated',
+      desc: 'Display details updated in Firebase',
+      Icon: UserCheck,
+      iconColor: 'text-emerald-400',
+      iconBg: 'bg-emerald-500/15',
+    });
+  };
+
+  const handleSavePassword = async (newPassword) => {
+    await updateUserPassword(newPassword);
+    addToast({
+      title: 'Password Updated',
+      desc: 'Security credentials updated in Firebase',
+      Icon: Lock,
+      iconColor: 'text-emerald-400',
+      iconBg: 'bg-emerald-500/15',
+    });
+  };
+
   /* ─── DERIVED ─── */
   const roles = ['All', 'Admin', 'Operator', 'Engineer'];
 
-  const filtered = userList.filter((u) => {
+  const firebaseUserObj = user ? {
+    id: 'current-user',
+    name: user.displayName || user.email?.split('@')[0] || 'Administrator',
+    email: user.email,
+    role: 'Administrator',
+    status: 'Active',
+    region: 'Global',
+    lastSeen: 'Just now',
+    avatar: (user.displayName || user.email || 'A').slice(0, 2).toUpperCase(),
+    avatarURL: user.photoURL,
+    provider: getProviderLabel(user),
+    created: formatDate(user.metadata.creationTime),
+    lastLogin: formatDate(user.metadata.lastSignInTime),
+    infrastructure: ['All Nodes', 'Core Command Grid'],
+    isCurrentUser: true,
+  } : null;
+
+  const matchesFilter = (u) => {
     const matchSearch =
       u.name.toLowerCase().includes(search.toLowerCase()) ||
       u.email.toLowerCase().includes(search.toLowerCase());
     const matchRole = roleFilter === 'All' || u.role === roleFilter;
     return matchSearch && matchRole;
-  });
+  };
+
+  const filtered = userList.filter((u) => u.id !== 'current-user' && matchesFilter(u));
+  const filteredWithMe = [];
+  if (firebaseUserObj && matchesFilter(firebaseUserObj)) {
+    filteredWithMe.push(firebaseUserObj);
+  }
+  filteredWithMe.push(...filtered);
 
   const counts = {
-    total:    userList.length,
-    active:   userList.filter((u) => u.status === 'Active').length,
-    admins:   userList.filter((u) => u.role === 'Admin' || u.role === 'Administrator').length,
+    total:    userList.length + (firebaseUserObj ? 1 : 0),
+    active:   userList.filter((u) => u.status === 'Active').length + (firebaseUserObj ? 1 : 0),
+    admins:   userList.filter((u) => u.role === 'Admin' || u.role === 'Administrator').length + (firebaseUserObj ? 1 : 0),
     inactive: userList.filter((u) => u.status === 'Inactive').length,
   };
 
@@ -608,6 +949,8 @@ const UsersPage = () => {
         {editRoleUser   && <EditRoleModal   user={editRoleUser}   onClose={() => setEditRoleUser(null)}   onSave={handleSaveRole}            key="editrole"   />}
         {resetUser      && <ResetAccessModal user={resetUser}     onClose={() => setResetUser(null)}      onConfirm={handleConfirmReset}     key="reset"      />}
         {deactivateUser && <DeactivateModal  user={deactivateUser} onClose={() => setDeactivateUser(null)} onConfirm={handleConfirmDeactivate} key="deactivate" />}
+        {editProfileOpen && <EditProfileModal user={firebaseUserObj} onClose={() => setEditProfileOpen(false)} onSave={handleSaveProfile} key="editprofile" />}
+        {changePasswordOpen && <ChangePasswordModal onClose={() => setChangePasswordOpen(false)} onSave={handleSavePassword} key="changepassword" />}
       </AnimatePresence>
 
       <div className="p-5 md:p-6 space-y-7">
@@ -700,7 +1043,7 @@ const UsersPage = () => {
 
           {/* Rows */}
           <AnimatePresence>
-            {filtered.length === 0 ? (
+            {filteredWithMe.length === 0 ? (
               <Motion.div
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                 className="flex flex-col items-center justify-center py-12 gap-3"
@@ -709,15 +1052,15 @@ const UsersPage = () => {
                 <p className="text-sm text-nodeslix-muted/50">No users match your search</p>
               </Motion.div>
             ) : (
-              filtered.map((user, i) => {
-                const rc = getRoleConfig(user.role);
+              filteredWithMe.map((usrObj, i) => {
+                const rc = getRoleConfig(usrObj.role);
                 const RoleIcon = rc.icon;
-                const avColor = avatarColors[user.id % avatarColors.length];
-                const isMenuOpen = openMenu === user.id;
+                const avColor = avatarColors[usrObj.id === 'current-user' ? 0 : usrObj.id % avatarColors.length];
+                const isMenuOpen = openMenu === usrObj.id;
 
                 return (
                   <Motion.div
-                    key={user.id}
+                    key={usrObj.id}
                     layout
                     initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                     transition={{ duration: 0.25, delay: i * 0.04 }}
@@ -726,32 +1069,43 @@ const UsersPage = () => {
                     {/* User info */}
                     <div className="flex items-center gap-3">
                       <div className="relative shrink-0">
-                        <div className={`flex size-9 items-center justify-center rounded-full bg-gradient-to-br ${avColor} text-xs font-extrabold border border-white/10`}>
-                          {user.avatar}
-                        </div>
-                        <span className={`absolute -bottom-0.5 -right-0.5 block size-2.5 rounded-full border-2 border-[#121212] ${statusDot[user.status]}`} />
+                        {usrObj.avatarURL ? (
+                          <img src={usrObj.avatarURL} alt={usrObj.name} className="size-9 rounded-full object-cover border border-white/10" referrerPolicy="no-referrer" />
+                        ) : (
+                          <div className={`flex size-9 items-center justify-center rounded-full bg-gradient-to-br ${avColor} text-xs font-extrabold border border-white/10`}>
+                            {usrObj.avatar}
+                          </div>
+                        )}
+                        <span className={`absolute -bottom-0.5 -right-0.5 block size-2.5 rounded-full border-2 border-[#121212] ${statusDot[usrObj.status]}`} />
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-white">{user.name}</p>
-                        <p className="text-[10px] text-nodeslix-muted/60">{user.email}</p>
+                        <div className="flex items-center gap-2">
+                          <p className="text-sm font-semibold text-white">{usrObj.name}</p>
+                          {usrObj.isCurrentUser && (
+                            <span className="text-[9px] font-bold bg-[#00D4FF]/15 border border-[#00D4FF]/35 text-[#00D4FF] px-1.5 py-0.5 rounded-full">
+                              You
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-[10px] text-nodeslix-muted/60">{usrObj.email}</p>
                       </div>
                     </div>
 
                     {/* Region */}
-                    <span className="text-xs text-nodeslix-muted">{user.region}</span>
+                    <span className="text-xs text-nodeslix-muted">{usrObj.region}</span>
 
                     {/* Role */}
                     <div className="flex">
                       <span className={`inline-flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-1 rounded-full border ${rc.text} ${rc.bg} ${rc.border}`}>
                         <RoleIcon size={10} />
-                        {user.role}
+                        {usrObj.role}
                       </span>
                     </div>
 
                     {/* Status */}
                     <div className="flex items-center gap-2">
-                      <span className={`block size-1.5 rounded-full ${statusDot[user.status]}`} />
-                      <span className="text-xs text-nodeslix-muted">{user.status}</span>
+                      <span className={`block size-1.5 rounded-full ${statusDot[usrObj.status]}`} />
+                      <span className="text-xs text-nodeslix-muted">{usrObj.status}</span>
                     </div>
 
                     {/* Action menu */}
@@ -760,7 +1114,7 @@ const UsersPage = () => {
                         type="button"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        onClick={() => setOpenMenu(isMenuOpen ? null : user.id)}
+                        onClick={() => setOpenMenu(isMenuOpen ? null : usrObj.id)}
                         className={[
                           'flex size-7 items-center justify-center rounded-lg border transition-all duration-200',
                           isMenuOpen
@@ -783,44 +1137,70 @@ const UsersPage = () => {
                             {/* View Profile */}
                             <button
                               type="button"
-                              onClick={() => handleViewProfile(user)}
+                              onClick={() => handleViewProfile(usrObj)}
                               className="w-full flex items-center gap-3 px-4 py-2.5 text-xs text-nodeslix-muted hover:bg-white/[0.05] hover:text-white transition-colors"
                             >
                               <Eye size={13} className="text-nodeslix-accent/70 shrink-0" />
                               View Profile
                             </button>
 
-                            {/* Edit Role */}
-                            <button
-                              type="button"
-                              onClick={() => handleEditRole(user)}
-                              className="w-full flex items-center gap-3 px-4 py-2.5 text-xs text-nodeslix-muted hover:bg-white/[0.05] hover:text-white transition-colors"
-                            >
-                              <Shield size={13} className="text-violet-400/70 shrink-0" />
-                              Edit Role
-                            </button>
+                            {usrObj.isCurrentUser ? (
+                              <>
+                                {/* Edit Profile */}
+                                <button
+                                  type="button"
+                                  onClick={() => { setOpenMenu(null); setEditProfileOpen(true); }}
+                                  className="w-full flex items-center gap-3 px-4 py-2.5 text-xs text-nodeslix-muted hover:bg-white/[0.05] hover:text-white transition-colors"
+                                >
+                                  <UserCheck size={13} className="text-violet-400/70 shrink-0" />
+                                  Edit Profile
+                                </button>
 
-                            {/* Reset Access */}
-                            <button
-                              type="button"
-                              onClick={() => handleResetAccess(user)}
-                              className="w-full flex items-center gap-3 px-4 py-2.5 text-xs text-nodeslix-muted hover:bg-white/[0.05] hover:text-white transition-colors"
-                            >
-                              <KeyRound size={13} className="text-amber-400/70 shrink-0" />
-                              Reset Access
-                            </button>
+                                {/* Change Password */}
+                                <button
+                                  type="button"
+                                  onClick={() => { setOpenMenu(null); setChangePasswordOpen(true); }}
+                                  className="w-full flex items-center gap-3 px-4 py-2.5 text-xs text-nodeslix-muted hover:bg-white/[0.05] hover:text-white transition-colors"
+                                >
+                                  <Lock size={13} className="text-amber-400/70 shrink-0" />
+                                  Change Password
+                                </button>
+                              </>
+                            ) : (
+                              <>
+                                {/* Edit Role */}
+                                <button
+                                  type="button"
+                                  onClick={() => handleEditRole(usrObj)}
+                                  className="w-full flex items-center gap-3 px-4 py-2.5 text-xs text-nodeslix-muted hover:bg-white/[0.05] hover:text-white transition-colors"
+                                >
+                                  <Shield size={13} className="text-violet-400/70 shrink-0" />
+                                  Edit Role
+                                </button>
 
-                            <div className="mx-3 border-t border-white/[0.07]" />
+                                {/* Reset Access */}
+                                <button
+                                  type="button"
+                                  onClick={() => handleResetAccess(usrObj)}
+                                  className="w-full flex items-center gap-3 px-4 py-2.5 text-xs text-nodeslix-muted hover:bg-white/[0.05] hover:text-white transition-colors"
+                                >
+                                  <KeyRound size={13} className="text-amber-400/70 shrink-0" />
+                                  Reset Access
+                                </button>
 
-                            {/* Deactivate */}
-                            <button
-                              type="button"
-                              onClick={() => handleDeactivate(user)}
-                              className="w-full flex items-center gap-3 px-4 py-2.5 text-xs text-red-400 hover:bg-red-500/10 transition-colors"
-                            >
-                              <UserX size={13} className="shrink-0" />
-                              Deactivate
-                            </button>
+                                <div className="mx-3 border-t border-white/[0.07]" />
+
+                                {/* Deactivate */}
+                                <button
+                                  type="button"
+                                  onClick={() => handleDeactivate(usrObj)}
+                                  className="w-full flex items-center gap-3 px-4 py-2.5 text-xs text-red-400 hover:bg-red-500/10 transition-colors"
+                                >
+                                  <UserX size={13} className="shrink-0" />
+                                  Deactivate
+                                </button>
+                              </>
+                            )}
                           </Motion.div>
                         )}
                       </AnimatePresence>

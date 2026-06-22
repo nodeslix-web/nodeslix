@@ -49,6 +49,11 @@ const searchIndex = [
 const Sidebar = ({ collapsed, onClose }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuth();
+
+  const displayName = user?.displayName ?? user?.email?.split('@')[0] ?? 'Admin';
+  const initials    = displayName.slice(0, 2).toUpperCase();
+  const photoURL    = user?.photoURL ?? null;
 
   const isActive = (path) =>
     path === '/dashboard'
@@ -139,13 +144,17 @@ const Sidebar = ({ collapsed, onClose }) => {
         {!collapsed ? (
           <div className="flex items-center gap-3">
             <div className="relative shrink-0">
-              <div className="flex size-9 items-center justify-center rounded-full bg-gradient-to-br from-nodeslix-accent/30 to-blue-600/30 text-nodeslix-accent text-sm font-bold border border-nodeslix-accent/20">
-                A
-              </div>
+              {photoURL ? (
+                <img src={photoURL} alt={displayName} className="size-9 rounded-full object-cover border border-nodeslix-accent/20" referrerPolicy="no-referrer" />
+              ) : (
+                <div className="flex size-9 items-center justify-center rounded-full bg-gradient-to-br from-nodeslix-accent/30 to-blue-600/30 text-nodeslix-accent text-sm font-bold border border-nodeslix-accent/20">
+                  {initials}
+                </div>
+              )}
               <span className="absolute -bottom-0.5 -right-0.5 block size-2.5 rounded-full bg-emerald-400 border-2 border-[#0c0c0c]" />
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-xs font-bold text-white leading-tight">Administrator</p>
+              <p className="text-xs font-bold text-white leading-tight truncate">{displayName}</p>
               <p className="text-[10px] text-emerald-400 font-medium">● Online</p>
             </div>
             <button
@@ -160,9 +169,13 @@ const Sidebar = ({ collapsed, onClose }) => {
         ) : (
           <div className="flex flex-col items-center gap-2">
             <div className="relative">
-              <div className="flex size-8 items-center justify-center rounded-full bg-gradient-to-br from-nodeslix-accent/30 to-blue-600/30 text-nodeslix-accent text-xs font-bold border border-nodeslix-accent/20">
-                A
-              </div>
+              {photoURL ? (
+                <img src={photoURL} alt={displayName} className="size-8 rounded-full object-cover border border-nodeslix-accent/20" referrerPolicy="no-referrer" />
+              ) : (
+                <div className="flex size-8 items-center justify-center rounded-full bg-gradient-to-br from-nodeslix-accent/30 to-blue-600/30 text-nodeslix-accent text-xs font-bold border border-nodeslix-accent/20">
+                  {initials}
+                </div>
+              )}
               <span className="absolute -bottom-0.5 -right-0.5 block size-2 rounded-full bg-emerald-400 border-2 border-[#0c0c0c]" />
             </div>
             <button
