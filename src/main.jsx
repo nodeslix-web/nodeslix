@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-router-dom';
 import MainLayout from './components/layout/MainLayout.jsx';
 import DashboardLayout from './components/layout/DashboardLayout.jsx';
+import ProtectedRoute from './components/auth/ProtectedRoute.jsx';
+import { AuthProvider } from './context/AuthContext.jsx';
 import Home from './pages/Home.jsx';
 import ProductPage from './pages/ProductPage.jsx';
+import LoginPage from './pages/LoginPage.jsx';
 import OverviewPage from './pages/dashboard/OverviewPage.jsx';
 import InfrastructurePage from './pages/dashboard/InfrastructurePage.jsx';
 import AIEnginePage from './pages/dashboard/AIEnginePage.jsx';
@@ -15,41 +18,61 @@ import UsersPage from './pages/dashboard/UsersPage.jsx';
 import SettingsPage from './pages/dashboard/SettingsPage.jsx';
 import './index.css';
 
+/**
+ * Root layout — lives inside the router so useNavigate works,
+ * but wraps every page with AuthProvider.
+ */
+const RootWithAuth = () => (
+  <AuthProvider>
+    <Outlet />
+  </AuthProvider>
+);
+
 const router = createBrowserRouter([
   {
-    /* ── Home site routes (Navbar + Footer) ── */
-    path: '/',
-    element: <MainLayout />,
+    /* ── Auth boundary (wraps entire app) ── */
+    element: <RootWithAuth />,
     children: [
       {
-        index: true,
-        element: <Home />,
+        /* ── Home site routes (Navbar + Footer) ── */
+        path: '/',
+        element: <MainLayout />,
+        children: [
+          { index: true,     element: <Home />        },
+          { path: 'product', element: <ProductPage /> },
+        ],
       },
       {
-        path: 'product',
-        element: <ProductPage />,
+        /* ── Standalone login page (no Navbar / Footer) ── */
+        path: '/login',
+        element: <LoginPage />,
+      },
+      {
+        /* ── Dashboard: protected, full-screen layout ── */
+        path: '/dashboard',
+        element: <ProtectedRoute />,
+        children: [
+          {
+            element: <DashboardLayout />,
+            children: [
+              { index: true,            element: <OverviewPage />       },
+              { path: 'infrastructure', element: <InfrastructurePage /> },
+              { path: 'ai-engine',      element: <AIEnginePage />       },
+              { path: 'operations',     element: <OperationsPage />     },
+              { path: 'topology',       element: <TopologyPage />       },
+              { path: 'analytics',      element: <AnalyticsPage />      },
+              { path: 'users',          element: <UsersPage />          },
+              { path: 'settings',       element: <SettingsPage />       },
+            ],
+          },
+        ],
+      },
+      {
+        /* ── Catch-all redirect ── */
+        path: '*',
+        element: <Navigate to="/" replace />,
       },
     ],
-  },
-  {
-    /* ── Dashboard: full-screen layout with persistent sidebar ── */
-    path: '/dashboard',
-    element: <DashboardLayout />,
-    children: [
-      { index: true,                 element: <OverviewPage />        },
-      { path: 'infrastructure',      element: <InfrastructurePage />  },
-      { path: 'ai-engine',           element: <AIEnginePage />        },
-      { path: 'operations',          element: <OperationsPage />      },
-      { path: 'topology',            element: <TopologyPage />        },
-      { path: 'analytics',           element: <AnalyticsPage />       },
-      { path: 'users',               element: <UsersPage />           },
-      { path: 'settings',            element: <SettingsPage />        },
-    ],
-  },
-  {
-    /* ── Catch-all redirect ── */
-    path: '*',
-    element: <Navigate to="/" replace />,
   },
 ]);
 

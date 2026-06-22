@@ -8,6 +8,7 @@ import {
   Settings, Sliders, Users, X, RefreshCw, User, Moon,
   HelpCircle, Command, Palette, Check
 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 /* ─── Nav items (links to nested routes) ─── */
 const navItems = [
@@ -241,6 +242,7 @@ const ToastContainer = () => {
 const TopNavbar = ({ onMenuClick, onLogout }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuth();
 
   const [aiOpen, setAiOpen] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
@@ -251,6 +253,12 @@ const TopNavbar = ({ onMenuClick, onLogout }) => {
   const [notifications, setNotifications] = useState(mockNotifications);
   const [lastSync, setLastSync] = useState('2 seconds ago');
   const [isRefreshing, setIsRefreshing] = useState(false);
+
+  /* Derive display name and initials from Firebase user */
+  const displayName = user?.displayName ?? user?.email?.split('@')[0] ?? 'Admin';
+  const initials    = displayName.slice(0, 2).toUpperCase();
+  const userEmail   = user?.email ?? 'admin@nodeslix.com';
+  const photoURL    = user?.photoURL ?? null;
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
@@ -514,10 +522,14 @@ const TopNavbar = ({ onMenuClick, onLogout }) => {
               profileOpen ? 'bg-white/10 border-white/20' : 'border-white/10 bg-white/[0.03] hover:border-white/20'
             }`}
           >
-            <div className="flex size-6 items-center justify-center rounded-full bg-gradient-to-br from-nodeslix-accent/30 to-blue-600/30 text-nodeslix-accent text-xs font-bold">
-              A
-            </div>
-            <span className="hidden sm:block text-xs font-medium text-white">Admin</span>
+            {photoURL ? (
+              <img src={photoURL} alt={displayName} className="size-6 rounded-full object-cover" referrerPolicy="no-referrer" />
+            ) : (
+              <div className="flex size-6 items-center justify-center rounded-full bg-gradient-to-br from-nodeslix-accent/30 to-blue-600/30 text-nodeslix-accent text-[10px] font-bold">
+                {initials}
+              </div>
+            )}
+            <span className="hidden sm:block text-xs font-medium text-white max-w-[100px] truncate">{displayName}</span>
             <ChevronDown size={11} className="text-nodeslix-muted" />
           </button>
           <AnimatePresence>
@@ -529,9 +541,18 @@ const TopNavbar = ({ onMenuClick, onLogout }) => {
                 transition={{ duration: 0.15 }}
                 className="absolute right-0 top-[calc(100%+12px)] w-52 rounded-2xl bg-[#141414] border border-white/10 shadow-2xl overflow-hidden z-50 py-1"
               >
-                <div className="px-4 py-3 border-b border-white/5 mb-1">
-                  <p className="text-xs font-bold text-white">Administrator</p>
-                  <p className="text-[10px] text-nodeslix-muted">admin@nodeslix.com</p>
+                <div className="px-4 py-3 border-b border-white/5 mb-1 flex items-center gap-3">
+                  {photoURL ? (
+                    <img src={photoURL} alt={displayName} className="size-8 rounded-full object-cover shrink-0" referrerPolicy="no-referrer" />
+                  ) : (
+                    <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-nodeslix-accent/30 to-blue-600/30 text-nodeslix-accent text-xs font-bold">
+                      {initials}
+                    </div>
+                  )}
+                  <div className="min-w-0">
+                    <p className="text-xs font-bold text-white truncate">{displayName}</p>
+                    <p className="text-[10px] text-nodeslix-muted truncate">{userEmail}</p>
+                  </div>
                 </div>
                 {[
                   { label: 'View Profile', icon: User, action: 'profile' },
@@ -870,6 +891,7 @@ const LogoutModal = ({ onClose, onConfirm }) => (
 const DashboardLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
@@ -898,9 +920,9 @@ const DashboardLayout = () => {
     };
   }, []);
 
-  const handleLogoutConfirm = () => {
+  const handleLogoutConfirm = async () => {
     setActiveModal(null);
-    navigate('/');
+    await logout(); // Firebase signOut → redirects to /login
   };
 
   // Close mobile drawer on route change
