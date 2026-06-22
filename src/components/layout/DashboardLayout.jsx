@@ -67,22 +67,17 @@ const Sidebar = ({ collapsed, onClose }) => {
     ].join(' ')}>
 
       {/* Logo */}
-      <div className={['flex items-center gap-3 border-b border-white/[0.07] shrink-0',
-        collapsed ? 'justify-center px-3 py-5' : 'px-6 py-5',
+      <div className={['flex items-center gap-3 border-b border-white/[0.07] shrink-0 justify-center',
+        collapsed ? 'justify-center px-1' : 'px-6 py-2',
       ].join(' ')}>
         <button
           type="button"
           onClick={() => navigate('/')}
-          className="flex items-center gap-3 cursor-pointer min-w-0"
+          className="flex items-center min-w-0 gap-3 cursor-pointer"
           aria-label="Go to homepage"
         >
-          <img src={logo} alt="NodeSlix Logo" className="h-9 w-auto object-contain shrink-0" />
-          {!collapsed && (
-            <div className="min-w-0">
-              <p className="text-sm font-bold text-white leading-tight truncate">NodeSlix</p>
-              <p className="text-[10px] text-nodeslix-muted/70 leading-tight truncate">AI Telecom Intelligence Platform</p>
-            </div>
-          )}
+          <img src={logo} alt="NodeSlix Logo" className="object-contain w-auto h-20 shrink-0" />
+          
         </button>
         {onClose && (
           <button onClick={onClose} className="ml-auto text-nodeslix-muted hover:text-white lg:hidden shrink-0">
@@ -145,23 +140,23 @@ const Sidebar = ({ collapsed, onClose }) => {
           <div className="flex items-center gap-3">
             <div className="relative shrink-0">
               {photoURL ? (
-                <img src={photoURL} alt={displayName} className="size-9 rounded-full object-cover border border-nodeslix-accent/20" referrerPolicy="no-referrer" />
+                <img src={photoURL} alt={displayName} className="object-cover border rounded-full size-9 border-nodeslix-accent/20" referrerPolicy="no-referrer" />
               ) : (
-                <div className="flex size-9 items-center justify-center rounded-full bg-gradient-to-br from-nodeslix-accent/30 to-blue-600/30 text-nodeslix-accent text-sm font-bold border border-nodeslix-accent/20">
+                <div className="flex items-center justify-center text-sm font-bold border rounded-full size-9 bg-gradient-to-br from-nodeslix-accent/30 to-blue-600/30 text-nodeslix-accent border-nodeslix-accent/20">
                   {initials}
                 </div>
               )}
               <span className="absolute -bottom-0.5 -right-0.5 block size-2.5 rounded-full bg-emerald-400 border-2 border-[#0c0c0c]" />
             </div>
-            <div className="min-w-0 flex-1">
-              <p className="text-xs font-bold text-white leading-tight truncate">{displayName}</p>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-bold leading-tight text-white truncate">{displayName}</p>
               <p className="text-[10px] text-emerald-400 font-medium">● Online</p>
             </div>
             <button
               type="button"
               title="Logout"
               onClick={() => document.dispatchEvent(new CustomEvent('open-logout'))}
-              className="text-nodeslix-muted hover:text-red-400 transition-colors shrink-0"
+              className="transition-colors text-nodeslix-muted hover:text-red-400 shrink-0"
             >
               <LogOut size={14} />
             </button>
@@ -170,9 +165,9 @@ const Sidebar = ({ collapsed, onClose }) => {
           <div className="flex flex-col items-center gap-2">
             <div className="relative">
               {photoURL ? (
-                <img src={photoURL} alt={displayName} className="size-8 rounded-full object-cover border border-nodeslix-accent/20" referrerPolicy="no-referrer" />
+                <img src={photoURL} alt={displayName} className="object-cover border rounded-full size-8 border-nodeslix-accent/20" referrerPolicy="no-referrer" />
               ) : (
-                <div className="flex size-8 items-center justify-center rounded-full bg-gradient-to-br from-nodeslix-accent/30 to-blue-600/30 text-nodeslix-accent text-xs font-bold border border-nodeslix-accent/20">
+                <div className="flex items-center justify-center text-xs font-bold border rounded-full size-8 bg-gradient-to-br from-nodeslix-accent/30 to-blue-600/30 text-nodeslix-accent border-nodeslix-accent/20">
                   {initials}
                 </div>
               )}
@@ -182,7 +177,7 @@ const Sidebar = ({ collapsed, onClose }) => {
               type="button"
               title="Logout"
               onClick={() => document.dispatchEvent(new CustomEvent('open-logout'))}
-              className="text-nodeslix-muted hover:text-red-400 transition-colors"
+              className="transition-colors text-nodeslix-muted hover:text-red-400"
             >
               <LogOut size={13} />
             </button>
@@ -238,7 +233,7 @@ const ToastContainer = () => {
             <button
               type="button"
               onClick={() => onRemove(t.id)}
-              className="shrink-0 flex size-5 items-center justify-center rounded-md text-nodeslix-muted/40 hover:text-white transition-colors"
+              className="flex items-center justify-center transition-colors rounded-md shrink-0 size-5 text-nodeslix-muted/40 hover:text-white"
             >
               <X size={11} />
             </button>
@@ -317,11 +312,11 @@ const TopNavbar = ({ onMenuClick, onLogout }) => {
   return (
     <header className="relative flex items-center justify-between h-16 px-6 border-b border-white/[0.07] bg-[#0a0a0a]/90 backdrop-blur-xl shrink-0 z-40">
       {/* Left */}
-      <div className="flex items-center gap-3 min-w-0">
+      <div className="flex items-center min-w-0 gap-3">
         <button
           type="button"
           onClick={onMenuClick}
-          className="lg:hidden flex items-center justify-center size-9 rounded-xl border border-white/10 text-nodeslix-muted hover:text-white hover:border-white/20 transition-colors shrink-0"
+          className="flex items-center justify-center transition-colors border lg:hidden size-9 rounded-xl border-white/10 text-nodeslix-muted hover:text-white hover:border-white/20 shrink-0"
         >
           <Menu size={16} />
         </button>
@@ -365,21 +360,21 @@ const TopNavbar = ({ onMenuClick, onLogout }) => {
                   <h3 className="text-sm font-bold text-white">AI System Status</h3>
                   <BrainCircuit size={14} className="text-nodeslix-accent" />
                 </div>
-                <div className="space-y-3 mb-4">
+                <div className="mb-4 space-y-3">
                   {[
                     { label: 'Telemetry Engine', status: 'Healthy', color: 'text-emerald-400' },
                     { label: 'Traffic Optimization', status: 'Running', color: 'text-nodeslix-accent' },
                     { label: 'Predictive Analytics', status: 'Running', color: 'text-nodeslix-accent' },
                     { label: 'Autonomous Orchestration', status: 'Active', color: 'text-emerald-400' },
                   ].map((s) => (
-                    <div key={s.label} className="flex justify-between items-center text-xs">
+                    <div key={s.label} className="flex items-center justify-between text-xs">
                       <span className="text-nodeslix-muted">{s.label}</span>
                       <span className={`font-semibold ${s.color}`}>{s.status}</span>
                     </div>
                   ))}
-                  <div className="flex justify-between items-center text-xs pt-2 border-t border-white/10">
+                  <div className="flex items-center justify-between pt-2 text-xs border-t border-white/10">
                     <span className="text-nodeslix-muted">Last Sync</span>
-                    <span className="text-white font-medium">{lastSync}</span>
+                    <span className="font-medium text-white">{lastSync}</span>
                   </div>
                 </div>
                 <div className="flex gap-2">
@@ -394,7 +389,7 @@ const TopNavbar = ({ onMenuClick, onLogout }) => {
                   </button>
                   <button
                     onClick={() => setAiOpen(false)}
-                    className="flex-1 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-xs font-semibold text-white transition-colors"
+                    className="flex-1 py-2 text-xs font-semibold text-white transition-colors rounded-lg bg-white/5 hover:bg-white/10"
                   >
                     Close
                   </button>
@@ -416,7 +411,7 @@ const TopNavbar = ({ onMenuClick, onLogout }) => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setSearchFocused(true)}
-              className="bg-transparent text-xs text-white placeholder-nodeslix-muted/40 outline-none w-28 focus:w-48 transition-all duration-300"
+              className="text-xs text-white transition-all duration-300 bg-transparent outline-none placeholder-nodeslix-muted/40 w-28 focus:w-48"
             />
           </div>
           <AnimatePresence>
@@ -438,14 +433,14 @@ const TopNavbar = ({ onMenuClick, onLogout }) => {
                         setSearchQuery('');
                         addToastEvent('Search navigated', `Went to ${item.title}`, Search, 'text-nodeslix-accent', 'bg-nodeslix-accent/15');
                       }}
-                      className="w-full flex items-center justify-between px-4 py-2 hover:bg-white/5 transition-colors text-left"
+                      className="flex items-center justify-between w-full px-4 py-2 text-left transition-colors hover:bg-white/5"
                     >
                       <span className="text-xs font-medium text-white">{item.title}</span>
                       <span className="text-[10px] text-nodeslix-muted">{item.type}</span>
                     </button>
                   ))
                 ) : (
-                  <div className="px-4 py-3 text-xs text-nodeslix-muted text-center">
+                  <div className="px-4 py-3 text-xs text-center text-nodeslix-muted">
                     No results found.
                   </div>
                 )}
@@ -499,7 +494,7 @@ const TopNavbar = ({ onMenuClick, onLogout }) => {
                     ))
                   ) : (
                     <div className="px-4 py-6 text-center">
-                      <Bell size={24} className="mx-auto text-nodeslix-muted/30 mb-2" />
+                      <Bell size={24} className="mx-auto mb-2 text-nodeslix-muted/30" />
                       <p className="text-xs text-nodeslix-muted">You're all caught up!</p>
                     </div>
                   )}
@@ -536,7 +531,7 @@ const TopNavbar = ({ onMenuClick, onLogout }) => {
             }`}
           >
             {photoURL ? (
-              <img src={photoURL} alt={displayName} className="size-6 rounded-full object-cover" referrerPolicy="no-referrer" />
+              <img src={photoURL} alt={displayName} className="object-cover rounded-full size-6" referrerPolicy="no-referrer" />
             ) : (
               <div className="flex size-6 items-center justify-center rounded-full bg-gradient-to-br from-nodeslix-accent/30 to-blue-600/30 text-nodeslix-accent text-[10px] font-bold">
                 {initials}
@@ -554,11 +549,11 @@ const TopNavbar = ({ onMenuClick, onLogout }) => {
                 transition={{ duration: 0.15 }}
                 className="absolute right-0 top-[calc(100%+12px)] w-52 rounded-2xl bg-[#141414] border border-white/10 shadow-2xl overflow-hidden z-50 py-1"
               >
-                <div className="px-4 py-3 border-b border-white/5 mb-1 flex items-center gap-3">
+                <div className="flex items-center gap-3 px-4 py-3 mb-1 border-b border-white/5">
                   {photoURL ? (
-                    <img src={photoURL} alt={displayName} className="size-8 rounded-full object-cover shrink-0" referrerPolicy="no-referrer" />
+                    <img src={photoURL} alt={displayName} className="object-cover rounded-full size-8 shrink-0" referrerPolicy="no-referrer" />
                   ) : (
-                    <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-nodeslix-accent/30 to-blue-600/30 text-nodeslix-accent text-xs font-bold">
+                    <div className="flex items-center justify-center text-xs font-bold rounded-full size-8 shrink-0 bg-gradient-to-br from-nodeslix-accent/30 to-blue-600/30 text-nodeslix-accent">
                       {initials}
                     </div>
                   )}
@@ -590,7 +585,7 @@ const TopNavbar = ({ onMenuClick, onLogout }) => {
                 
                 {/* Theme toggle dummy */}
                 <button
-                  className="w-full flex items-center justify-between px-4 py-2 text-xs text-nodeslix-muted hover:text-white hover:bg-white/5 transition-colors group"
+                  className="flex items-center justify-between w-full px-4 py-2 text-xs transition-colors text-nodeslix-muted hover:text-white hover:bg-white/5 group"
                 >
                   <div className="flex items-center gap-2.5">
                     <Moon size={13} />
@@ -693,16 +688,16 @@ const ViewProfileModal = ({ onClose }) => {
       >
         <div className="flex items-center justify-between px-6 py-5 border-b border-white/5">
           <h3 className="text-base font-bold text-white">View Profile</h3>
-          <button onClick={onClose} className="text-nodeslix-muted hover:text-white transition-colors">
+          <button onClick={onClose} className="transition-colors text-nodeslix-muted hover:text-white">
             <X size={16} />
           </button>
         </div>
-        <div className="p-6 flex flex-col items-center gap-4 border-b border-white/5">
+        <div className="flex flex-col items-center gap-4 p-6 border-b border-white/5">
           <div className="relative">
             {photoURL ? (
-              <img src={photoURL} alt={displayName} className="size-20 rounded-2xl object-cover border border-nodeslix-accent/20" referrerPolicy="no-referrer" />
+              <img src={photoURL} alt={displayName} className="object-cover border size-20 rounded-2xl border-nodeslix-accent/20" referrerPolicy="no-referrer" />
             ) : (
-              <div className="flex size-20 items-center justify-center rounded-2xl bg-gradient-to-br from-nodeslix-accent/30 to-blue-600/30 text-nodeslix-accent text-2xl font-bold border border-nodeslix-accent/20">
+              <div className="flex items-center justify-center text-2xl font-bold border size-20 rounded-2xl bg-gradient-to-br from-nodeslix-accent/30 to-blue-600/30 text-nodeslix-accent border-nodeslix-accent/20">
                 {initials}
               </div>
             )}
@@ -716,23 +711,23 @@ const ViewProfileModal = ({ onClose }) => {
         <div className="p-6 space-y-3.5">
           <div className="flex justify-between text-xs">
             <span className="text-nodeslix-muted">Status</span>
-            <span className="text-emerald-400 font-semibold">Online</span>
+            <span className="font-semibold text-emerald-400">Online</span>
           </div>
           <div className="flex justify-between text-xs">
             <span className="text-nodeslix-muted">Authentication Provider</span>
-            <span className="text-white font-medium">{provider}</span>
+            <span className="font-medium text-white">{provider}</span>
           </div>
           <div className="flex justify-between text-xs">
             <span className="text-nodeslix-muted">Account Created</span>
-            <span className="text-white font-medium">{created}</span>
+            <span className="font-medium text-white">{created}</span>
           </div>
           <div className="flex justify-between text-xs">
             <span className="text-nodeslix-muted">Last Login</span>
-            <span className="text-white font-medium">{lastLogin}</span>
+            <span className="font-medium text-white">{lastLogin}</span>
           </div>
           <div className="flex justify-between text-xs">
             <span className="text-nodeslix-muted">UID</span>
-            <span className="text-nodeslix-muted/80 font-mono select-all">{uid}</span>
+            <span className="font-mono select-all text-nodeslix-muted/80">{uid}</span>
           </div>
         </div>
         <div className="p-6 pt-0">
@@ -786,7 +781,7 @@ const AccountSettingsModal = ({ onClose }) => {
           </div>
           <div className="p-6 space-y-4">
             {error && (
-              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs">
+              <div className="p-3 text-xs text-red-400 border rounded-xl bg-red-500/10 border-red-500/20">
                 {error}
               </div>
             )}
@@ -878,7 +873,7 @@ const ChangePasswordModal = ({ onClose }) => {
           </div>
           <div className="p-6 space-y-4">
             {error && (
-              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs">
+              <div className="p-3 text-xs text-red-400 border rounded-xl bg-red-500/10 border-red-500/20">
                 {error}
               </div>
             )}
@@ -953,14 +948,14 @@ const PreferencesDrawer = ({ onClose }) => {
       >
         <div className="flex items-center justify-between px-6 py-5 border-b border-white/5 shrink-0">
           <h3 className="text-base font-bold text-white">Dashboard Preferences</h3>
-          <button onClick={onClose} className="text-nodeslix-muted hover:text-white transition-colors">
+          <button onClick={onClose} className="transition-colors text-nodeslix-muted hover:text-white">
             <X size={16} />
           </button>
         </div>
 
         <div className="flex-1 p-6 space-y-6">
           <div className="space-y-3">
-            <label className="text-xs font-semibold text-nodeslix-muted uppercase tracking-wider">Layout Mode</label>
+            <label className="text-xs font-semibold tracking-wider uppercase text-nodeslix-muted">Layout Mode</label>
             <div className="grid grid-cols-2 gap-3">
               {['Compact Mode', 'Expanded Mode'].map((m) => (
                 <button
@@ -979,8 +974,8 @@ const PreferencesDrawer = ({ onClose }) => {
           </div>
 
           <div className="space-y-3">
-            <label className="text-xs font-semibold text-nodeslix-muted uppercase tracking-wider">Widget Density</label>
-            <select className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none appearance-none">
+            <label className="text-xs font-semibold tracking-wider uppercase text-nodeslix-muted">Widget Density</label>
+            <select className="w-full px-4 py-3 text-sm text-white border rounded-lg appearance-none bg-white/5 border-white/10 focus:outline-none">
               <option>High Density</option>
               <option>Standard</option>
               <option>Spacious</option>
@@ -988,8 +983,8 @@ const PreferencesDrawer = ({ onClose }) => {
           </div>
 
           <div className="space-y-3">
-            <label className="text-xs font-semibold text-nodeslix-muted uppercase tracking-wider">Default Landing Page</label>
-            <select className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none appearance-none">
+            <label className="text-xs font-semibold tracking-wider uppercase text-nodeslix-muted">Default Landing Page</label>
+            <select className="w-full px-4 py-3 text-sm text-white border rounded-lg appearance-none bg-white/5 border-white/10 focus:outline-none">
               <option>Overview</option>
               <option>Topology</option>
               <option>Operations</option>
@@ -997,7 +992,7 @@ const PreferencesDrawer = ({ onClose }) => {
           </div>
         </div>
 
-        <div className="p-6 border-t border-white/5 shrink-0 flex gap-3">
+        <div className="flex gap-3 p-6 border-t border-white/5 shrink-0">
           <button onClick={onClose} className="flex-1 py-2.5 rounded-xl border border-white/10 bg-white/5 text-nodeslix-muted hover:text-white text-xs font-semibold transition-colors">
             Cancel
           </button>
@@ -1020,22 +1015,22 @@ const HelpCenterModal = ({ onClose }) => (
       className="w-full max-w-[500px] bg-[#0e0e0e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
     >
       <div className="flex items-center justify-between px-6 py-5 border-b border-white/5">
-        <h3 className="text-base font-bold text-white flex items-center gap-2">
+        <h3 className="flex items-center gap-2 text-base font-bold text-white">
           <HelpCircle size={18} className="text-nodeslix-accent" />
           Help Center
         </h3>
-        <button onClick={onClose} className="text-nodeslix-muted hover:text-white transition-colors">
+        <button onClick={onClose} className="transition-colors text-nodeslix-muted hover:text-white">
           <X size={16} />
         </button>
       </div>
-      <div className="p-6 grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4 p-6">
         {[
           { label: 'Documentation', desc: 'Platform guides', icon: Menu },
           { label: 'Support', desc: 'Contact 24/7 team', icon: Users },
           { label: 'Keyboard Shortcuts', desc: 'Speed up workflow', icon: Command },
           { label: 'System Version', desc: 'v3.12.1', icon: Server },
         ].map((item) => (
-          <button key={item.label} onClick={() => { addToastEvent(`Opened ${item.label}`, '', item.icon, 'text-nodeslix-accent', 'bg-nodeslix-accent/15'); onClose(); }} className="flex flex-col items-start gap-2 p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors text-left">
+          <button key={item.label} onClick={() => { addToastEvent(`Opened ${item.label}`, '', item.icon, 'text-nodeslix-accent', 'bg-nodeslix-accent/15'); onClose(); }} className="flex flex-col items-start gap-2 p-4 text-left transition-colors border rounded-xl border-white/10 bg-white/5 hover:bg-white/10">
             <item.icon size={20} className="text-nodeslix-muted" />
             <div>
               <p className="text-sm font-semibold text-white">{item.label}</p>
@@ -1057,11 +1052,11 @@ const LogoutModal = ({ onClose, onConfirm }) => (
       onClick={(e) => e.stopPropagation()}
       className="w-full max-w-[360px] bg-[#0e0e0e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden text-center p-6"
     >
-      <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-red-500/10 border border-red-500/20 mb-4">
+      <div className="flex items-center justify-center mx-auto mb-4 border rounded-full size-12 bg-red-500/10 border-red-500/20">
         <LogOut size={20} className="text-red-400" />
       </div>
-      <h3 className="text-lg font-bold text-white mb-2">Sign out?</h3>
-      <p className="text-sm text-nodeslix-muted mb-6">Are you sure you want to end your session? You will be returned to the home screen.</p>
+      <h3 className="mb-2 text-lg font-bold text-white">Sign out?</h3>
+      <p className="mb-6 text-sm text-nodeslix-muted">Are you sure you want to end your session? You will be returned to the home screen.</p>
       
       <div className="flex gap-3">
         <button onClick={onClose} className="flex-1 py-2.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-white text-xs font-semibold transition-colors">
@@ -1131,7 +1126,7 @@ const DashboardLayout = () => {
   }, [sidebarOpen]);
 
   return (
-    <div className="flex h-screen bg-nodeslix-primary overflow-hidden">
+    <div className="flex h-screen overflow-hidden bg-nodeslix-primary">
       
       {/* ── GLOBAL TOASTS ── */}
       <ToastContainer />
@@ -1148,7 +1143,7 @@ const DashboardLayout = () => {
 
       {/* ── DESKTOP SIDEBAR ── */}
       <div
-        className="hidden lg:flex flex-col flex-shrink-0 h-full transition-all duration-300 relative z-30"
+        className="relative z-30 flex-col flex-shrink-0 hidden h-full transition-all duration-300 lg:flex"
         style={{ width: sidebarCollapsed ? 70 : 280 }}
       >
         <Sidebar collapsed={sidebarCollapsed} />
@@ -1181,7 +1176,7 @@ const DashboardLayout = () => {
       </AnimatePresence>
 
       {/* ── RIGHT SIDE ── */}
-      <div className="flex flex-col flex-1 min-w-0 h-full relative z-20">
+      <div className="relative z-20 flex flex-col flex-1 h-full min-w-0">
 
         {/* Top Navbar */}
         <TopNavbar onMenuClick={() => setSidebarOpen(true)} />
@@ -1199,7 +1194,7 @@ const DashboardLayout = () => {
         </div>
 
         {/* ── PAGE CONTENT (Outlet) ── */}
-        <main className="flex-1 overflow-y-auto z-10">
+        <main className="z-10 flex-1 overflow-y-auto">
           <AnimatePresence mode="wait">
             <Motion.div
               key={location.pathname}
