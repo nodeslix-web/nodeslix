@@ -1,326 +1,213 @@
 # 🚀 NodeSlix - AI-Powered Telecom Intelligence Platform
 
-![React](https://img.shields.io/badge/React-19-blue?logo=react)
-![Firebase](https://img.shields.io/badge/Firebase-Authentication-orange?logo=firebase)
-![Stripe](https://img.shields.io/badge/Stripe-Sandbox-purple?logo=stripe)
-![Cloudflare](https://img.shields.io/badge/Cloudflare-Turnstile-orange?logo=cloudflare)
-![Chatwoot](https://img.shields.io/badge/Chatwoot-Live_Chat-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![Firebase](https://img.shields.io/badge/Firebase-Auth-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/)
+[![Stripe](https://img.shields.io/badge/Stripe-Sandbox-635BFF?style=for-the-badge&logo=stripe&logoColor=white)](https://stripe.com/)
+[![Cloudflare](https://img.shields.io/badge/Cloudflare-Turnstile-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)](https://www.cloudflare.com/)
+[![Chatwoot](https://img.shields.io/badge/Chatwoot-Live_Chat-1F93FF?style=for-the-badge&logo=chatwoot&logoColor=white)](https://www.chatwoot.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-> **NodeSlix** is an AI-powered telecom intelligence platform designed to visualize, monitor, and optimize next-generation network infrastructures using modern web technologies.
-
----
-
-# 📖 Overview
-
-NodeSlix provides a modern enterprise experience for managing telecom infrastructure operations through intelligent dashboards, AI-powered optimization workflows, infrastructure monitoring, and analytics visualization.
-
-The platform is designed to simulate real-world telecom operational environments while delivering an intuitive and responsive user experience.
+> **NodeSlix** is an enterprise-grade AI-powered telecom intelligence platform built to monitor, analyze, and orchestrate next-generation distributed telecom infrastructure at scale.
 
 ---
 
-# ✨ Features
+## 📖 Overview
+
+NodeSlix provides telecom operators and network engineers with a premium visual workspace to track network health, deploy autonomous AI-driven traffic optimization pipelines, and visualize core network topologies. By combining real-time telemetry simulators with secure payment authentication and dynamic assistant chat, NodeSlix demonstrates a production-ready software-as-a-service (SaaS) architecture for telecom infrastructure scaling.
+
+---
+
+## ✨ Features
 
 ### 🏠 Home Experience
-
-* Modern Hero Section
-* Interactive Architecture Visualization
-* Product Overview
-* Workflow Demonstration
-* Pricing Packages
-* Contact Form Integration
-* Cookie Consent Management
+* **Hero Dashboard**: A premium, high-impact introductory fold featuring animated visualizers and clear product value propositions.
+* **Product Overview**: Side-by-side solutions showcasing network challenge metrics and automated resolutions.
+* **Core Capabilities Grid**: Staggered interactive highlight cards with active status pulsing.
+* **3D Network Mesh & Architecture Flow**: Interactive tabs showing Core Network, 5G Towers, Edge Gateways, and Mesh Nodes.
+* **Operational Workflow Summary**: Visual process steps mapping monitor-to-optimization stages.
 
 ### 📦 Product Experience
-
-* Product Showcase
-* Module Exploration
-* Operational Pipeline
-* Capability Highlights
+* **Module Deep-Dives**: Expanded capabilities breakdown including predictive intelligence models.
+* **Interactive Command Center Panel**: An inline live-simulated terminal for operating test commands.
 
 ### 🔐 Authentication
-
-* Firebase Email Authentication
-* Google Authentication
-* Protected Dashboard Routes
-* Session Persistence
+* **Email & Password Authentication**: Secured via Firebase Authentication SDK.
+* **Google OAuth Sign-In**: Quick identity provider integration for telecom operators.
+* **Session Persistence**: Automatic route protection via a global React Context provider.
 
 ### 🖥️ Dashboard
+* **Protected Command Center Layout**: A full-scale operator viewport restricted to authenticated accounts.
+* **8 Core Dashboard Modules**: Complete visual modules mapping key operations (see Dashboard Modules section below).
 
-* Overview Dashboard
-* Infrastructure Monitoring
-* AI Engine Visualization
-* Operations Center
-* Network Topology
-* Analytics Dashboard
-* User Management
-* Settings Management
+### 💳 Stripe Sandbox Payments
+* **Redirection Flow**: Checks login state and routes users to Stripe-hosted Sandbox checkout pages.
+* **Billing Toggle**: Seamless switch between Monthly and Yearly options displaying derived discounted prices.
+* **Feedback Pages**: Premium, animated `/payment-success` and `/payment-cancelled` feedback screens.
 
-### 💳 Payment System
-
-* Stripe Sandbox Integration
-* Pricing Plans
-* Hosted Checkout Redirection
-
-### 📞 Communication
-
-* Formspree Contact Form
-* Chatwoot Live Support Widget
-
-### 🛡️ Security
-
-* Cloudflare Turnstile
-* Protected Dashboard Access
+### 📞 Communication & Security
+* **Formspree Contact Form**: Asynchronous support form utilizing Cloudflare Turnstile token validation to filter automated submissions.
+* **Chatwoot Live Widget**: Clean global lazy-loaded assistant widget with custom branding, positioned neatly at the bottom right.
 
 ---
 
-# 🏗️ Project Architecture
+## 🏗️ Application Flow
 
 ```text
-Home
-
-↓
-
-Product
-
-↓
-
-Pricing
-
-↓
-
-Login
-
-↓
-
-Stripe Checkout
-
-↓
-
-Payment Success
-
-↓
-
-Dashboard
+       ┌──────────────┐
+       │  Home Page   │
+       └──────┬───────┘
+              │
+              ▼
+       ┌──────────────┐
+       │ Product Page │
+       └──────┬───────┘
+              │
+              ▼
+       ┌──────────────┐
+       │ Pricing Sec  |
+       └──────┬───────┘        
+              │ 
+              │        
+              │       
+              │        
+              │         
+              ▼   
+       ┌──────────────────────────────┐
+       │ Stripe Sandbox Hosted Links  │
+       └──────────────┬───────────────┘
+                      │
+            ┌─────────┴─────────┐
+            ▼                   ▼
+    ┌──────────────┐    ┌──────────────┐
+    │ Payment Succ │    │ Payment Canc │
+    └──────┬───────┘    └──────┬───────┘
+           │                   │
+           ▼                   ▼
+    ┌──────────────┐    ┌──────────────┐
+    │  Dashboard   │    │ Pricing Sec  │
+    └──────────────┘    └──────────────┘
 ```
 
 ---
 
-# 🧠 AI Workflow
+## 🛠️ Tech Stack
 
-```text
-5G Infrastructure
-
-↓
-
-Network Telemetry
-
-↓
-
-AI Optimization Engine
-
-↓
-
-Predictive Analytics
-
-↓
-
-Autonomous Orchestration
-
-↓
-
-Infrastructure Health Monitoring
-```
+| Category | Technology | Purpose |
+| :--- | :--- | :--- |
+| **Frontend Framework** | React.js (latest) | Component-driven UI rendering |
+| **Styles** | Tailwind CSS + CSS Variables | Premium glassmorphic design & typography |
+| **Animations** | Framer Motion | Smooth page reveals, card flips, and glows |
+| **Icons** | Lucide React | Minimalist UI vector icons |
+| **Authentication** | Firebase Auth | Secure identity and session persistence |
+| **Payments** | Stripe Sandbox | Production-ready checkout link redirection |
+| **Bot Protection** | Cloudflare Turnstile | Captcha-less spam prevention |
+| **Support Chat** | Chatwoot Web SDK | Dynamic lazy-loaded assistant communication |
+| **Contact Submissions** | Formspree | Serverless support ticketing |
+| **Routing** | React Router DOM | Declarative client-side navigation |
 
 ---
 
-# 🛠️ Tech Stack
 
-| Category       | Technology              |
-| -------------- | ----------------------- |
-| Frontend       | React.js (ES6+)         |
-| Styling        | Tailwind CSS            |
-| Animations     | Framer Motion           |
-| Icons          | Lucide React            |
-| Authentication | Firebase Authentication |
-| Contact Form   | Formspree               |
-| Payments       | Stripe Sandbox          |
-| Bot Protection | Cloudflare Turnstile    |
-| Live Chat      | Chatwoot                |
-| Routing        | React Router DOM        |
+## 🖥️ Dashboard Modules
+
+* **Overview**: Operations status feeds and aggregate telemetry analytics.
+* **Infrastructure**: Real-time signal graphs mapping tower nodes and latency limits.
+* **AI Engine**: Node weight calculators and route optimization simulations.
+* **Operations**: Active process tasks logs showing optimization triggers.
+* **Topology**: Node connection maps tracking active node linkages.
+* **Analytics**: Core telemetry history charting CPU load and packet drop.
+* **Users**: Operator directory displaying the authenticated profile (badge: *You*) alongside simulated users.
+* **Settings**: Password changes, custom UI adjustments, and basic account profile controls.
 
 ---
 
-# 📁 Project Structure
+## 🔌 External Integrations
 
-```text
-src/
-
-components/
-
-pages/
-
-dashboard/
-
-layouts/
-
-contexts/
-
-firebase/
-
-data/
-
-assets/
-
-hooks/
-
-utils/
-
-App.jsx
-```
+* **Firebase Authentication**: Implements standard email authentication and Google OAuth sign-in.
+* **Stripe Sandbox**: Pre-configured Hosted Checkout links connected to professional SaaS tiers.
+* **Cloudflare Turnstile**: Zero-friction captcha validation protecting Formspree API contact routes.
+* **Chatwoot Widget**: Lazy-loaded script using a custom container matching the styling system.
 
 ---
 
-# 🚀 Installation
+## 🚀 Installation & Setup
 
-Clone the repository:
+### Prerequisites
+* [Node.js](https://nodejs.org/) (v18 or higher recommended)
+* `npm` (packaged by default with Node.js)
 
+### Step 1: Clone the repository
 ```bash
 git clone https://github.com/your-username/nodeslix.git
-
 cd nodeslix
 ```
 
-Install dependencies:
-
+### Step 2: Install dependencies
 ```bash
 npm install
 ```
 
-Run the development server:
+### Step 3: Configure Environment Variables
+Create a `.env` file in the root directory:
+```env
+# Firebase Configuration
+VITE_FIREBASE_API_KEY=your_firebase_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
+VITE_FIREBASE_PROJECT_ID=your_firebase_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_firebase_sender_id
+VITE_FIREBASE_APP_ID=your_firebase_app_id
+VITE_FIREBASE_MEASUREMENT_ID=your_firebase_measurement_id
 
+# Cloudflare Turnstile Verification
+VITE_TURNSTILE_SITE_KEY=your_turnstile_site_key
+
+# Chatwoot Chat Integration
+VITE_CHATWOOT_BASE_URL=https://app.chatwoot.com
+VITE_CHATWOOT_WEBSITE_TOKEN=AJG5jjXGEgtiN5srA6RF6dSb
+```
+
+### Step 4: Run the application
+Start the Vite development server:
 ```bash
 npm run dev
 ```
 
-Build for production:
-
+Build the optimized production assets:
 ```bash
 npm run build
 ```
 
-Preview production build:
+---
 
-```bash
-npm run preview
-```
+## 🖼️ Screenshots
+
+* **Hero Interface**: `[Placeholder: /public/screenshots/hero.png]`
+* **Product Catalog**: `[Placeholder: /public/screenshots/product.png]`
+* **Pricing & checkout plans**: `[Placeholder: /public/screenshots/pricing.png]`
+* **Operator Console (Dashboard)**: `[Placeholder: /public/screenshots/dashboard.png]`
+* **Analytics Panel**: `[Placeholder: /public/screenshots/analytics.png]`
+* **Operator Registration**: `[Placeholder: /public/screenshots/auth.png]`
 
 ---
 
-# 🔐 Environment Variables
+## 🌐 Official Links
 
-Create a `.env` file.
-
-```env
-# Firebase
-
-VITE_FIREBASE_API_KEY=
-
-VITE_FIREBASE_AUTH_DOMAIN=
-
-VITE_FIREBASE_PROJECT_ID=
-
-VITE_FIREBASE_STORAGE_BUCKET=
-
-VITE_FIREBASE_MESSAGING_SENDER_ID=
-
-VITE_FIREBASE_APP_ID=
-
-# Cloudflare Turnstile
-
-VITE_TURNSTILE_SITE_KEY=
-
-# Chatwoot
-
-VITE_CHATWOOT_BASE_URL=https://app.chatwoot.com
-
-VITE_CHATWOOT_WEBSITE_TOKEN=
-```
-
-> Never commit secret keys or sensitive credentials to GitHub.
+* **𝕏 (Twitter)**: [https://x.com/NodeSlix](https://x.com/NodeSlix)
+* **📘 Facebook**: [https://www.facebook.com/NodeSlix/](https://www.facebook.com/NodeSlix/)
+* **📌 Pinterest**: [https://www.pinterest.com/NodeSlix/](https://www.pinterest.com/NodeSlix/)
+* **▶️ YouTube**: [https://www.youtube.com/@NodeSlix](https://www.youtube.com/@NodeSlix)
 
 ---
 
-# 💳 Pricing Plans
+## 👨‍💻 Developer Information
 
-### Starter
-
-* 5 Infrastructure Sources
-* Basic Monitoring
-* 5 Team Members
-* 24 Hour Analytics
-
-### Professional ⭐
-
-* Unlimited Monitoring
-* AI Optimization Engine
-* 50 Team Members
-* Advanced Analytics
-* Priority Support
-
-### Enterprise
-
-* Unlimited Everything
-* Dedicated AI Engine
-* Multi-Region Deployment
-* Dedicated Support
+* **Developer Name**: Pavith Nimantha
+* **Role**: Junior Web Developer
+* **Company**: Altitude1
 
 ---
 
-# 🌐 Official Links
+## 📝 License
 
-### 𝕏 Twitter
-
-https://x.com/NodeSlix
-
-### 📘 Facebook
-
-https://www.facebook.com/NodeSlix/
-
-### 📌 Pinterest
-
-https://www.pinterest.com/NodeSlix/
-
-### ▶️ YouTube
-
-https://www.youtube.com/@NodeSlix
-
----
-
-# 👨‍💻 Developed By
-
-**Pavith Nimantha**
-
-Junior Web Developer
-
-Altitude1
-
----
-
-# 📝 License
-
-This project is licensed under the MIT License.
-
----
-
-# ⭐ Acknowledgements
-
-* React
-* Firebase
-* Stripe
-* Cloudflare
-* Chatwoot
-* Formspree
-* Framer Motion
-* Lucide React
-* Tailwind CSS
+This project is licensed under the **MIT License**. See the LICENSE file for details.
