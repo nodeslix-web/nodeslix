@@ -1,98 +1,46 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, Shield, CreditCard, Zap, Globe, ArrowRight } from 'lucide-react';
-
-const plansData = [
-  {
-    id: 'starter',
-    name: 'Starter',
-    description: 'Ideal for learning and small-scale deployments.',
-    monthlyPrice: '$0',
-    yearlyPrice: '$0',
-    monthlyInterval: 'Forever',
-    yearlyInterval: 'Forever',
-    monthlyStripeId: '',
-    yearlyStripeId: '',
-    features: [
-      '5 infrastructure sources',
-      'Basic monitoring',
-      '5 team members',
-      '24-hour analytics history',
-      'Email support'
-    ],
-    isPopular: false,
-    buttonLabel: 'Get Started',
-    href: '/product'
-  },
-  {
-    id: 'professional',
-    name: 'Professional',
-    description: 'Built for growing telecom operations.',
-    monthlyPrice: '$29',
-    yearlyPrice: '$24',
-    monthlyInterval: 'Per Month',
-    yearlyInterval: 'Per Month',
-    monthlyStripeId: '',
-    yearlyStripeId: '',
-    features: [
-      'Unlimited monitoring',
-      'AI optimization engine',
-      '50 team members',
-      'Topology visualizer',
-      'Advanced analytics',
-      'Priority support'
-    ],
-    isPopular: true,
-    buttonLabel: 'Start Professional',
-    href: '/product'
-  },
-  {
-    id: 'enterprise',
-    name: 'Enterprise',
-    description: 'For large-scale telecom infrastructure.',
-    monthlyPrice: 'Custom',
-    yearlyPrice: 'Custom',
-    monthlyInterval: '',
-    yearlyInterval: '',
-    monthlyStripeId: '',
-    yearlyStripeId: '',
-    features: [
-      'Unlimited everything',
-      'Dedicated AI engine',
-      'Unlimited users',
-      'Multi-region deployment',
-      'Dedicated support',
-      'Custom integrations'
-    ],
-    isPopular: false,
-    buttonLabel: 'Contact Sales',
-    href: '#contact'
-  }
-];
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import { pricingPlans } from '../../data/pricingPlans';
+import { Check, Shield, CreditCard, Zap, Globe, ArrowRight, Lock } from 'lucide-react';
 
 const trustItems = [
   { icon: Shield, label: 'Secure Payments' },
-  { icon: CreditCard, label: 'Stripe Ready' },
-  { icon: Zap, label: 'Instant Activation' },
-  { icon: Globe, label: 'Global Availability' }
+  { icon: CreditCard, label: 'Stripe Sandbox' },
+  { icon: Lock, label: 'Encrypted Checkout' },
+  { icon: Zap, label: 'Instant Activation' }
 ];
 
 export default function Pricing() {
   const [isYearly, setIsYearly] = useState(false);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
-  // Map elements so they match the exact Stripe-ready architecture properties requested
-  const plans = plansData.map(plan => ({
-    id: plan.id,
-    name: plan.name,
-    description: plan.description,
-    price: isYearly ? plan.yearlyPrice : plan.monthlyPrice,
-    interval: isYearly ? plan.yearlyInterval : plan.monthlyInterval,
-    stripePriceId: isYearly ? plan.yearlyStripeId : plan.monthlyStripeId,
-    features: plan.features,
-    isPopular: plan.isPopular,
-    buttonLabel: plan.buttonLabel,
-    href: plan.href
-  }));
+  const handlePlanClick = (plan, e) => {
+    e.preventDefault();
+    if (user) {
+      window.location.href = plan.stripeLink;
+    } else {
+      navigate('/login');
+    }
+  };
+
+  // Keep monthly/yearly toggle as UI calculation helper (20% off Profesional is $24, Starter $0, Enterprise Custom)
+  const getDisplayPrice = (plan) => {
+    if (plan.id === 'professional') {
+      return isYearly ? '$24' : `$${plan.price}`;
+    }
+    if (plan.id === 'starter') {
+      return '$0';
+    }
+    return plan.price; // Custom
+  };
+
+  const getDisplayInterval = (plan) => {
+    if (plan.id === 'starter') return 'Forever';
+    return plan.interval === 'monthly' ? 'Per Month' : plan.interval;
+  };
 
   return (
     <section id="pricing" className="section-shell scroll-mt-20 bg-[#0A0A0A] text-white">
@@ -145,7 +93,7 @@ export default function Pricing() {
 
         {/* Pricing Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
-          {plans.map((plan, index) => {
+          {pricingPlans.map((plan, index) => {
             const isProfessional = plan.isPopular;
             
             return (
@@ -186,11 +134,11 @@ export default function Pricing() {
                   {/* Price */}
                   <div className="py-4 border-y border-white/5 flex items-baseline gap-2">
                     <span className="text-4xl md:text-5xl font-extrabold tracking-tight text-white">
-                      {plan.price}
+                      {getDisplayPrice(plan)}
                     </span>
-                    {plan.interval && (
+                    {plan.price !== 'Custom' && (
                       <span className="text-sm font-semibold text-nodeslix-muted uppercase tracking-wider">
-                        / {plan.interval}
+                        / {getDisplayInterval(plan)}
                       </span>
                     )}
                   </div>
@@ -208,8 +156,8 @@ export default function Pricing() {
 
                 {/* Call To Action */}
                 <div className="mt-8 pt-4">
-                  <a
-                    href={plan.href}
+                  <button
+                    onClick={(e) => handlePlanClick(plan, e)}
                     className={`w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-bold transition-all duration-200 cursor-pointer ${
                       isProfessional
                         ? 'bg-[#00D4FF] text-[#080808] hover:bg-[#7CEBFF] shadow-[0_10px_30px_rgba(0,212,255,0.25)]'
@@ -218,7 +166,7 @@ export default function Pricing() {
                   >
                     <span>{plan.buttonLabel}</span>
                     <ArrowRight className="h-4 w-4" />
-                  </a>
+                  </button>
                 </div>
               </motion.div>
             );

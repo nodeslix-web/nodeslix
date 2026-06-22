@@ -17,6 +17,8 @@ import TopologyPage from './pages/dashboard/TopologyPage.jsx';
 import AnalyticsPage from './pages/dashboard/AnalyticsPage.jsx';
 import UsersPage from './pages/dashboard/UsersPage.jsx';
 import SettingsPage from './pages/dashboard/SettingsPage.jsx';
+import PaymentSuccess from './pages/PaymentSuccess.jsx';
+import PaymentCancelled from './pages/PaymentCancelled.jsx';
 import './index.css';
 
 /**
@@ -52,6 +54,15 @@ const router = createBrowserRouter([
         /* ── Standalone register page (no Navbar / Footer) ── */
         path: '/register',
         element: <RegisterPage />,
+      },
+      {
+        /* ── Payment feedback landing pages (no Navbar / Footer) ── */
+        path: '/payment-success',
+        element: <PaymentSuccess />,
+      },
+      {
+        path: '/payment-cancelled',
+        element: <PaymentCancelled />,
       },
       {
         /* ── Dashboard: protected, full-screen layout ── */
