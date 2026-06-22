@@ -19,6 +19,7 @@ import UsersPage from './pages/dashboard/UsersPage.jsx';
 import SettingsPage from './pages/dashboard/SettingsPage.jsx';
 import PaymentSuccess from './pages/PaymentSuccess.jsx';
 import PaymentCancelled from './pages/PaymentCancelled.jsx';
+import ChatwootWidget from './components/ChatwootWidget.jsx';
 import './index.css';
 
 /**
@@ -28,6 +29,7 @@ import './index.css';
 const RootWithAuth = () => (
   <AuthProvider>
     <Outlet />
+    <ChatwootWidget />
   </AuthProvider>
 );
 
