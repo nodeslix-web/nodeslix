@@ -175,7 +175,7 @@ const CommandCenterPanel = () => {
                 ].join(' ')}
               >
                 {typeof Icon === 'string' ? (
-                  <img src={Icon} className="w-[17px] h-[17px] opacity-90 object-contain text-[#7BE7FF]" aria-hidden="true" />
+                  <img src={Icon} className="w-[30px] h-[30px] opacity-90 object-contain text-[#7BE7FF]" aria-hidden="true" />
                 ) : (
                   <Icon size={17} className="text-[#7BE7FF]" />
                 )}

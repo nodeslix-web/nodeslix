@@ -166,7 +166,7 @@ const Workflow = () => {
                   </span>
                   <span className="flex items-center justify-center transition-colors border size-9 rounded-xl bg-nodeslix-accent/5 text-nodeslix-accent border-nodeslix-accent/15 group-hover:bg-nodeslix-accent/10">
                     {typeof Icon === 'string' ? (
-                      <img src={Icon} className="w-5 h-5 opacity-90 object-contain" aria-hidden="true" />
+                      <img src={Icon} className="object-contain w-6 h-6 opacity-90" aria-hidden="true" />
                     ) : (
                       <Icon size={18} />
                     )}
@@ -282,7 +282,7 @@ const Workflow = () => {
                 {/* Timeline Node Icon */}
                 <div className="absolute left-[-22px] top-1.5 z-10 flex size-7 items-center justify-center rounded-full bg-[#0A0A0A] border border-nodeslix-accent/40 text-nodeslix-accent">
                   {typeof Icon === 'string' ? (
-                    <img src={Icon} className="w-3 h-3 opacity-90 object-contain" aria-hidden="true" />
+                    <img src={Icon} className="object-contain w-3 h-3 opacity-90" aria-hidden="true" />
                   ) : (
                     <Icon size={12} />
                   )}

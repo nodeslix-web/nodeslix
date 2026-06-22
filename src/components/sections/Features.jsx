@@ -120,7 +120,7 @@ const Features = () => {
                     className="flex items-center justify-center transition-colors duration-300 border size-12 rounded-2xl border-white/10 bg-nodeslix-accent/10 text-nodeslix-accent group-hover:bg-nodeslix-accent/20"
                   >
                     {typeof Icon === 'string' ? (
-                      <img src={Icon} className="object-contain w-5 h-5 opacity-90 text-nodeslix-accent" aria-hidden="true" />
+                      <img src={Icon} className="object-contain w-8 h-8 opacity-90 text-nodeslix-accent" aria-hidden="true" />
                     ) : (
                       <Icon size={20} />
                     )}

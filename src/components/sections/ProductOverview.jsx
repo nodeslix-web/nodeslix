@@ -147,7 +147,7 @@ const ProductOverview = () => (
                     : 'border-white/10 bg-white/[0.04] text-nodeslix-accent/80',
                 ].join(' ')}>
                   {typeof Icon === 'string' ? (
-                    <img src={Icon} className="w-5 h-5 opacity-90 object-contain" aria-hidden="true" />
+                    <img src={Icon} className="object-contain w-8 h-8 opacity-90" aria-hidden="true" />
                   ) : (
                     <Icon size={20} aria-hidden="true" />
                   )}
