@@ -8,6 +8,7 @@ import { AuthProvider } from './context/AuthContext.jsx';
 import Home from './pages/Home.jsx';
 import ProductPage from './pages/ProductPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
+import RegisterPage from './pages/RegisterPage.jsx';
 import OverviewPage from './pages/dashboard/OverviewPage.jsx';
 import InfrastructurePage from './pages/dashboard/InfrastructurePage.jsx';
 import AIEnginePage from './pages/dashboard/AIEnginePage.jsx';
@@ -46,6 +47,11 @@ const router = createBrowserRouter([
         /* ── Standalone login page (no Navbar / Footer) ── */
         path: '/login',
         element: <LoginPage />,
+      },
+      {
+        /* ── Standalone register page (no Navbar / Footer) ── */
+        path: '/register',
+        element: <RegisterPage />,
       },
       {
         /* ── Dashboard: protected, full-screen layout ── */

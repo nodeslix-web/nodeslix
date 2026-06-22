@@ -2,10 +2,13 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 import { useNavigate } from 'react-router-dom';
 import {
   GoogleAuthProvider,
+  createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile,
+  updatePassword,
 } from 'firebase/auth';
 import { auth } from '../firebase/config';
 
@@ -18,7 +21,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const navigate              = useNavigate();
 
-  /* Listen to Firebase auth state */
+  /* Listen to Firebase auth state — handles session persistence automatically */
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       setUser(firebaseUser);
@@ -32,7 +35,16 @@ export const AuthProvider = ({ children }) => {
     signInWithEmailAndPassword(auth, email, password),
   []);
 
-  /* Google sign-in */
+  /* Email / Password registration with display name */
+  const register = useCallback(async (email, password, displayName) => {
+    const credential = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(credential.user, { displayName });
+    // Refresh the user object so displayName is immediately available
+    setUser({ ...credential.user, displayName });
+    return credential;
+  }, []);
+
+  /* Google sign-in (works for both login and register) */
   const loginWithGoogle = useCallback(() => {
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: 'select_account' });
@@ -45,7 +57,21 @@ export const AuthProvider = ({ children }) => {
     navigate('/login', { replace: true });
   }, [navigate]);
 
-  const value = { user, loading, login, loginWithGoogle, logout };
+  /* Update Profile */
+  const updateUserProfile = useCallback(async (displayName, photoURL) => {
+    if (!auth.currentUser) throw new Error('No user is currently logged in');
+    await updateProfile(auth.currentUser, { displayName, photoURL });
+    setUser({ ...auth.currentUser });
+  }, []);
+
+  /* Update Password */
+  const updateUserPassword = useCallback(async (newPassword) => {
+    if (!auth.currentUser) throw new Error('No user is currently logged in');
+    await updatePassword(auth.currentUser, newPassword);
+    setUser({ ...auth.currentUser });
+  }, []);
+
+  const value = { user, loading, login, register, loginWithGoogle, logout, updateUserProfile, updateUserPassword };
 
   return (
     <AuthContext.Provider value={value}>

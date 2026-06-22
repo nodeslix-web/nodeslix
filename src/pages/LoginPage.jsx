@@ -363,6 +363,12 @@ const LoginPage = () => {
 
           {/* Footer links */}
           <div className="mt-8 text-center space-y-2">
+            <p className="text-xs text-white/30">
+              Don't have an account?{' '}
+              <Link to="/register" className="text-[#00D8FF]/70 hover:text-[#00D8FF] font-semibold transition-colors">
+                Sign Up
+              </Link>
+            </p>
             <p className="text-[11px] text-white/25">
               <Link to="/" className="text-[#00D8FF]/60 hover:text-[#00D8FF] transition-colors">
                 ← Back to NodeSlix Home
