@@ -37,10 +37,10 @@ export const pricingPlans = [
   {
     id: "enterprise",
     name: "Enterprise",
-    price: "Custom",
+    price: 99,
     interval: "monthly",
     stripeLink: "https://buy.stripe.com/test_00w28rbTWdmW4UBamh9Zm02",
-    buttonLabel: "Contact Sales",
+    buttonLabel: "Start Enterprise",
     isPopular: false,
     description: "For large-scale telecom infrastructure.",
     features: [

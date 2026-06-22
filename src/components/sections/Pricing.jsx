@@ -26,15 +26,18 @@ export default function Pricing() {
     }
   };
 
-  // Keep monthly/yearly toggle as UI calculation helper (20% off Profesional is $24, Starter $0, Enterprise Custom)
+  // Keep monthly/yearly toggle as UI calculation helper (20% off Professional is $24, Enterprise is $79, Starter is $0)
   const getDisplayPrice = (plan) => {
     if (plan.id === 'professional') {
       return isYearly ? '$24' : `$${plan.price}`;
     }
+    if (plan.id === 'enterprise') {
+      return isYearly ? '$79' : `$${plan.price}`;
+    }
     if (plan.id === 'starter') {
       return '$0';
     }
-    return plan.price; // Custom
+    return `$${plan.price}`;
   };
 
   const getDisplayInterval = (plan) => {
