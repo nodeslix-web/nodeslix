@@ -1,56 +1,74 @@
-import { useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { AnimatePresence, motion as Motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ArrowUpRight, Menu, X } from 'lucide-react';
-import logo from '../../assets/logo.png';
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  AnimatePresence,
+  motion as Motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "framer-motion";
+import { ArrowUpRight, Menu, X } from "lucide-react";
+import logo from "../../assets/logo.png";
 
 /* ─── Nav items: label shown + actual section id to scroll to ─── */
 const navItems = [
-  { label: 'Overview',       id: 'overview' },
-  { label: 'Features',       id: 'capabilities' },
-  { label: 'Architecture',   id: 'architecture' },
-  { label: 'Workflow',       id: 'workflow' },
-  { label: 'Dashboard',      id: 'dashboard' },
-  { label: 'Contact',        id: 'contact' },
-  { label: 'Docs',           id: 'docs' },
+  { label: "Overview", id: "overview" },
+  { label: "Features", id: "capabilities" },
+  { label: "Architecture", id: "architecture" },
+  { label: "Workflow", id: "workflow" },
+  { label: "Dashboard", id: "dashboard" },
+  { label: "Pricing", id: "pricing" },
+  { label: "Contact", id: "contact" },
+  { label: "Docs", id: "docs" },
 ];
 
 /* ─── All section ids for active-tracking ─── */
-const sectionIds = ['hero', 'overview', 'dashboard', 'architecture', 'capabilities', 'workflow', 'contact', 'docs'];
+const sectionIds = [
+  "hero",
+  "overview",
+  "architecture",
+  "capabilities",
+  "dashboard",
+  "pricing",
+  "workflow",
+  "contact",
+  "docs",
+];
 
 /* ─── Drawer item stagger ─── */
 const drawerItemVariants = {
-  hidden:  { opacity: 0, x: 22 },
+  hidden: { opacity: 0, x: 22 },
   visible: (i) => ({
-    opacity: 1, x: 0,
-    transition: { duration: 0.24, delay: i * 0.05, ease: 'easeOut' },
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.24, delay: i * 0.05, ease: "easeOut" },
   }),
 };
 
 /* ══════════════════════════════════════════ */
 
 const Navbar = () => {
-  const [activeSection, setActiveSection] = useState('hero');
-  const [isScrolled,    setIsScrolled]    = useState(false);
-  const [isDrawerOpen,  setIsDrawerOpen]  = useState(false);
-  const [scrollPct,     setScrollPct]     = useState(0);
+  const [activeSection, setActiveSection] = useState("hero");
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [scrollPct, setScrollPct] = useState(0);
 
   const drawerRef = useRef(null);
-  const navigate  = useNavigate();
-  const location  = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   /* ── Smooth scroll to section ── */
   const scrollToSection = (sectionId) => {
     const run = () => {
       const el = document.getElementById(sectionId);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
     };
 
     setIsDrawerOpen(false);
     setActiveSection(sectionId);
 
-    if (location.pathname !== '/') {
-      navigate('/');
+    if (location.pathname !== "/") {
+      navigate("/");
       window.setTimeout(run, 120);
       return;
     }
@@ -60,8 +78,8 @@ const Navbar = () => {
   /* ── Scroll state: progress + section tracking ── */
   useEffect(() => {
     const onScroll = () => {
-      const scrollY  = window.scrollY;
-      const docH     = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollY = window.scrollY;
+      const docH = document.documentElement.scrollHeight - window.innerHeight;
       setIsScrolled(scrollY > 12);
       setScrollPct(docH > 0 ? (scrollY / docH) * 100 : 0);
 
@@ -69,17 +87,27 @@ const Navbar = () => {
         .map((id) => {
           const el = document.getElementById(id);
           if (!el) return null;
-          return { id, top: Math.abs(el.getBoundingClientRect().top - 100) };
+          const rect = el.getBoundingClientRect();
+          return { id, top: rect.top, bottom: rect.bottom };
         })
         .filter(Boolean);
 
-      const nearest = offsets.sort((a, b) => a.top - b.top)[0];
-      if (nearest) setActiveSection(nearest.id);
+      // Find the section that covers the threshold line (e.g., 150px from top)
+      const threshold = 150;
+      const current = offsets.find((sec) => sec.top <= threshold && sec.bottom > threshold);
+      
+      // Fallback: if no section strictly covers the threshold, find the closest one
+      if (current) {
+        setActiveSection(current.id);
+      } else {
+        const nearest = [...offsets].sort((a, b) => Math.abs(a.top - threshold) - Math.abs(b.top - threshold))[0];
+        if (nearest) setActiveSection(nearest.id);
+      }
     };
 
     onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, [location.pathname]);
 
   /* ── Close drawer on outside click ── */
@@ -89,34 +117,36 @@ const Navbar = () => {
         setIsDrawerOpen(false);
       }
     };
-    if (isDrawerOpen) document.addEventListener('mousedown', onPointerDown);
-    return () => document.removeEventListener('mousedown', onPointerDown);
+    if (isDrawerOpen) document.addEventListener("mousedown", onPointerDown);
+    return () => document.removeEventListener("mousedown", onPointerDown);
   }, [isDrawerOpen]);
 
   /* ── Close drawer on Escape ── */
   useEffect(() => {
-    const onKey = (e) => { if (e.key === 'Escape') setIsDrawerOpen(false); };
-    if (isDrawerOpen) document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
+    const onKey = (e) => {
+      if (e.key === "Escape") setIsDrawerOpen(false);
+    };
+    if (isDrawerOpen) document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
   }, [isDrawerOpen]);
 
-  const isHome = location.pathname === '/';
+  const isHome = location.pathname === "/";
 
   return (
     <header
       role="banner"
       className={[
-        'sticky top-0 z-50 transition-all duration-300',
+        "sticky top-0 z-50 transition-all duration-300",
         isScrolled
-          ? 'border-b border-nodeslix-accent/12 bg-nodeslix-primary/94 shadow-[0_8px_40px_rgba(0,0,0,0.40)] backdrop-blur-2xl'
-          : 'border-b border-white/5 bg-nodeslix-primary/40 backdrop-blur-xl',
-      ].join(' ')}
+          ? "border-b border-nodeslix-accent/12 bg-nodeslix-primary/94 shadow-[0_8px_40px_rgba(0,0,0,0.40)] backdrop-blur-2xl"
+          : "border-b border-white/5 bg-nodeslix-primary/40 backdrop-blur-xl",
+      ].join(" ")}
     >
       {/* ── Scroll progress bar ── */}
       <div className="absolute inset-x-0 bottom-0 h-[2px] overflow-hidden">
         <Motion.div
           className="h-full origin-left bg-gradient-to-r from-nodeslix-accent/70 via-nodeslix-accent to-nodeslix-accent/70"
-          style={{ scaleX: scrollPct / 100, transformOrigin: 'left' }}
+          style={{ scaleX: scrollPct / 100, transformOrigin: "left" }}
         />
       </div>
 
@@ -124,18 +154,17 @@ const Navbar = () => {
         aria-label="Primary navigation"
         className="flex items-center justify-between h-20 gap-4 app-container"
       >
-
         {/* ══ LEFT: Logo ══ */}
         <button
           type="button"
           aria-label="Go to top of page"
-          onClick={() => scrollToSection('hero')}
+          onClick={() => scrollToSection("hero")}
           className="flex items-center gap-5 text-left cursor-pointer group shrink-0"
         >
           {/* Icon mark */}
           <Motion.div
             whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.2, ease: 'easeOut' }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
             className="flex items-center justify-center transition-all duration-200"
           >
             <img
@@ -144,7 +173,6 @@ const Navbar = () => {
               className="h-[72px] md:h-[60px] lg:h-[64px] w-130px object-contain"
             />
           </Motion.div>
-          
         </button>
 
         {/* ══ CENTER: Nav links (desktop) ══ */}
@@ -156,21 +184,21 @@ const Navbar = () => {
               <button
                 key={`${item.label}-${item.id}`}
                 type="button"
-                aria-current={isActive ? 'page' : undefined}
+                aria-current={isActive ? "page" : undefined}
                 onClick={() => scrollToSection(item.id)}
                 className={[
-                  'group relative cursor-pointer rounded-xl px-3.5 py-2 text-sm font-medium outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-nodeslix-accent/50',
+                  "group relative cursor-pointer rounded-xl px-3.5 py-2 text-sm font-medium outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-nodeslix-accent/50",
                   isActive
-                    ? 'text-nodeslix-accent'
-                    : 'text-nodeslix-muted hover:text-nodeslix-text',
-                ].join(' ')}
+                    ? "text-nodeslix-accent"
+                    : "text-nodeslix-muted hover:text-nodeslix-text",
+                ].join(" ")}
               >
                 {/* Active bg pill */}
                 {isActive && (
                   <Motion.span
                     layoutId="navActivePill"
                     className="absolute inset-0 rounded-xl bg-nodeslix-accent/10"
-                    transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
                   />
                 )}
 
@@ -180,11 +208,11 @@ const Navbar = () => {
                 {/* Hover underline */}
                 <span
                   className={[
-                    'absolute bottom-1 left-1/2 h-px -translate-x-1/2 rounded-full bg-nodeslix-accent transition-all duration-250',
+                    "absolute bottom-1 left-1/2 h-px -translate-x-1/2 rounded-full bg-nodeslix-accent transition-all duration-250",
                     isActive
-                      ? 'w-5 opacity-100'
-                      : 'w-0 opacity-0 group-hover:w-4 group-hover:opacity-50',
-                  ].join(' ')}
+                      ? "w-5 opacity-100"
+                      : "w-0 opacity-0 group-hover:w-4 group-hover:opacity-50",
+                  ].join(" ")}
                 />
               </button>
             );
@@ -193,16 +221,21 @@ const Navbar = () => {
 
         {/* ══ RIGHT: Status badge + CTA ══ */}
         <div className="items-center hidden gap-3 xl:flex">
-
           {/* AI Active status badge */}
           <div className="flex flex-col items-end">
             <div className="flex items-center gap-1.5">
               <Motion.span
                 animate={{ scale: [1, 1.55, 1], opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 1.7, repeat: Infinity, ease: 'easeInOut' }}
+                transition={{
+                  duration: 1.7,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
                 className="block size-1.5 rounded-full bg-nodeslix-accent"
               />
-              <span className="text-xs font-bold tracking-wide text-nodeslix-accent">AI Active</span>
+              <span className="text-xs font-bold tracking-wide text-nodeslix-accent">
+                AI Active
+              </span>
             </div>
             <span className="text-[10px] font-medium text-nodeslix-muted/60 tracking-wide">
               Live Optimization
@@ -212,13 +245,16 @@ const Navbar = () => {
           {/* Separator */}
           <div className="w-px rounded-full h-7 bg-white/10" />
 
-          {/* Launch Dashboard button */}
+          {/* Launch Telemetry button */}
           <Motion.button
             type="button"
-            aria-label="Launch Dashboard"
-            whileHover={{ y: -3, boxShadow: '0 10px 32px rgba(0,212,255,0.28)' }}
-            transition={{ duration: 0.2, ease: 'easeOut' }}
-            onClick={() => navigate('/product')}
+            aria-label="Launch Telemetry"
+            whileHover={{
+              y: -3,
+              boxShadow: "0 10px 32px rgba(0,212,255,0.28)",
+            }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            onClick={() => navigate("/product")}
             className="gap-2 cursor-pointer primary-button"
           >
             Telemetry <ArrowUpRight size={15} aria-hidden="true" />
@@ -287,16 +323,27 @@ const Navbar = () => {
                 <div className="inline-flex items-center gap-2 rounded-full border border-nodeslix-accent/25 bg-nodeslix-accent/8 px-3 py-1.5">
                   <Motion.span
                     animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 1.7, repeat: Infinity, ease: 'easeInOut' }}
+                    transition={{
+                      duration: 1.7,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
                     className="block size-1.5 rounded-full bg-nodeslix-accent"
                   />
-                  <span className="text-xs font-bold text-nodeslix-accent">AI Active</span>
-                  <span className="text-[10px] text-nodeslix-muted/70">· Live Optimization</span>
+                  <span className="text-xs font-bold text-nodeslix-accent">
+                    AI Active
+                  </span>
+                  <span className="text-[10px] text-nodeslix-muted/70">
+                    · Live Optimization
+                  </span>
                 </div>
               </div>
 
               {/* Nav items */}
-              <nav aria-label="Mobile navigation links" className="flex-1 px-3 py-4 overflow-y-auto">
+              <nav
+                aria-label="Mobile navigation links"
+                className="flex-1 px-3 py-4 overflow-y-auto"
+              >
                 <ul className="flex flex-col gap-0.5">
                   {navItems.map((item, i) => {
                     const isActive = isHome && activeSection === item.id;
@@ -312,20 +359,24 @@ const Navbar = () => {
                         <button
                           type="button"
                           onClick={() => scrollToSection(item.id)}
-                          aria-current={isActive ? 'page' : undefined}
+                          aria-current={isActive ? "page" : undefined}
                           className={[
-                            'flex w-full cursor-pointer items-center justify-between rounded-2xl px-4 py-3 text-left text-sm font-medium transition-all duration-200',
+                            "flex w-full cursor-pointer items-center justify-between rounded-2xl px-4 py-3 text-left text-sm font-medium transition-all duration-200",
                             isActive
-                              ? 'bg-nodeslix-accent/10 text-nodeslix-accent'
-                              : 'text-nodeslix-muted hover:bg-white/[0.04] hover:text-white',
-                          ].join(' ')}
+                              ? "bg-nodeslix-accent/10 text-nodeslix-accent"
+                              : "text-nodeslix-muted hover:bg-white/[0.04] hover:text-white",
+                          ].join(" ")}
                         >
                           <span>{item.label}</span>
                           {isActive && (
                             <Motion.span
                               layoutId="mobileActiveBar"
                               className="w-5 h-px rounded-full bg-nodeslix-accent"
-                              transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                              transition={{
+                                type: "spring",
+                                stiffness: 380,
+                                damping: 32,
+                              }}
                             />
                           )}
                         </button>
@@ -341,7 +392,10 @@ const Navbar = () => {
                   type="button"
                   whileHover={{ y: -2 }}
                   transition={{ duration: 0.2 }}
-                  onClick={() => { setIsDrawerOpen(false); navigate('/product'); }}
+                  onClick={() => {
+                    setIsDrawerOpen(false);
+                    navigate("/product");
+                  }}
                   className="w-full gap-2 cursor-pointer primary-button"
                 >
                   Telemetry <ArrowUpRight size={15} aria-hidden="true" />

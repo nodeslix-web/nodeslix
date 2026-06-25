@@ -1,23 +1,23 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion as Motion } from 'framer-motion';
-import { 
-  Server, 
-  Cpu, 
-  Zap, 
-  Network, 
-  BarChart3, 
-  Users, 
-  ArrowRight, 
-  ArrowUpRight, 
-  CheckCircle2, 
-  ChevronRight, 
-  Activity, 
-  Shield, 
-  Layers, 
-  Search, 
-  Settings 
-} from 'lucide-react';
+import React from "react";
+import { Link } from "react-router-dom";
+import { motion as Motion } from "framer-motion";
+import {
+  Server,
+  Cpu,
+  Zap,
+  Network,
+  BarChart3,
+  Users,
+  ArrowRight,
+  ArrowUpRight,
+  CheckCircle2,
+  ChevronRight,
+  Activity,
+  Shield,
+  Layers,
+  Search,
+  Settings,
+} from "lucide-react";
 
 const stagger = {
   hidden: {},
@@ -26,94 +26,94 @@ const stagger = {
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
 };
 
 const modulesData = [
   {
-    title: 'Infrastructure',
+    title: "Infrastructure",
     icon: Server,
-    desc: 'Unified visibility across telecom cell towers, gateways, and distributed cloud edge nodes.',
-    status: 'Healthy',
-    statusColor: 'text-emerald-400 border-emerald-500/20 bg-emerald-500/5',
+    desc: "Unified visibility across telecom cell towers, gateways, and distributed cloud edge nodes.",
+    status: "Healthy",
+    statusColor: "text-emerald-400 border-emerald-500/20 bg-emerald-500/5",
   },
   {
-    title: 'AI Engine',
+    title: "AI Engine",
     icon: Cpu,
-    desc: 'Deep learning models that automatically detect anomalies and optimize physical pathways.',
-    status: 'Active',
-    statusColor: 'text-[#00D4FF] border-[#00D4FF]/20 bg-[#00D4FF]/5',
+    desc: "Deep learning models that automatically detect anomalies and optimize physical pathways.",
+    status: "Active",
+    statusColor: "text-[#00D4FF] border-[#00D4FF]/20 bg-[#00D4FF]/5",
   },
   {
-    title: 'Operations',
+    title: "Operations",
     icon: Zap,
-    desc: 'Real-time telemetry intake coupled with automated alert handling and incident tracking.',
-    status: 'Running',
-    statusColor: 'text-amber-400 border-amber-500/20 bg-amber-500/5',
+    desc: "Real-time telemetry intake coupled with automated alert handling and incident tracking.",
+    status: "Running",
+    statusColor: "text-amber-400 border-amber-500/20 bg-amber-500/5",
   },
   {
-    title: 'Topology',
+    title: "Topology",
     icon: Network,
-    desc: 'Dynamic graph layouts mapping mesh segment routing pathways and active antenna sectors.',
-    status: 'Synchronized',
-    statusColor: 'text-purple-400 border-purple-500/20 bg-purple-500/5',
+    desc: "Dynamic graph layouts mapping mesh segment routing pathways and active antenna sectors.",
+    status: "Synchronized",
+    statusColor: "text-purple-400 border-purple-500/20 bg-purple-500/5",
   },
   {
-    title: 'Analytics',
+    title: "Analytics",
     icon: BarChart3,
-    desc: 'Advanced metrics dashboards tracking jitter, packet loss, bandwidth spikes, and SLA targets.',
-    status: 'Online',
-    statusColor: 'text-emerald-400 border-emerald-500/20 bg-emerald-500/5',
+    desc: "Advanced metrics dashboards tracking jitter, packet loss, bandwidth spikes, and SLA targets.",
+    status: "Online",
+    statusColor: "text-emerald-400 border-emerald-500/20 bg-emerald-500/5",
   },
   {
-    title: 'Users',
+    title: "Users",
     icon: Users,
-    desc: 'Role-based access management for operators, analysts, network engineers, and system admins.',
-    status: 'Secured',
-    statusColor: 'text-blue-400 border-blue-500/20 bg-blue-500/5',
+    desc: "Role-based access management for operators, analysts, network engineers, and system admins.",
+    status: "Secured",
+    statusColor: "text-blue-400 border-blue-500/20 bg-blue-500/5",
   },
 ];
 
 const stepsData = [
-  { label: 'Connect', desc: 'Securely link network assets' },
-  { label: 'Collect', desc: 'Ingest raw telemetry data' },
-  { label: 'Analyze', desc: 'Execute real-time ML modeling' },
-  { label: 'Optimize', desc: 'Compute path corrections' },
-  { label: 'Deploy', desc: 'Apply network adjustments' },
-  { label: 'Monitor', desc: 'Observe feedback loops' },
+  { label: "Connect", desc: "Securely link network assets" },
+  { label: "Collect", desc: "Ingest raw telemetry data" },
+  { label: "Analyze", desc: "Execute real-time ML modeling" },
+  { label: "Optimize", desc: "Compute path corrections" },
+  { label: "Deploy", desc: "Apply network adjustments" },
+  { label: "Monitor", desc: "Observe feedback loops" },
 ];
 
 const capabilitiesData = [
   {
-    title: 'Real-time Monitoring',
-    desc: 'Instant streaming analytics on network bandwidth utilization and node packet success rates.',
+    title: "Real-time Monitoring",
+    desc: "Instant streaming analytics on network bandwidth utilization and node packet success rates.",
   },
   {
-    title: 'Predictive Analytics',
-    desc: 'Forecast path bottlenecks up to 45 minutes in advance using integrated AI telemetry modeling.',
+    title: "Predictive Analytics",
+    desc: "Forecast path bottlenecks up to 45 minutes in advance using integrated AI telemetry modeling.",
   },
   {
-    title: 'Traffic Optimization',
-    desc: 'Dynamic load balancing across active microwave backhauls and physical fiber lines.',
+    title: "Traffic Optimization",
+    desc: "Dynamic load balancing across active microwave backhauls and physical fiber lines.",
   },
   {
-    title: 'Autonomous Orchestration',
-    desc: 'Self-healing routing configurations that bypass high-jitter sectors without human delay.',
+    title: "Autonomous Orchestration",
+    desc: "Self-healing routing configurations that bypass high-jitter sectors without human delay.",
   },
   {
-    title: 'Topology Intelligence',
-    desc: 'Fully interactive geographical and logical diagramming of cellular towers and fiber pathways.',
+    title: "Topology Intelligence",
+    desc: "Fully interactive geographical and logical diagramming of cellular towers and fiber pathways.",
   },
   {
-    title: 'Performance Tracking',
-    desc: 'Comprehensive compliance reporting against enterprise-grade SLA indicators and KPIs.',
+    title: "Performance Tracking",
+    desc: "Comprehensive compliance reporting against enterprise-grade SLA indicators and KPIs.",
   },
 ];
 
 const ProductPage = () => {
   const scrollToModules = () => {
-    const el = document.getElementById('modules');
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const el = document.getElementById("modules");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
@@ -125,20 +125,20 @@ const ProductPage = () => {
       {/* SECTION 1: HERO */}
       <section className="relative pt-24 pb-20 sm:pt-32 sm:pb-28 lg:pt-40 lg:pb-32">
         <div className="app-container">
-          <Motion.div 
+          <Motion.div
             variants={stagger}
             initial="hidden"
             animate="visible"
             className="text-center max-w-4xl mx-auto space-y-8"
           >
-            <Motion.span 
+            <Motion.span
               variants={fadeUp}
               className="inline-flex items-center rounded-full border border-[#00D4FF]/25 bg-[#00D4FF]/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.25em] text-[#00D4FF]"
             >
               Product
             </Motion.span>
 
-            <Motion.h1 
+            <Motion.h1
               variants={fadeUp}
               className="text-4xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl leading-tight"
             >
@@ -148,24 +148,28 @@ const ProductPage = () => {
               </span>
             </Motion.h1>
 
-            <Motion.p 
+            <Motion.p
               variants={fadeUp}
               className="max-w-2xl mx-auto text-lg text-nodeslix-muted leading-relaxed"
             >
-              A unified platform for monitoring, optimizing, and orchestrating next-generation telecom infrastructures.
+              A unified platform for monitoring, optimizing, and orchestrating
+              next-generation telecom infrastructures.
             </Motion.p>
 
-            <Motion.div 
+            <Motion.div
               variants={fadeUp}
               className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
             >
               <Motion.div whileHover={{ y: -3 }} transition={{ duration: 0.2 }}>
                 <Link to="/dashboard" className="primary-button gap-2">
-                  Launch Dashboard <ArrowRight size={16} />
+                  Launch Telemetry <ArrowRight size={16} />
                 </Link>
               </Motion.div>
               <Motion.div whileHover={{ y: -3 }} transition={{ duration: 0.2 }}>
-                <button onClick={scrollToModules} className="secondary-button gap-2">
+                <button
+                  onClick={scrollToModules}
+                  className="secondary-button gap-2"
+                >
                   View Modules <Layers size={16} />
                 </button>
               </Motion.div>
@@ -175,13 +179,19 @@ const ProductPage = () => {
       </section>
 
       {/* SECTION 2: PRODUCT MODULES */}
-      <section id="modules" className="section-shell bg-gradient-to-b from-black/20 to-transparent">
+      <section
+        id="modules"
+        className="section-shell bg-gradient-to-b from-black/20 to-transparent"
+      >
         <div className="app-container">
           <div className="max-w-3xl mx-auto text-center mb-16 space-y-3">
             <p className="section-kicker">Core Modules</p>
-            <h2 className="section-title">Built for Next-Gen Network Architecture</h2>
+            <h2 className="section-title">
+              Built for Next-Gen Network Architecture
+            </h2>
             <p className="section-copy">
-              Explore the critical software engines driving optimization across global network segments.
+              Explore the critical software engines driving optimization across
+              global network segments.
             </p>
           </div>
 
@@ -203,13 +213,19 @@ const ProductPage = () => {
                       <span className="flex items-center justify-center size-10 rounded-xl bg-[#00D4FF]/10 text-[#00D4FF]">
                         <Icon size={20} />
                       </span>
-                      <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${m.statusColor}`}>
+                      <span
+                        className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${m.statusColor}`}
+                      >
                         {m.status}
                       </span>
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold text-white mb-2">{m.title}</h3>
-                      <p className="text-sm text-nodeslix-muted leading-relaxed">{m.desc}</p>
+                      <h3 className="text-lg font-bold text-white mb-2">
+                        {m.title}
+                      </h3>
+                      <p className="text-sm text-nodeslix-muted leading-relaxed">
+                        {m.desc}
+                      </p>
                     </div>
                   </div>
                 </Motion.div>
@@ -226,7 +242,8 @@ const ProductPage = () => {
             <p className="section-kicker">Operational Flow</p>
             <h2 className="section-title">The NodeSlix Pipeline</h2>
             <p className="section-copy">
-              A continuous, automated lifecycle for telecom telemetry and configuration operations.
+              A continuous, automated lifecycle for telecom telemetry and
+              configuration operations.
             </p>
           </div>
 
@@ -248,8 +265,16 @@ const ProductPage = () => {
                   {/* Circle number index */}
                   <div className="relative z-10 flex items-center justify-center size-14 rounded-full border border-white/10 bg-[#0A0A0A] text-white font-bold group-hover:border-[#00D4FF] group-hover:text-[#00D4FF] transition-all duration-300 shadow-[0_0_20px_rgba(0,0,0,0.8)]">
                     <Motion.div
-                      animate={{ scale: [1, 1.05, 1], opacity: [0.3, 0.6, 0.3] }}
-                      transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: idx * 0.3 }}
+                      animate={{
+                        scale: [1, 1.05, 1],
+                        opacity: [0.3, 0.6, 0.3],
+                      }}
+                      transition={{
+                        duration: 2.5,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: idx * 0.3,
+                      }}
                       className="absolute inset-0 rounded-full bg-[#00D4FF]/5 pointer-events-none"
                     />
                     <span className="text-sm font-mono">{idx + 1}</span>
@@ -270,7 +295,7 @@ const ProductPage = () => {
                         ↓
                       </div>
                       {/* Desktop Glow Line */}
-                      <Motion.div 
+                      <Motion.div
                         initial={{ scaleX: 0 }}
                         whileInView={{ scaleX: 1 }}
                         viewport={{ once: true }}
@@ -293,7 +318,8 @@ const ProductPage = () => {
             <p className="section-kicker">Core System Capabilities</p>
             <h2 className="section-title">Engineered for Massive Throughput</h2>
             <p className="section-copy">
-              Maintain persistent state tracking, high-speed ML optimizations, and predictive path analysis.
+              Maintain persistent state tracking, high-speed ML optimizations,
+              and predictive path analysis.
             </p>
           </div>
 
@@ -330,12 +356,12 @@ const ProductPage = () => {
             <p className="section-kicker">Interactive System Preview</p>
             <h2 className="section-title">Dashboard Viewports</h2>
             <p className="section-copy">
-              Static previews of administrative portals, mapping tools, and data grids available inside.
+              Static previews of administrative portals, mapping tools, and data
+              grids available inside.
             </p>
           </div>
 
           <div className="grid gap-8 sm:grid-cols-2">
-            
             {/* Preview Card 1: Dashboard */}
             <Motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -360,13 +386,20 @@ const ProductPage = () => {
               {/* Skeleton Metrics Grid */}
               <div className="grid grid-cols-3 gap-3 my-4">
                 {[
-                  { l: 'Network Health', v: '99.9%', c: 'text-emerald-400' },
-                  { l: 'Avg Latency', v: '8ms', c: 'text-sky-400' },
-                  { l: 'Active Links', v: '2,401', c: 'text-purple-400' }
+                  { l: "Network Health", v: "99.9%", c: "text-emerald-400" },
+                  { l: "Avg Latency", v: "8ms", c: "text-sky-400" },
+                  { l: "Active Links", v: "2,401", c: "text-purple-400" },
                 ].map((item, i) => (
-                  <div key={i} className="border border-white/5 bg-black/40 rounded-lg p-3 text-center">
-                    <span className="block text-[9px] text-nodeslix-muted/70 mb-1">{item.l}</span>
-                    <span className={`text-md font-mono font-bold ${item.c}`}>{item.v}</span>
+                  <div
+                    key={i}
+                    className="border border-white/5 bg-black/40 rounded-lg p-3 text-center"
+                  >
+                    <span className="block text-[9px] text-nodeslix-muted/70 mb-1">
+                      {item.l}
+                    </span>
+                    <span className={`text-md font-mono font-bold ${item.c}`}>
+                      {item.v}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -374,10 +407,17 @@ const ProductPage = () => {
               {/* System summary block */}
               <div className="border border-white/5 bg-black/20 p-3 rounded-lg flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
-                  <Activity size={14} className="text-[#00D4FF] animate-pulse" />
-                  <span className="text-nodeslix-muted">Anomaly Telemetry Stream</span>
+                  <Activity
+                    size={14}
+                    className="text-[#00D4FF] animate-pulse"
+                  />
+                  <span className="text-nodeslix-muted">
+                    Anomaly Telemetry Stream
+                  </span>
                 </div>
-                <span className="text-[10px] text-emerald-400 font-mono">Running (0 faults)</span>
+                <span className="text-[10px] text-emerald-400 font-mono">
+                  Running (0 faults)
+                </span>
               </div>
             </Motion.div>
 
@@ -405,7 +445,10 @@ const ProductPage = () => {
               {/* Visual mini bar chart representation */}
               <div className="flex items-end justify-between gap-2 h-36 px-4 py-2 my-auto">
                 {[45, 60, 30, 80, 50, 95, 70, 85].map((height, i) => (
-                  <div key={i} className="flex-1 bg-white/5 rounded-t-sm h-full flex flex-col justify-end">
+                  <div
+                    key={i}
+                    className="flex-1 bg-white/5 rounded-t-sm h-full flex flex-col justify-end"
+                  >
                     <Motion.div
                       initial={{ height: 0 }}
                       whileInView={{ height: `${height}%` }}
@@ -449,17 +492,73 @@ const ProductPage = () => {
               <div className="relative flex-1 flex items-center justify-center">
                 <svg className="w-full h-full max-h-36" viewBox="0 0 200 100">
                   {/* Connections */}
-                  <line x1="30" y1="50" x2="80" y2="25" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
-                  <line x1="30" y1="50" x2="80" y2="75" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
-                  <line x1="80" y1="25" x2="130" y2="25" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
-                  <line x1="80" y1="75" x2="130" y2="75" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
-                  <line x1="130" y1="25" x2="170" y2="50" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
-                  <line x1="130" y1="75" x2="170" y2="50" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
-                  <line x1="80" y1="25" x2="80" y2="75" stroke="#00D4FF" strokeWidth="1.5" strokeDasharray="3 3" />
-                  
+                  <line
+                    x1="30"
+                    y1="50"
+                    x2="80"
+                    y2="25"
+                    stroke="rgba(255,255,255,0.08)"
+                    strokeWidth="1"
+                  />
+                  <line
+                    x1="30"
+                    y1="50"
+                    x2="80"
+                    y2="75"
+                    stroke="rgba(255,255,255,0.08)"
+                    strokeWidth="1"
+                  />
+                  <line
+                    x1="80"
+                    y1="25"
+                    x2="130"
+                    y2="25"
+                    stroke="rgba(255,255,255,0.08)"
+                    strokeWidth="1"
+                  />
+                  <line
+                    x1="80"
+                    y1="75"
+                    x2="130"
+                    y2="75"
+                    stroke="rgba(255,255,255,0.08)"
+                    strokeWidth="1"
+                  />
+                  <line
+                    x1="130"
+                    y1="25"
+                    x2="170"
+                    y2="50"
+                    stroke="rgba(255,255,255,0.08)"
+                    strokeWidth="1"
+                  />
+                  <line
+                    x1="130"
+                    y1="75"
+                    x2="170"
+                    y2="50"
+                    stroke="rgba(255,255,255,0.08)"
+                    strokeWidth="1"
+                  />
+                  <line
+                    x1="80"
+                    y1="25"
+                    x2="80"
+                    y2="75"
+                    stroke="#00D4FF"
+                    strokeWidth="1.5"
+                    strokeDasharray="3 3"
+                  />
+
                   {/* Nodes */}
                   <circle cx="30" cy="50" r="4" fill="#a8a8a8" />
-                  <circle cx="80" cy="25" r="5" fill="#00D4FF" className="shadow-lg shadow-[#00D4FF]/50" />
+                  <circle
+                    cx="80"
+                    cy="25"
+                    r="5"
+                    fill="#00D4FF"
+                    className="shadow-lg shadow-[#00D4FF]/50"
+                  />
                   <circle cx="80" cy="75" r="5" fill="#00D4FF" />
                   <circle cx="130" cy="25" r="5" fill="#a8a8a8" />
                   <circle cx="130" cy="75" r="5" fill="#a8a8a8" />
@@ -469,7 +568,9 @@ const ProductPage = () => {
 
               <div className="flex justify-between items-center text-[10px] text-nodeslix-muted">
                 <span>Active Nodes: 6</span>
-                <span className="text-[#00D4FF] font-mono">Routing Path Optimized</span>
+                <span className="text-[#00D4FF] font-mono">
+                  Routing Path Optimized
+                </span>
               </div>
             </Motion.div>
 
@@ -497,23 +598,50 @@ const ProductPage = () => {
               {/* User row list skeleton */}
               <div className="flex-1 flex flex-col justify-center gap-3 my-4">
                 {[
-                  { name: 'Sarah Jenkins', role: 'Administrator', status: 'Online', badge: 'bg-emerald-400' },
-                  { name: 'Marcus Brody', role: 'Network Engineer', status: 'Active', badge: 'bg-[#00D4FF]' },
-                  { name: 'Dr. Evelyn Carter', role: 'Operations Analyst', status: 'Offline', badge: 'bg-white/20' }
+                  {
+                    name: "Sarah Jenkins",
+                    role: "Administrator",
+                    status: "Online",
+                    badge: "bg-emerald-400",
+                  },
+                  {
+                    name: "Marcus Brody",
+                    role: "Network Engineer",
+                    status: "Active",
+                    badge: "bg-[#00D4FF]",
+                  },
+                  {
+                    name: "Dr. Evelyn Carter",
+                    role: "Operations Analyst",
+                    status: "Offline",
+                    badge: "bg-white/20",
+                  },
                 ].map((user, i) => (
-                  <div key={i} className="flex items-center justify-between p-2 rounded-lg bg-black/30 border border-white/5">
+                  <div
+                    key={i}
+                    className="flex items-center justify-between p-2 rounded-lg bg-black/30 border border-white/5"
+                  >
                     <div className="flex items-center gap-2">
                       <div className="size-6 rounded-full bg-white/10 flex items-center justify-center text-[9px] font-bold text-white">
-                        {user.name.split(' ').map(n => n[0]).join('')}
+                        {user.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
                       </div>
                       <div>
-                        <span className="block text-xs font-semibold text-white">{user.name}</span>
-                        <span className="block text-[9px] text-nodeslix-muted">{user.role}</span>
+                        <span className="block text-xs font-semibold text-white">
+                          {user.name}
+                        </span>
+                        <span className="block text-[9px] text-nodeslix-muted">
+                          {user.role}
+                        </span>
                       </div>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <span className={`size-1.5 rounded-full ${user.badge}`} />
-                      <span className="text-[10px] text-nodeslix-muted">{user.status}</span>
+                      <span className="text-[10px] text-nodeslix-muted">
+                        {user.status}
+                      </span>
                     </div>
                   </div>
                 ))}
@@ -524,7 +652,6 @@ const ProductPage = () => {
                 <span>Security Level: Tier 3</span>
               </div>
             </Motion.div>
-
           </div>
         </div>
       </section>
@@ -549,13 +676,21 @@ const ProductPage = () => {
                 Operations Command Center?
               </h2>
               <p className="text-md text-nodeslix-muted max-w-2xl mx-auto leading-relaxed">
-                Unlock autonomous path routing, granular infrastructure signals, and advanced telemetry insights.
+                Unlock autonomous path routing, granular infrastructure signals,
+                and advanced telemetry insights.
               </p>
-              
+
               <div className="pt-6">
-                <Motion.div whileHover={{ y: -3 }} transition={{ duration: 0.2 }} className="inline-block">
-                  <Link to="/dashboard" className="primary-button gap-2 shadow-2xl shadow-[#00D4FF]/20">
-                    Launch Dashboard <ArrowUpRight size={16} />
+                <Motion.div
+                  whileHover={{ y: -3 }}
+                  transition={{ duration: 0.2 }}
+                  className="inline-block"
+                >
+                  <Link
+                    to="/dashboard"
+                    className="primary-button gap-2 shadow-2xl shadow-[#00D4FF]/20"
+                  >
+                    Launch Telemetry <ArrowUpRight size={16} />
                   </Link>
                 </Motion.div>
               </div>

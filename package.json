@@ -14,6 +14,7 @@
     "@vitejs/plugin-react": "latest",
     "firebase": "^12.15.0",
     "framer-motion": "^12.40.0",
+    "jspdf": "^4.2.1",
     "lottie-react": "^2.4.1",
     "lucide-react": "^1.21.0",
     "react": "latest",
@@ -21,7 +22,8 @@
     "react-icons": "latest",
     "react-router-dom": "latest",
     "react-turnstile": "^1.1.5",
-    "vite": "latest"
+    "vite": "latest",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "latest",

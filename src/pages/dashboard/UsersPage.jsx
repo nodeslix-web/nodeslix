@@ -139,7 +139,7 @@ const ToastContainer = ({ toasts, onRemove }) => (
           <button
             type="button"
             onClick={() => onRemove(t.id)}
-            className="shrink-0 flex size-5 items-center justify-center rounded-md text-nodeslix-muted/40 hover:text-white transition-colors"
+            className="flex items-center justify-center transition-colors rounded-md shrink-0 size-5 text-nodeslix-muted/40 hover:text-white"
           >
             <X size={11} />
           </button>
@@ -184,7 +184,7 @@ const ProfileDrawer = ({ user, onClose }) => {
           <button
             type="button"
             onClick={onClose}
-            className="flex size-8 items-center justify-center rounded-xl border border-white/10 text-nodeslix-muted hover:text-white hover:border-white/20 transition-colors"
+            className="flex items-center justify-center transition-colors border size-8 rounded-xl border-white/10 text-nodeslix-muted hover:text-white hover:border-white/20"
           >
             <X size={15} />
           </button>
@@ -194,7 +194,7 @@ const ProfileDrawer = ({ user, onClose }) => {
         <div className="flex flex-col items-center gap-3 py-8 px-6 border-b border-white/[0.06]">
           <div className="relative">
             {user.avatarURL ? (
-              <img src={user.avatarURL} alt={user.name} className="size-20 rounded-2xl object-cover border border-white/12 shadow-xl" referrerPolicy="no-referrer" />
+              <img src={user.avatarURL} alt={user.name} className="object-cover border shadow-xl size-20 rounded-2xl border-white/12" referrerPolicy="no-referrer" />
             ) : (
               <div className={`flex size-20 items-center justify-center rounded-2xl bg-gradient-to-br ${avColor} text-xl font-extrabold border border-white/12 shadow-xl`}>
                 {user.avatar}
@@ -219,17 +219,17 @@ const ProfileDrawer = ({ user, onClose }) => {
               <>
                 <div className="flex items-center gap-3 px-4 py-3">
                   <Shield size={13} className="text-nodeslix-muted/50 shrink-0" />
-                  <span className="text-xs text-nodeslix-muted flex-1">Authentication Provider</span>
+                  <span className="flex-1 text-xs text-nodeslix-muted">Authentication Provider</span>
                   <span className="text-xs font-semibold text-white">{user.provider}</span>
                 </div>
                 <div className="flex items-center gap-3 px-4 py-3">
                   <Clock size={13} className="text-nodeslix-muted/50 shrink-0" />
-                  <span className="text-xs text-nodeslix-muted flex-1">Account Created</span>
+                  <span className="flex-1 text-xs text-nodeslix-muted">Account Created</span>
                   <span className="text-xs font-semibold text-white">{user.created}</span>
                 </div>
                 <div className="flex items-center gap-3 px-4 py-3">
                   <Lock size={13} className="text-nodeslix-muted/50 shrink-0" />
-                  <span className="text-xs text-nodeslix-muted flex-1">Last Login</span>
+                  <span className="flex-1 text-xs text-nodeslix-muted">Last Login</span>
                   <span className="text-xs font-semibold text-nodeslix-muted/70">{user.lastLogin}</span>
                 </div>
               </>
@@ -244,7 +244,7 @@ const ProfileDrawer = ({ user, onClose }) => {
                 return (
                   <div key={row.label} className="flex items-center gap-3 px-4 py-3">
                     <RowIcon size={13} className="text-nodeslix-muted/50 shrink-0" />
-                    <span className="text-xs text-nodeslix-muted flex-1">{row.label}</span>
+                    <span className="flex-1 text-xs text-nodeslix-muted">{row.label}</span>
                     <span className={`text-xs font-semibold ${row.valueColor}`}>{row.value}</span>
                   </div>
                 );
@@ -263,7 +263,7 @@ const ProfileDrawer = ({ user, onClose }) => {
                 return (
                   <div key={infra} className="flex items-center gap-3 px-4 py-2.5 rounded-xl border border-white/[0.06] bg-white/[0.02]">
                     <InfraIcon size={13} className="text-nodeslix-accent/60 shrink-0" />
-                    <span className="text-xs text-white font-medium">{infra}</span>
+                    <span className="text-xs font-medium text-white">{infra}</span>
                     <span className="ml-auto text-[9px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded-full">
                       Active
                     </span>
@@ -322,7 +322,7 @@ const EditRoleModal = ({ user, onClose, onSave }) => {
           <button
             type="button"
             onClick={onClose}
-            className="flex size-8 items-center justify-center rounded-xl border border-white/10 text-nodeslix-muted hover:text-white transition-colors"
+            className="flex items-center justify-center transition-colors border size-8 rounded-xl border-white/10 text-nodeslix-muted hover:text-white"
           >
             <X size={15} />
           </button>
@@ -345,7 +345,7 @@ const EditRoleModal = ({ user, onClose, onSave }) => {
 
           {/* Role picker */}
           <div>
-            <label className="block text-xs font-semibold text-nodeslix-muted mb-2">
+            <label className="block mb-2 text-xs font-semibold text-nodeslix-muted">
               Select New Role
             </label>
             <div className="relative">
@@ -358,7 +358,7 @@ const EditRoleModal = ({ user, onClose, onSave }) => {
                   <option key={r} value={r} className="bg-[#141414]">{r}</option>
                 ))}
               </select>
-              <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-nodeslix-muted/50 pointer-events-none" />
+              <ChevronDown size={14} className="absolute -translate-y-1/2 pointer-events-none right-3 top-1/2 text-nodeslix-muted/50" />
             </div>
           </div>
 
@@ -415,17 +415,17 @@ const ResetAccessModal = ({ user, onClose, onConfirm }) => (
       onClick={(e) => e.stopPropagation()}
       className="w-full max-w-[400px] bg-[#0e0e0e] border border-white/[0.1] rounded-2xl shadow-2xl overflow-hidden"
     >
-      <div className="px-6 py-6 flex flex-col gap-4">
+      <div className="flex flex-col gap-4 px-6 py-6">
         {/* Icon */}
-        <div className="flex size-12 items-center justify-center rounded-2xl bg-amber-500/10 border border-amber-500/20 mx-auto">
+        <div className="flex items-center justify-center mx-auto border size-12 rounded-2xl bg-amber-500/10 border-amber-500/20">
           <KeyRound size={22} className="text-amber-400" />
         </div>
 
         <div className="text-center">
           <h3 className="text-base font-extrabold text-white">Reset User Access?</h3>
-          <p className="text-sm text-nodeslix-muted mt-2 leading-relaxed">
+          <p className="mt-2 text-sm leading-relaxed text-nodeslix-muted">
             This will regenerate access credentials for{' '}
-            <span className="text-white font-semibold">{user.name}</span>.
+            <span className="font-semibold text-white">{user.name}</span>.
             Their current session will be terminated and a new invite link will be issued.
           </p>
         </div>
@@ -477,16 +477,16 @@ const DeactivateModal = ({ user, onClose, onConfirm }) => (
       onClick={(e) => e.stopPropagation()}
       className="w-full max-w-[400px] bg-[#0e0e0e] border border-white/[0.1] rounded-2xl shadow-2xl overflow-hidden"
     >
-      <div className="px-6 py-6 flex flex-col gap-4">
+      <div className="flex flex-col gap-4 px-6 py-6">
         {/* Icon */}
-        <div className="flex size-12 items-center justify-center rounded-2xl bg-red-500/10 border border-red-500/20 mx-auto">
+        <div className="flex items-center justify-center mx-auto border size-12 rounded-2xl bg-red-500/10 border-red-500/20">
           <UserX size={22} className="text-red-400" />
         </div>
 
         <div className="text-center">
           <h3 className="text-base font-extrabold text-white">Deactivate User?</h3>
-          <p className="text-sm text-nodeslix-muted mt-2 leading-relaxed">
-            <span className="text-white font-semibold">{user.name}</span> will lose all access
+          <p className="mt-2 text-sm leading-relaxed text-nodeslix-muted">
+            <span className="font-semibold text-white">{user.name}</span> will lose all access
             to the NodeSlix platform. Their configuration and data will be retained.
           </p>
         </div>
@@ -572,7 +572,7 @@ const EditProfileModal = ({ user, onClose, onSave }) => {
             <button
               type="button"
               onClick={onClose}
-              className="flex size-8 items-center justify-center rounded-xl border border-white/10 text-nodeslix-muted hover:text-white transition-colors"
+              className="flex items-center justify-center transition-colors border size-8 rounded-xl border-white/10 text-nodeslix-muted hover:text-white"
             >
               <X size={15} />
             </button>
@@ -580,7 +580,7 @@ const EditProfileModal = ({ user, onClose, onSave }) => {
 
           <div className="px-6 py-5 space-y-4">
             {error && (
-              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs">
+              <div className="p-3 text-xs text-red-400 border rounded-xl bg-red-500/10 border-red-500/20">
                 {error}
               </div>
             )}
@@ -694,7 +694,7 @@ const ChangePasswordModal = ({ onClose, onSave }) => {
             <button
               type="button"
               onClick={onClose}
-              className="flex size-8 items-center justify-center rounded-xl border border-white/10 text-nodeslix-muted hover:text-white transition-colors"
+              className="flex items-center justify-center transition-colors border size-8 rounded-xl border-white/10 text-nodeslix-muted hover:text-white"
             >
               <X size={15} />
             </button>
@@ -702,7 +702,7 @@ const ChangePasswordModal = ({ onClose, onSave }) => {
 
           <div className="px-6 py-5 space-y-4">
             {error && (
-              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs">
+              <div className="p-3 text-xs text-red-400 border rounded-xl bg-red-500/10 border-red-500/20">
                 {error}
               </div>
             )}
@@ -955,25 +955,17 @@ const UsersPage = () => {
 
       <div className="p-5 md:p-6 space-y-7">
         {/* Page Header */}
-        <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="section-kicker">Users</p>
-            <h1 className="text-2xl font-extrabold text-white mt-1">User Management</h1>
-            <p className="text-sm text-nodeslix-muted mt-1">Manage operator access, roles, and permissions across all regions.</p>
+            <h1 className="mt-1 text-2xl font-extrabold text-white">User Management</h1>
+            <p className="mt-1 text-sm text-nodeslix-muted">Manage operator access, roles, and permissions across all regions.</p>
           </div>
-          <Motion.button
-            type="button"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            onClick={() => addToast({ title: 'Invite Sent', desc: 'Invite link copied to clipboard', Icon: UserPlus, iconColor: 'text-nodeslix-accent', iconBg: 'bg-nodeslix-accent/15' })}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-nodeslix-accent/15 border border-nodeslix-accent/30 text-nodeslix-accent text-xs font-bold hover:bg-nodeslix-accent/25 transition-all duration-200 shrink-0"
-          >
-            <UserPlus size={14} /> Invite User
-          </Motion.button>
+
         </div>
 
         {/* Summary cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
           {[
             { label: 'Total Users', value: counts.total,    color: 'text-white',             icon: Users     },
             { label: 'Active Now',  value: counts.active,   color: 'text-emerald-400',       icon: UserCheck },
@@ -987,7 +979,7 @@ const UsersPage = () => {
                 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35, delay: i * 0.06 }}
                 whileHover={{ y: -4 }}
-                className="surface-card p-4 flex items-center gap-4"
+                className="flex items-center gap-4 p-4 surface-card"
               >
                 <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/[0.05] text-nodeslix-muted">
                   <Icon size={16} />
@@ -1002,7 +994,7 @@ const UsersPage = () => {
         </div>
 
         {/* Filters & search */}
-        <div className="flex flex-wrap gap-3 items-center">
+        <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2.5 focus-within:border-nodeslix-accent/40 transition-colors min-w-[200px]">
             <Search size={13} className="text-nodeslix-muted/60 shrink-0" />
             <input
@@ -1010,7 +1002,7 @@ const UsersPage = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search users..."
-              className="bg-transparent text-xs text-white placeholder-nodeslix-muted/40 outline-none flex-1"
+              className="flex-1 text-xs text-white bg-transparent outline-none placeholder-nodeslix-muted/40"
             />
           </div>
           <div className="flex gap-1.5">
@@ -1031,7 +1023,7 @@ const UsersPage = () => {
         </div>
 
         {/* Users table */}
-        <div className="surface-card overflow-visible">
+        <div className="overflow-visible surface-card">
           {/* Header */}
           <div className="hidden md:grid grid-cols-[1fr_180px_120px_100px_80px] items-center px-5 py-3.5 border-b border-white/[0.07] text-[10px] font-bold uppercase tracking-widest text-nodeslix-muted/50">
             <span>User</span>
@@ -1046,7 +1038,7 @@ const UsersPage = () => {
             {filteredWithMe.length === 0 ? (
               <Motion.div
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                className="flex flex-col items-center justify-center py-12 gap-3"
+                className="flex flex-col items-center justify-center gap-3 py-12"
               >
                 <Users size={28} className="text-nodeslix-muted/30" />
                 <p className="text-sm text-nodeslix-muted/50">No users match your search</p>
@@ -1070,7 +1062,7 @@ const UsersPage = () => {
                     <div className="flex items-center gap-3">
                       <div className="relative shrink-0">
                         {usrObj.avatarURL ? (
-                          <img src={usrObj.avatarURL} alt={usrObj.name} className="size-9 rounded-full object-cover border border-white/10" referrerPolicy="no-referrer" />
+                          <img src={usrObj.avatarURL} alt={usrObj.name} className="object-cover border rounded-full size-9 border-white/10" referrerPolicy="no-referrer" />
                         ) : (
                           <div className={`flex size-9 items-center justify-center rounded-full bg-gradient-to-br ${avColor} text-xs font-extrabold border border-white/10`}>
                             {usrObj.avatar}
@@ -1109,7 +1101,7 @@ const UsersPage = () => {
                     </div>
 
                     {/* Action menu */}
-                    <div className="flex justify-end relative" data-menu-container>
+                    <div className="relative flex justify-end" data-menu-container>
                       <Motion.button
                         type="button"
                         whileHover={{ scale: 1.1 }}
