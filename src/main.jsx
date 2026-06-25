@@ -20,6 +20,7 @@ import SettingsPage from './pages/dashboard/SettingsPage.jsx';
 import PaymentSuccess from './pages/PaymentSuccess.jsx';
 import PaymentCancelled from './pages/PaymentCancelled.jsx';
 import ChatwootWidget from './components/ChatwootWidget.jsx';
+import PrivacyPolicy from './pages/PrivacyPolicy.jsx';
 import NotFound from './pages/NotFound.jsx';
 import './index.css';
 
@@ -44,8 +45,9 @@ const router = createBrowserRouter([
         path: '/',
         element: <MainLayout />,
         children: [
-          { index: true,     element: <Home />        },
-          { path: 'product', element: <ProductPage /> },
+          { index: true,             element: <Home />          },
+          { path: 'product',         element: <ProductPage />   },
+          { path: 'privacy-policy',  element: <PrivacyPolicy /> },
         ],
       },
       {

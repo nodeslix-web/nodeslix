@@ -565,6 +565,28 @@ const RegisterPage = () => {
                   <p className="text-[10px] text-white/25">Administrator accounts are managed by your organization.</p>
                 </div>
 
+                {/* Policy Agreement */}
+                <p className="text-[10px] text-white/30 text-center leading-relaxed pb-2">
+                  By registering, you agree to our{' '}
+                  <a 
+                    href="/privacy-policy" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-[#00D4FF] hover:underline"
+                  >
+                    Privacy Policy
+                  </a>{' '}
+                  and{' '}
+                  <a 
+                    href="/terms-of-service" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-[#00D4FF] hover:underline"
+                  >
+                    Terms of Service
+                  </a>.
+                </p>
+
                 {/* Submit */}
                 <button
                   id="register-submit"

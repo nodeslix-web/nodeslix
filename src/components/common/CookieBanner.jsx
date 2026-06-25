@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { AnimatePresence, motion as Motion } from 'framer-motion';
 
 const STORAGE_KEY = 'cookieConsent';
@@ -32,7 +33,10 @@ const CookieBanner = () => {
               <div className="max-w-3xl space-y-2">
                 <h2 className="text-lg font-semibold text-white">🍪 Cookie Preferences</h2>
                 <p className="text-sm leading-6 text-nodeslix-muted">
-                  We use cookies to improve site performance, analyze traffic, and enhance your browsing experience.
+                  We use cookies to improve site performance, analyze traffic, and enhance your browsing experience. Learn more in our{' '}
+                  <Link to="/privacy-policy" className="text-nodeslix-accent hover:underline font-semibold">
+                    Privacy Policy
+                  </Link>.
                 </p>
               </div>
 
