@@ -578,12 +578,12 @@ const RegisterPage = () => {
                   </a>{' '}
                   and{' '}
                   <a 
-                    href="/terms-of-service" 
+                    href="/terms-and-conditions" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="text-[#00D4FF] hover:underline"
                   >
-                    Terms of Service
+                    Terms &amp; Conditions
                   </a>.
                 </p>
 

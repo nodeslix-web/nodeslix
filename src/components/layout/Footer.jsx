@@ -234,7 +234,21 @@ const Footer = () => {
             <ul className="space-y-3.5">
               <SectionLink href="docs">Documentation</SectionLink>
               <ExternalLink soon>Developer API</ExternalLink>
-              <ExternalLink href="#">Terms &amp; Conditions</ExternalLink>
+              <li>
+                <Link
+                  to="/terms-and-conditions"
+                  className="group relative inline-flex cursor-pointer items-center gap-1.5 text-sm text-nodeslix-muted transition-colors duration-200 hover:text-nodeslix-accent"
+                >
+                  <Motion.span
+                    whileHover={{ y: -3 }}
+                    transition={{ duration: 0.25, ease: 'easeOut' }}
+                    className="inline-flex items-center gap-1.5"
+                  >
+                    Terms &amp; Conditions
+                  </Motion.span>
+                  <span className="absolute -bottom-px left-0 h-px w-0 rounded-full bg-nodeslix-accent/60 transition-all duration-[250ms] group-hover:w-full" />
+                </Link>
+              </li>
               <li>
                 <Link
                   to="/privacy-policy"
@@ -250,7 +264,6 @@ const Footer = () => {
                   <span className="absolute -bottom-px left-0 h-px w-0 rounded-full bg-nodeslix-accent/60 transition-all duration-[250ms] group-hover:w-full" />
                 </Link>
               </li>
-              <ExternalLink href="#">Cookie Policy</ExternalLink>
             </ul>
           </Motion.div>
 
