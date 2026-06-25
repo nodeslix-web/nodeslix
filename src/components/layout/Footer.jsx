@@ -5,6 +5,7 @@ import {
   ArrowUpRight,
   Mail,
   ShieldCheck,
+  Phone,
 } from 'lucide-react';
 
 const Twitter = ({ className, size = 20 }) => (
@@ -280,8 +281,8 @@ const Footer = () => {
               {/* Email */}
               <li>
                 <a
-                  href="mailto:support@nodeslix.com"
-                  aria-label="Email NodeSlix support"
+                  href="mailto:help@nodeslix.com"
+                  aria-label="Email help@nodeslix.com"
                   className="relative inline-flex items-center gap-2 text-sm transition-colors duration-200 cursor-pointer group text-nodeslix-muted hover:text-nodeslix-accent"
                 >
                   <Motion.span
@@ -291,6 +292,25 @@ const Footer = () => {
                   >
                     <Mail size={14} className="shrink-0 text-nodeslix-accent/70" aria-hidden="true" />
                     help@nodeslix.com
+                  </Motion.span>
+                  <span className="absolute -bottom-px left-0 h-px w-0 rounded-full bg-nodeslix-accent/60 transition-all duration-[250ms] group-hover:w-full" />
+                </a>
+              </li>
+
+              {/* Phone */}
+              <li>
+                <a
+                  href="tel:+13105568137"
+                  aria-label="Call +1 (310) 556-8137"
+                  className="relative inline-flex items-center gap-2 text-sm transition-colors duration-200 cursor-pointer group text-nodeslix-muted hover:text-nodeslix-accent"
+                >
+                  <Motion.span
+                    whileHover={{ y: -3 }}
+                    transition={{ duration: 0.25, ease: 'easeOut' }}
+                    className="inline-flex items-center gap-2"
+                  >
+                    <Phone size={14} className="shrink-0 text-nodeslix-accent/70" aria-hidden="true" />
+                    +1 (310) 556-8137
                   </Motion.span>
                   <span className="absolute -bottom-px left-0 h-px w-0 rounded-full bg-nodeslix-accent/60 transition-all duration-[250ms] group-hover:w-full" />
                 </a>

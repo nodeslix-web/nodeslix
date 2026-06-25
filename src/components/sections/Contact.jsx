@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm, ValidationError } from '@formspree/react';
 import { motion as Motion } from 'framer-motion';
-import { Shield, Zap, Cpu, Activity, Layers, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Shield, Zap, Cpu, Activity, Layers, CheckCircle2, AlertCircle, Phone, Mail, Clock } from 'lucide-react';
 import { Turnstile } from 'react-turnstile';
 
 const contactInfoCards = [
@@ -31,6 +31,52 @@ const contactInfoCards = [
     desc: 'Step-by-step assistance on migration planning, edge integration, and rollouts.',
   },
 ];
+
+const ContactInfoCard = () => (
+  <div className="p-5 rounded-xl border border-[#00D4FF]/10 bg-[#00D4FF]/[0.02] space-y-4">
+    <h4 className="text-sm font-bold uppercase tracking-wider text-[#00D4FF]">
+      Contact Information
+    </h4>
+    <div className="space-y-3">
+      {/* Email */}
+      <div className="flex items-center gap-3">
+        <span className="flex items-center justify-center size-8 rounded-lg bg-nodeslix-accent/5 border border-nodeslix-accent/15 text-nodeslix-accent">
+          <Mail size={14} />
+        </span>
+        <div>
+          <p className="text-[10px] uppercase tracking-wider text-nodeslix-muted font-semibold">Email</p>
+          <a href="mailto:help@nodeslix.com" aria-label="Email help@nodeslix.com" className="text-sm text-white hover:text-nodeslix-accent transition-colors font-medium">
+            help@nodeslix.com
+          </a>
+        </div>
+      </div>
+      {/* Phone */}
+      <div className="flex items-center gap-3">
+        <span className="flex items-center justify-center size-8 rounded-lg bg-nodeslix-accent/5 border border-nodeslix-accent/15 text-nodeslix-accent">
+          <Phone size={14} />
+        </span>
+        <div>
+          <p className="text-[10px] uppercase tracking-wider text-nodeslix-muted font-semibold">Phone</p>
+          <a href="tel:+13105568137" aria-label="Call +1 (310) 556-8137" className="text-sm text-white hover:text-nodeslix-accent transition-colors font-medium">
+            +1 (310) 556-8137
+          </a>
+        </div>
+      </div>
+      {/* Hours */}
+      <div className="flex items-center gap-3">
+        <span className="flex items-center justify-center size-8 rounded-lg bg-white/[0.03] border border-white/[0.08] text-white/50">
+          <Clock size={14} />
+        </span>
+        <div>
+          <p className="text-[10px] uppercase tracking-wider text-nodeslix-muted font-semibold">Business Hours</p>
+          <p className="text-xs text-white/70">
+            Monday – Friday, 9:00 AM – 6:00 PM (PST)
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+);
 
 const Contact = () => {
   const [state, handleSubmit] = useForm('mqeorngo');
@@ -122,6 +168,9 @@ const Contact = () => {
                   </Motion.div>
                 );
               })}
+            </div>
+            <div className="hidden lg:block pt-2">
+              <ContactInfoCard />
             </div>
           </div>
 
@@ -324,6 +373,9 @@ const Contact = () => {
 
                 </form>
               )}
+            </div>
+            <div className="block lg:hidden mt-6">
+              <ContactInfoCard />
             </div>
           </div>
 

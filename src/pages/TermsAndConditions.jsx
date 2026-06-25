@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion as Motion, AnimatePresence } from 'framer-motion';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp, Mail, Phone } from 'lucide-react';
 
 const tocItems = [
   { id: 'interpretation', label: 'Interpretation' },
@@ -514,12 +514,28 @@ export default function TermsAndConditions() {
                 <p className="text-sm text-nodeslix-muted leading-[1.75]">
                   If you have any questions about these Terms and Conditions, You can contact us:
                 </p>
-                <ul className="list-disc list-inside text-sm text-[#00D4FF] leading-[1.75] pl-4 space-y-1">
-                  <li>
-                    <span className="text-nodeslix-muted">By email: </span>
-                    <a href="mailto:help@nodeslix.com" className="hover:underline">help@nodeslix.com</a>
-                  </li>
-                </ul>
+                <div className="list-disc list-inside text-sm text-[#00D4FF] leading-[1.75] pl-4 space-y-2">
+                  <div className="flex items-center gap-2 pt-1 text-sm font-semibold text-white">
+                    <Mail size={14} className="text-[#00D4FF]/80" />
+                    <a
+                      href="mailto:help@nodeslix.com"
+                      aria-label="Email help@nodeslix.com"
+                      className="text-white hover:underline"
+                    >
+                      help@nodeslix.com
+                    </a>
+                  </div>
+                  <div className="flex items-center gap-2 pt-1 text-sm font-semibold text-white">
+                    <Phone size={14} className="text-[#00D4FF]/80" />
+                    <a
+                      href="tel:+13105568137"
+                      aria-label="Call +1 (310) 556-8137"
+                      className="text-white hover:underline"
+                    >
+                      +1 (310) 556-8137
+                    </a>
+                  </div>
+                </div>
               </Motion.section>
 
             </Motion.div>
