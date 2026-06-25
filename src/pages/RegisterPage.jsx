@@ -6,6 +6,7 @@ import {
   Shield, BrainCircuit, Activity, Clock, Check, X as XIcon,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import logo from "../assets/logo.png";
 
 /* ─── Left panel badges ─── */
 const badges = [
@@ -242,16 +243,8 @@ const RegisterPage = () => {
           transition={{ duration: 0.55, ease: 'easeOut' }}
           className="relative z-10"
         >
-          <Link to="/" className="inline-flex items-center gap-3 group mb-12">
-            <div className="flex size-9 items-center justify-center rounded-xl bg-[#00D4FF]/10 border border-[#00D4FF]/20 group-hover:bg-[#00D4FF]/20 transition-colors">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-sm font-bold text-white leading-none">NodeSlix</p>
-              <p className="text-[10px] text-white/30 mt-0.5">AI Telecom Intelligence</p>
-            </div>
+          <Link to="/" className="inline-flex items-center gap-3 mb-16 group">
+            <img src={logo} alt="Logo" height={"100px"} style={{maxWidth: "50%"}}/>
           </Link>
 
           <h1 className="text-3xl font-bold text-white leading-tight mb-3">
@@ -319,12 +312,7 @@ const RegisterPage = () => {
         >
           {/* Mobile logo */}
           <div className="lg:hidden flex items-center gap-2.5 mb-8">
-            <div className="flex size-8 items-center justify-center rounded-xl bg-[#00D4FF]/10 border border-[#00D4FF]/20">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-              </svg>
-            </div>
-            <span className="text-sm font-bold text-white">NodeSlix</span>
+            <img src={logo} alt="Logo" height={"100px"} style={{maxWidth: "30%"}}/>
           </div>
 
           {/* Header */}
