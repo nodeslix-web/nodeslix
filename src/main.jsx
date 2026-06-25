@@ -20,6 +20,7 @@ import SettingsPage from './pages/dashboard/SettingsPage.jsx';
 import PaymentSuccess from './pages/PaymentSuccess.jsx';
 import PaymentCancelled from './pages/PaymentCancelled.jsx';
 import ChatwootWidget from './components/ChatwootWidget.jsx';
+import NotFound from './pages/NotFound.jsx';
 import './index.css';
 
 /**
@@ -89,7 +90,7 @@ const router = createBrowserRouter([
       {
         /* ── Catch-all redirect ── */
         path: '*',
-        element: <Navigate to="/" replace />,
+        element: <NotFound />,
       },
     ],
   },

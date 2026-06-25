@@ -83,6 +83,14 @@ export default function ChatwootWidget() {
         right: 24px !important;
         z-index: 99999 !important;
         background-color: #00D4FF !important;
+        color: #080808 !important;
+      }
+      .woot-widget-bubble * {
+        color: #080808 !important;
+      }
+      .woot-widget-bubble svg, .woot-widget-bubble svg path {
+        fill: #080808 !important;
+        stroke: #080808 !important;
       }
       
       @media (max-width: 768px) {
