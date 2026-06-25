@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion as Motion, AnimatePresence } from 'framer-motion';
 import { Eye, EyeOff, Loader2, AlertCircle, CheckCircle2, Wifi, BrainCircuit, Shield } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import logo from "../assets/logo.png";
 
 /* ─── Feature bullets on the left panel ─── */
 const features = [
@@ -129,19 +130,11 @@ const LoginPage = () => {
           transition={{ duration: 0.6, ease: 'easeOut' }}
           className="relative z-10"
         >
-          <Link to="/" className="inline-flex items-center gap-3 group mb-16">
-            <div className="flex size-9 items-center justify-center rounded-xl bg-[#00D8FF]/10 border border-[#00D8FF]/20 group-hover:bg-[#00D8FF]/20 transition-colors">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00D8FF" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-sm font-bold text-white leading-none">NodeSlix</p>
-              <p className="text-[10px] text-white/30 mt-0.5">AI Telecom Intelligence</p>
-            </div>
+          <Link to="/" className="inline-flex items-center gap-3 mb-16 group">
+            <img src={logo} alt="Logo" height={"100px"} style={{maxWidth: "50%"}}/>
           </Link>
 
-          <h1 className="text-3xl font-bold text-white leading-tight mb-3">
+          <h1 className="mb-3 text-3xl font-bold leading-tight text-white">
             The Intelligence<br />
             Behind Modern<br />
             <span className="text-[#00D8FF]">Telecom Networks.</span>
@@ -185,7 +178,7 @@ const LoginPage = () => {
           className="relative z-10"
         >
           <div className="flex items-center gap-2">
-            <span className="flex size-2 rounded-full bg-emerald-400 relative">
+            <span className="relative flex rounded-full size-2 bg-emerald-400">
               <span className="absolute inset-0 rounded-full bg-emerald-400 animate-ping opacity-60" />
             </span>
             <span className="text-[11px] text-white/30">All systems operational</span>
@@ -194,7 +187,7 @@ const LoginPage = () => {
       </div>
 
       {/* ─── Right Panel (Form) ─── */}
-      <div className="flex flex-1 items-center justify-center p-6 relative overflow-hidden">
+      <div className="relative flex items-center justify-center flex-1 p-6 overflow-hidden">
         {/* Mobile background */}
         <div className="absolute inset-0 lg:hidden">
           <GridBackground />
@@ -208,17 +201,12 @@ const LoginPage = () => {
         >
           {/* Mobile logo only */}
           <div className="lg:hidden flex items-center gap-2.5 mb-8">
-            <div className="flex size-8 items-center justify-center rounded-xl bg-[#00D8FF]/10 border border-[#00D8FF]/20">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00D8FF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-              </svg>
-            </div>
-            <span className="text-sm font-bold text-white">NodeSlix</span>
+            <img src={logo} alt="Logo" height={"100px"} style={{maxWidth: "30%"}}/>
           </div>
 
           {/* Header */}
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-white mb-2">Welcome back</h2>
+            <h2 className="mb-2 text-2xl font-bold text-white">Welcome back</h2>
             <p className="text-sm text-white/40">Sign in to your NodeSlix dashboard</p>
           </div>
 
@@ -231,7 +219,7 @@ const LoginPage = () => {
                 animate={{ opacity: 1, y: 0, height: 'auto' }}
                 exit={{ opacity: 0, y: -8, height: 0 }}
                 transition={{ duration: 0.2 }}
-                className="flex items-start gap-3 mb-5 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400"
+                className="flex items-start gap-3 px-4 py-3 mb-5 text-red-400 border rounded-xl bg-red-500/10 border-red-500/20"
               >
                 <AlertCircle size={14} className="shrink-0 mt-0.5" />
                 <span className="text-xs leading-relaxed">{error}</span>
@@ -243,7 +231,7 @@ const LoginPage = () => {
                 initial={{ opacity: 0, y: -8, height: 0 }}
                 animate={{ opacity: 1, y: 0, height: 'auto' }}
                 exit={{ opacity: 0 }}
-                className="flex items-center gap-3 mb-5 px-4 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"
+                className="flex items-center gap-3 px-4 py-3 mb-5 border rounded-xl bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
               >
                 <CheckCircle2 size={14} />
                 <span className="text-xs font-medium">Authenticated — entering dashboard…</span>
@@ -298,7 +286,7 @@ const LoginPage = () => {
                   type="button"
                   onClick={() => setShowPass((v) => !v)}
                   tabIndex={-1}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
+                  className="absolute transition-colors -translate-y-1/2 right-3 top-1/2 text-white/30 hover:text-white/60"
                   aria-label={showPass ? 'Hide password' : 'Show password'}
                 >
                   {showPass ? <EyeOff size={15} /> : <Eye size={15} />}
@@ -362,7 +350,7 @@ const LoginPage = () => {
           </button>
 
           {/* Footer links */}
-          <div className="mt-8 text-center space-y-2">
+          <div className="mt-8 space-y-2 text-center">
             <p className="text-xs text-white/30">
               Don't have an account?{' '}
               <Link to="/register" className="text-[#00D8FF]/70 hover:text-[#00D8FF] font-semibold transition-colors">
