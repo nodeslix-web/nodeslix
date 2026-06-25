@@ -142,7 +142,7 @@ const Hero = () => {
             <Motion.div variants={fadeSlide} className="flex flex-col gap-3 sm:flex-row">
               <Motion.div whileHover={{ y: -3 }} transition={{ duration: 0.2, ease: 'easeOut' }}>
                 <Link to="/product" className="gap-2 primary-button">
-                  View Dashboard <ArrowRight size={16} />
+                  View Telemetry <ArrowRight size={16} />
                 </Link>
               </Motion.div>
               <Motion.div whileHover={{ y: -3 }} transition={{ duration: 0.2, ease: 'easeOut' }}>
