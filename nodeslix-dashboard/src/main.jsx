@@ -1,12 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-router-dom';
-import MainLayout from './components/layout/MainLayout.jsx';
+import { createBrowserRouter, RouterProvider, Navigate, Outlet } from 'react-router-dom';
 import DashboardLayout from './components/layout/DashboardLayout.jsx';
 import ProtectedRoute from './components/auth/ProtectedRoute.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
-import Home from './pages/Home.jsx';
-import ProductPage from './pages/ProductPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
 import OverviewPage from './pages/dashboard/OverviewPage.jsx';
@@ -20,15 +17,9 @@ import SettingsPage from './pages/dashboard/SettingsPage.jsx';
 import PaymentSuccess from './pages/PaymentSuccess.jsx';
 import PaymentCancelled from './pages/PaymentCancelled.jsx';
 import ChatwootWidget from './components/ChatwootWidget.jsx';
-import PrivacyPolicy from './pages/PrivacyPolicy.jsx';
-import TermsAndConditions from './pages/TermsAndConditions.jsx';
 import NotFound from './pages/NotFound.jsx';
 import './index.css';
 
-/**
- * Root layout — lives inside the router so useNavigate works,
- * but wraps every page with AuthProvider.
- */
 const RootWithAuth = () => (
   <AuthProvider>
     <Outlet />
@@ -38,33 +29,21 @@ const RootWithAuth = () => (
 
 const router = createBrowserRouter([
   {
-    /* ── Auth boundary (wraps entire app) ── */
     element: <RootWithAuth />,
     children: [
       {
-        /* ── Home site routes (Navbar + Footer) ── */
         path: '/',
-        element: <MainLayout />,
-        children: [
-          { index: true,                 element: <Home />               },
-          { path: 'product',             element: <ProductPage />        },
-          { path: 'Product',             element: <ProductPage />        },
-          { path: 'privacy-policy',      element: <PrivacyPolicy />      },
-          { path: 'terms-and-conditions', element: <TermsAndConditions /> },
-        ],
+        element: <Navigate to="/dashboard" replace />,
       },
       {
-        /* ── Standalone login page (no Navbar / Footer) ── */
         path: '/login',
         element: <LoginPage />,
       },
       {
-        /* ── Standalone register page (no Navbar / Footer) ── */
         path: '/register',
         element: <RegisterPage />,
       },
       {
-        /* ── Payment feedback landing pages (no Navbar / Footer) ── */
         path: '/payment-success',
         element: <PaymentSuccess />,
       },
@@ -73,7 +52,6 @@ const router = createBrowserRouter([
         element: <PaymentCancelled />,
       },
       {
-        /* ── Dashboard: protected, full-screen layout ── */
         path: '/dashboard',
         element: <ProtectedRoute />,
         children: [
@@ -93,7 +71,6 @@ const router = createBrowserRouter([
         ],
       },
       {
-        /* ── Catch-all redirect ── */
         path: '*',
         element: <NotFound />,
       },

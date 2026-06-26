@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
 import { pricingPlans } from '../../data/pricingPlans';
 import { Check, Shield, CreditCard, Zap, Globe, ArrowRight, Lock } from 'lucide-react';
 
@@ -14,16 +13,11 @@ const trustItems = [
 
 export default function Pricing() {
   const [isYearly, setIsYearly] = useState(false);
-  const { user } = useAuth();
   const navigate = useNavigate();
 
   const handlePlanClick = (plan, e) => {
     e.preventDefault();
-    if (user) {
-      window.location.href = plan.stripeLink;
-    } else {
-      navigate('/login');
-    }
+    window.location.href = 'https://dashboard.nodeslix.com/login';
   };
 
   // Keep monthly/yearly toggle as UI calculation helper (20% off Professional is $24, Enterprise is $79, Starter is $0)
