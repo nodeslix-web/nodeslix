@@ -48,6 +48,7 @@ const router = createBrowserRouter([
         children: [
           { index: true,                 element: <Home />               },
           { path: 'product',             element: <ProductPage />        },
+          { path: 'Product',             element: <ProductPage />        },
           { path: 'privacy-policy',      element: <PrivacyPolicy />      },
           { path: 'terms-and-conditions', element: <TermsAndConditions /> },
         ],
