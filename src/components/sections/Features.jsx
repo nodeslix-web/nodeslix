@@ -48,7 +48,7 @@ const capabilities = [
   {
     title: 'Mesh Network Topology Management',
     description: 'Visualize and manage distributed communication architectures through intelligent topology mapping. Monitor node relationships, connectivity paths, routing efficiency, and network expansion opportunities.',
-    icon: Network,
+    icon: BarChart3,
   },
   {
     title: 'Bandwidth & Latency Intelligence',

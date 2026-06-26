@@ -1,5 +1,5 @@
 import { motion as Motion } from 'framer-motion';
-import { ArrowRight, ArrowDown } from 'lucide-react';
+import { ArrowRight, ArrowDown, Monitor, Cpu, Server } from 'lucide-react';
 import DatabaseSvg from '../../assets/icons/Technical Journey.svg'
 import RadarSvg from '../../assets/icons/Technical Journey (2).svg'
 import BrainSvg from '../../assets/icons/Technical Journey (3).svg'
@@ -8,11 +8,14 @@ import ActivitySvg from '../../assets/icons/Technical Journey (5).svg'
 
 /* ─── 5-Step Journey ─── */
 const steps = [
-  { num: '01', title: 'Collect',  description: 'Gather telemetry from distributed infrastructures.', icon: DatabaseSvg },
-  { num: '02', title: 'Analyze',  description: 'Identify patterns and operational anomalies.', icon: RadarSvg },
-  { num: '03', title: 'Predict',  description: 'Forecast future bottlenecks and risks.', icon: BrainSvg },
-  { num: '04', title: 'Optimize', description: 'Generate intelligent optimization actions.', icon: ZapSvg },
-  { num: '05', title: 'Monitor',  description: 'Continuously track infrastructure health.', icon: ActivitySvg },
+  { num: '01', title: 'Built for Intelligent Connectivity',  description: 'NodeSlix operates as an AI-powered orchestration layer designed to enhance the performance, scalability, and resilience of modern telecom infrastructure.', icon: DatabaseSvg },
+  { num: '02', title: 'Data Ingestion Layer',  description: 'Collects telemetry and operational data from telecom core networks, wireless mesh environments, edge gateways, 5G systems, network monitoring platforms.', icon: RadarSvg },
+  { num: '03', title: 'Network Intelligence Engine',  description: 'Processes large-scale network telemetry streams to identify traffic patterns, operational anomalies, performance bottlenecks, and optimization opportunities across communication environments.', icon: BrainSvg },
+  { num: '04', title: 'Predictive Analytics Layer', description: 'Applies machine learning models to forecast congestion events, service degradation risks, capacity constraints, and infrastructure performance trends before operational impact occurs.', icon: ZapSvg },
+  { num: '05', title: 'Autonomous Optimization Layer',  description: 'Executes intelligent routing decisions, resource allocation strategies, traffic balancing actions, and network optimization workflows based on real-time network conditions.', icon: ActivitySvg },
+  { num: '06', title: 'Visualization & Operations Layer',  description: 'Provides telecom operators with a unified interface for monitoring network health, topology relationships, optimization performance, and infrastructure intelligence insights.', icon: Monitor },
+  { num: '07', title: 'NVIDIA-Powered AI Framework',  description: 'NodeSlix utilizes NVIDIA-powered AI infrastructure to accelerate telecom analytics, support large-scale network intelligence processing, and enable real-time optimization across distributed communication ecosystems.', icon: Cpu },
+  { num: '08', title: 'Enterprise Deployment Model',  description: 'Designed for scalable deployment across telecommunications providers, internet service providers, smart city networks, edge computing environments, and next-generation connectivity platforms.', icon: Server },
 ];
 
 /* ─── Summary Panel Pills ─── */

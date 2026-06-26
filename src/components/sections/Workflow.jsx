@@ -1,5 +1,5 @@
 import { motion as Motion } from 'framer-motion';
-import { Database, Brain, Zap, Rocket, BarChart3 } from 'lucide-react';
+import { Database, Brain, Zap, Rocket, BarChart3, Shield, Eye } from 'lucide-react';
 import PlugSvg from '../../assets/icons/AI Workflow(Step 1).svg'
 import DatabaseSvg from '../../assets/icons/AI Workflow(Step 2).svg'
 import BrainSvg from '../../assets/icons/AI Workflow(Step 3).svg'
@@ -11,44 +11,51 @@ const workflowSteps = [
   {
     num: '01',
     title: 'Connect Infrastructure',
-    description: 'Connect telecom infrastructures to NodeSlix.',
+    description: 'Integrate telecom core systems, wireless mesh nodes, 5G components, IoT communication layers, edge gateways, and monitoring platforms into the NodeSlix intelligence environment.',
     icon: PlugSvg,
     status: 'Connected',
   },
   {
     num: '02',
     title: 'Collect Telemetry',
-    description: 'Gather operational data from all connected systems.',
+    description: 'The platform continuously ingests network telemetry, operational metrics, traffic data, connectivity information, and performance indicators from distributed infrastructure sources.',
     icon: DatabaseSvg,
     status: 'Ingesting',
   },
   {
     num: '03',
-    title: 'Process Intelligence',
-    description: 'Analyze traffic patterns and infrastructure behavior.',
+    title: 'Analyze Network Behavior',
+    description: 'AI models evaluate network conditions in real time, identifying anomalies, inefficiencies, congestion patterns, and optimization opportunities across the ecosystem.',
     icon: BrainSvg,
     status: 'Analyzing',
   },
   {
     num: '04',
-    title: 'Generate Optimizations',
-    description: 'Produce intelligent recommendations automatically.',
+    title: 'Predict Operational Risks',
+    description: 'Machine learning algorithms forecast service disruptions, capacity challenges, routing inefficiencies, and infrastructure degradation before they affect service delivery.',
     icon: ZapSvg,
-    status: 'Optimizing',
+    status: 'Predicting',
   },
   {
     num: '05',
-    title: 'Deploy Actions',
-    description: 'Apply optimization strategies safely.',
+    title: 'Optimize Network Performance',
+    description: 'NodeSlix autonomously recommends or executes routing improvements, traffic balancing actions, bandwidth optimization strategies, and resource allocation adjustments.',
     icon: RocketSvg,
-    status: 'Deploying',
+    status: 'Optimizing',
   },
   {
     num: '06',
-    title: 'Measure Results',
-    description: 'Track outcomes and continuously improve.',
-    icon: BarChart3,
-    status: 'Measuring',
+    title: 'Improve Service Reliability',
+    description: 'Continuous optimization and self-healing workflows enhance uptime, reduce latency, minimize packet loss, and strengthen overall network resilience.',
+    icon: Shield,
+    status: 'Self-Healing',
+  },
+  {
+    num: '07',
+    title: 'Visualize Outcomes',
+    description: 'Operators access real-time intelligence dashboards, topology visualizations, optimization reports, and performance analytics to monitor improvements and operational health.',
+    icon: Eye,
+    status: 'Visualizing',
   },
 ];
 
