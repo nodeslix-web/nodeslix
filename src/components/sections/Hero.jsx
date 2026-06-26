@@ -157,8 +157,8 @@ const Hero = () => {
                 whileHover={{ y: -3 }}
                 transition={{ duration: 0.2, ease: "easeOut" }}
               >
-                <Link to="/product" className="gap-2 primary-button">
-                  Launch Operations <ArrowRight size={16} />
+                <Link to="/Product" className="gap-2 primary-button">
+                  Matrix <ArrowRight size={16} />
                 </Link>
               </Motion.div>
               <Motion.div
