@@ -438,10 +438,10 @@ const DashboardPreview = () => {
             {/* CTAs */}
             <div className="flex flex-wrap gap-4 pt-6 mt-auto border-t border-white/5">
               <Link
-                to="/product"
+                to="/Product"
                 className="primary-button inline-flex items-center justify-center gap-2 text-sm font-bold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(0,212,255,0.15)] shadow-md"
               >
-                Launch Telemetry <ArrowRight size={15} />
+                Launch Matrix <ArrowRight size={15} />
               </Link>
               <a
                 href="#architecture"

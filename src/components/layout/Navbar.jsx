@@ -248,16 +248,16 @@ const Navbar = () => {
           {/* Launch Telemetry button */}
           <Motion.button
             type="button"
-            aria-label="Launch Telemetry"
+            aria-label="Open Matrix"
             whileHover={{
               y: -3,
               boxShadow: "0 10px 32px rgba(0,212,255,0.28)",
             }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            onClick={() => navigate("/product")}
+            onClick={() => navigate("/Product")}
             className="gap-2 cursor-pointer primary-button"
           >
-            Telemetry <ArrowUpRight size={15} aria-hidden="true" />
+            Matrix <ArrowUpRight size={15} aria-hidden="true" />
           </Motion.button>
         </div>
 
@@ -394,11 +394,11 @@ const Navbar = () => {
                   transition={{ duration: 0.2 }}
                   onClick={() => {
                     setIsDrawerOpen(false);
-                    navigate("/product");
+                    navigate("/Product");
                   }}
                   className="w-full gap-2 cursor-pointer primary-button"
                 >
-                  Telemetry <ArrowUpRight size={15} aria-hidden="true" />
+                  Matrix <ArrowUpRight size={15} aria-hidden="true" />
                 </Motion.button>
               </div>
             </Motion.aside>

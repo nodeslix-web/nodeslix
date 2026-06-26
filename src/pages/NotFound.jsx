@@ -38,10 +38,10 @@ const NotFound = () => {
             Return Home
           </button>
           <button
-            onClick={() => navigate('/product')}
+            onClick={() => navigate('/Product')}
             className="px-6 py-2 bg-[#00D4FF] hover:bg-[#00B8E6] rounded transition" style={{color:"#080808"}}
           >
-            Open Telemetry
+            Open Matrix
           </button>
         </div>
         <div className="mt-8">
