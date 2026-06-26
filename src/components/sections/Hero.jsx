@@ -124,10 +124,10 @@ const Hero = () => {
               variants={fadeSlide}
               className="text-5xl font-extrabold leading-[1.04] tracking-tight text-nodeslix-text sm:text-6xl lg:text-[4.25rem]"
             >
-              Smarter Telecom{' '}
-              <span className="text-nodeslix-accent">Networks</span>{' '}
-              Powered by AI{' '}
-              <span className="text-nodeslix-accent">Intelligence</span>
+              We Optimize{' '}
+              <span className="text-nodeslix-accent">Telecom</span>{' '}
+              Networks{' '}
+              <span className="text-nodeslix-accent">Intelligently</span>
             </Motion.h1>
 
             {/* Sub-copy */}
@@ -135,19 +135,19 @@ const Hero = () => {
               variants={fadeSlide}
               className="max-w-[500px] text-base leading-[1.82] text-nodeslix-muted sm:text-lg"
             >
-              Monitor, analyze, and optimize large-scale telecom infrastructure through a unified intelligence platform.
+              We help telecom operators improve performance, reduce latency, and enhance reliability through AI-powered network intelligence and autonomous optimization systems.
             </Motion.p>
 
             {/* CTA buttons */}
             <Motion.div variants={fadeSlide} className="flex flex-col gap-3 sm:flex-row">
               <Motion.div whileHover={{ y: -3 }} transition={{ duration: 0.2, ease: 'easeOut' }}>
                 <Link to="/product" className="gap-2 primary-button">
-                  View Telemetry <ArrowRight size={16} />
+                  Launch Operations <ArrowRight size={16} />
                 </Link>
               </Motion.div>
               <Motion.div whileHover={{ y: -3 }} transition={{ duration: 0.2, ease: 'easeOut' }}>
                 <a href="#architecture" className="gap-2 secondary-button">
-                  Explore Architecture <Network size={16} />
+                  Access System <Network size={16} />
                 </a>
               </Motion.div>
             </Motion.div>

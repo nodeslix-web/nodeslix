@@ -1,5 +1,5 @@
 import { motion as Motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Network, Zap, Layers, Monitor } from 'lucide-react';
 import Workflow from '../../assets/icons/AI Capabilities(Autonomous Operations).svg'
 import Radar from '../../assets/icons/AI Capabilities(Network Intelligence).svg'
 import BrainCircuit from '../../assets/icons/AI Capabilities(Predictive Analytics).svg'
@@ -21,34 +21,49 @@ const fadeUp = {
 /* ─── 6 Capability Cards ─── */
 const capabilities = [
   {
-    title: 'Network Intelligence',
-    description: 'Continuously understand infrastructure behavior and identify operational patterns.',
+    title: 'AI-Powered Telecom Network Intelligence',
+    description: 'Transform complex telecom infrastructure into an autonomous, optimized, and resilient communication ecosystem with real-time AI intelligence.',
     icon: Radar,
   },
   {
-    title: 'Traffic Optimization',
-    description: 'Detect bottlenecks and balance workloads across distributed systems.',
+    title: 'Network Intelligence Monitoring',
+    description: 'Continuously monitor mesh networks, wireless infrastructure, edge systems, and distributed communication environments through a unified intelligence layer.',
     icon: Gauge,
   },
   {
-    title: 'Predictive Analytics',
-    description: 'Identify risks before they affect network performance.',
+    title: 'Autonomous Traffic Optimization',
+    description: 'NodeSlix automatically analyzes traffic patterns and dynamically optimizes routing decisions to reduce latency, improve throughput, and maximize bandwidth utilization.',
     icon: BrainCircuit,
   },
   {
-    title: 'Autonomous Orchestration',
-    description: 'Apply intelligent optimization without manual intervention.',
+    title: 'Predictive Telecom Analytics',
+    description: 'Leverage advanced machine learning models to forecast network congestion, identify degradation patterns, and predict service disruptions before they impact users.',
     icon: Workflow,
   },
   {
-    title: 'Infrastructure Monitoring',
-    description: 'Track the health and availability of connected systems in real time.',
+    title: 'Self-Healing Network Operations',
+    description: 'Empower communication infrastructure with autonomous remediation capabilities. NodeSlix continuously evaluates network conditions and automatically initiates optimization workflows that improve service continuity.',
     icon: Activity,
   },
   {
-    title: 'Performance Insights',
-    description: 'Transform telemetry data into actionable recommendations.',
-    icon: BarChart3,
+    title: 'Mesh Network Topology Management',
+    description: 'Visualize and manage distributed communication architectures through intelligent topology mapping. Monitor node relationships, connectivity paths, routing efficiency, and network expansion opportunities.',
+    icon: Network,
+  },
+  {
+    title: 'Bandwidth & Latency Intelligence',
+    description: 'Optimize network resources through AI-powered traffic balancing and performance analytics. Improve customer experience while reducing operational inefficiencies and infrastructure bottlenecks.',
+    icon: Zap,
+  },
+  {
+    title: 'Enterprise Telecom Integration',
+    description: 'Connect telecom core systems, network monitoring platforms, 5G infrastructure, IoT communication layers, and edge computing environments through a scalable integration framework designed for enterprise deployment.',
+    icon: Layers,
+  },
+  {
+    title: 'Real-Time Operational Visibility',
+    description: 'Access critical performance metrics including uptime, throughput, latency, congestion indicators, node activity, and optimization effectiveness through a centralized command-center dashboard.',
+    icon: Monitor,
   },
 ];
 
@@ -80,7 +95,7 @@ const Features = () => {
           className="max-w-2xl space-y-5"
         >
           <p className="section-kicker">Capability Center</p>
-          <h2 className="section-title">Core Platform Capabilities</h2>
+          <h2 className="section-title">Autonomous Network Features</h2>
           <p className="section-copy">
             Intelligent systems that continuously monitor and optimize telecom infrastructures.
           </p>
