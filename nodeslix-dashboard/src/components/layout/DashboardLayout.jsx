@@ -931,11 +931,19 @@ const ChangePasswordModal = ({ onClose }) => {
   );
 };
 
-const PreferencesDrawer = ({ onClose }) => {
-  const [density, setDensity] = useState('Compact');
+const PreferencesDrawer = ({ onClose, onPreferencesUpdated }) => {
+  const [density, setDensity] = useState(() => localStorage.getItem('nodeslix_layout_density') || 'Compact');
+  const [widgetDensity, setWidgetDensity] = useState(() => localStorage.getItem('nodeslix_widget_density') || 'High Density');
+  const [defaultLanding, setDefaultLanding] = useState(() => localStorage.getItem('nodeslix_default_landing') || 'Overview');
   
   const handleSave = () => {
+    localStorage.setItem('nodeslix_layout_density', density);
+    localStorage.setItem('nodeslix_widget_density', widgetDensity);
+    localStorage.setItem('nodeslix_default_landing', defaultLanding);
     addToastEvent('Preferences updated', 'Dashboard layout refreshed', Sliders, 'text-nodeslix-accent', 'bg-nodeslix-accent/15');
+    if (onPreferencesUpdated) {
+      onPreferencesUpdated();
+    }
     onClose();
   };
 
@@ -970,6 +978,7 @@ const PreferencesDrawer = ({ onClose }) => {
               {['Compact Mode', 'Expanded Mode'].map((m) => (
                 <button
                   key={m}
+                  type="button"
                   onClick={() => setDensity(m === 'Compact Mode' ? 'Compact' : 'Expanded')}
                   className={`py-3 rounded-xl border text-xs font-medium transition-colors ${
                     (m === 'Compact Mode' && density === 'Compact') || (m === 'Expanded Mode' && density === 'Expanded')
@@ -983,23 +992,6 @@ const PreferencesDrawer = ({ onClose }) => {
             </div>
           </div>
 
-          <div className="space-y-3">
-            <label className="text-xs font-semibold tracking-wider uppercase text-nodeslix-muted">Widget Density</label>
-            <select className="w-full px-4 py-3 text-sm text-white border rounded-lg appearance-none bg-white/5 border-white/10 focus:outline-none">
-              <option>High Density</option>
-              <option>Standard</option>
-              <option>Spacious</option>
-            </select>
-          </div>
-
-          <div className="space-y-3">
-            <label className="text-xs font-semibold tracking-wider uppercase text-nodeslix-muted">Default Landing Page</label>
-            <select className="w-full px-4 py-3 text-sm text-white border rounded-lg appearance-none bg-white/5 border-white/10 focus:outline-none">
-              <option>Overview</option>
-              <option>Topology</option>
-              <option>Operations</option>
-            </select>
-          </div>
         </div>
 
         <div className="flex gap-3 p-6 border-t border-white/5 shrink-0">
@@ -1028,21 +1020,6 @@ const HelpCenterModal = ({ onClose }) => {
       desc: 'Email our 24/7 team',
       icon: Users,
       action: () => { window.location.href = 'mailto:help@nodeslix.com'; onClose(); },
-    },
-    {
-      label: 'Keyboard Shortcuts',
-      desc: 'Speed up your workflow',
-      icon: Command,
-      action: () => {
-        addToastEvent(
-          'Keyboard Shortcuts',
-          'Ctrl+K: Search · Alt+S: Settings · Alt+D: Dashboard',
-          Command,
-          'text-nodeslix-accent',
-          'bg-nodeslix-accent/15',
-        );
-        onClose();
-      },
     },
     {
       label: 'System Version',
@@ -1086,7 +1063,7 @@ const HelpCenterModal = ({ onClose }) => {
               onClick={item.action}
               className="flex flex-col items-start gap-2 p-4 text-left transition-colors border rounded-xl border-white/10 bg-white/5 hover:bg-white/10 hover:border-nodeslix-accent/30 group"
             >
-              <item.icon size={20} className="text-nodeslix-muted group-hover:text-nodeslix-accent transition-colors" />
+              <item.icon size={20} className="transition-colors text-nodeslix-muted group-hover:text-nodeslix-accent" />
               <div>
                 <p className="text-sm font-semibold text-white">{item.label}</p>
                 <p className="text-[10px] text-nodeslix-muted">{item.desc}</p>
@@ -1134,7 +1111,12 @@ const DashboardLayout = () => {
   const location = useLocation();
   const { logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
+    const saved = localStorage.getItem('nodeslix_layout_density');
+    return saved ? saved === 'Compact' : false;
+  });
+
+  const mainRef = useRef(null);
 
   // Modals state
   const [activeModal, setActiveModal] = useState(null); // 'profile', 'settings', 'password', 'prefs', 'help', 'logout'
@@ -1169,9 +1151,12 @@ const DashboardLayout = () => {
     await logout(); // Firebase signOut → redirects to /
   };
 
-  // Close mobile drawer on route change
+  // Close mobile drawer and scroll page container to top on route change
   useEffect(() => {
     setSidebarOpen(false);
+    if (mainRef.current) {
+      mainRef.current.scrollTo(0, 0);
+    }
   }, [location.pathname]);
 
   // Lock body scroll when mobile drawer open
@@ -1180,6 +1165,23 @@ const DashboardLayout = () => {
     else document.body.style.overflow = '';
     return () => { document.body.style.overflow = ''; };
   }, [sidebarOpen]);
+
+  // Default landing page redirect
+  useEffect(() => {
+    if (location.pathname === '/dashboard' || location.pathname === '/dashboard/') {
+      const defaultLanding = localStorage.getItem('nodeslix_default_landing');
+      if (defaultLanding && defaultLanding !== 'Overview') {
+        const pathMap = {
+          'Topology': '/dashboard/topology',
+          'Operations': '/dashboard/operations'
+        };
+        const targetPath = pathMap[defaultLanding];
+        if (targetPath) {
+          navigate(targetPath, { replace: true });
+        }
+      }
+    }
+  }, [location.pathname, navigate]);
 
   return (
     <div className="flex h-screen overflow-hidden bg-nodeslix-primary">
@@ -1192,7 +1194,15 @@ const DashboardLayout = () => {
         {activeModal === 'profile' && <ViewProfileModal onClose={() => setActiveModal(null)} />}
         {activeModal === 'settings' && <AccountSettingsModal onClose={() => setActiveModal(null)} />}
         {activeModal === 'password' && <ChangePasswordModal onClose={() => setActiveModal(null)} />}
-        {activeModal === 'prefs' && <PreferencesDrawer onClose={() => setActiveModal(null)} />}
+        {activeModal === 'prefs' && (
+          <PreferencesDrawer 
+            onClose={() => setActiveModal(null)} 
+            onPreferencesUpdated={() => {
+              const savedDensity = localStorage.getItem('nodeslix_layout_density') || 'Compact';
+              setSidebarCollapsed(savedDensity === 'Compact');
+            }}
+          />
+        )}
         {activeModal === 'help' && <HelpCenterModal onClose={() => setActiveModal(null)} />}
         {activeModal === 'logout' && <LogoutModal onClose={() => setActiveModal(null)} onConfirm={handleLogoutConfirm} />}
       </AnimatePresence>
@@ -1250,7 +1260,7 @@ const DashboardLayout = () => {
         </div>
 
         {/* ── PAGE CONTENT (Outlet) ── */}
-        <main className="z-10 flex-1 overflow-y-auto">
+        <main ref={mainRef} className="z-10 flex-1 overflow-y-auto">
           <AnimatePresence mode="wait">
             <Motion.div
               key={location.pathname}
