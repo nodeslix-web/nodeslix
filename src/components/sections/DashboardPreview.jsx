@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion as Motion, AnimatePresence } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, LineChart, ShieldAlert, Sliders } from "lucide-react";
 import RadioTower from "../../assets/icons/Inside The Command Center.svg";
 import Brain from "../../assets/icons/Inside The Command Center (2).svg";
 import Gauge from "../../assets/icons/Inside The Command Center (3).svg";
@@ -36,28 +36,46 @@ const metrics = [
 /* ─── Right column capabilities checklist ─── */
 const commandCapabilities = [
   {
-    title: "Live Monitoring",
+    title: "Telecom Operations Command Center",
     description:
-      "Track infrastructure performance across all edge and node endpoints in real time.",
+      "The NodeSlix Dashboard provides a centralized operational environment for monitoring, analyzing, and optimizing telecom infrastructure at scale.",
     icon: RadioTower,
   },
   {
-    title: "Predictive Analytics",
+    title: "Infrastructure Health Monitoring",
     description:
-      "Forecast potential capacity bottlenecks and routing disruptions before they impact users.",
+      "Track active network nodes, uptime percentages, throughput performance, latency metrics, and service availability across distributed communication systems.",
     icon: Brain,
   },
   {
-    title: "Traffic Optimization",
+    title: "AI Optimization Performance",
     description:
-      "Dynamically balance network payloads and congestion routing across mesh links.",
+      "Measure optimization effectiveness through real-time intelligence scoring, traffic efficiency indicators, bandwidth utilization analytics, and autonomous orchestration metrics.",
     icon: Gauge,
   },
   {
-    title: "Autonomous Orchestration",
+    title: "Network Topology Visualization",
     description:
-      "Apply intelligent configuration policies and optimizations instantly without human delay.",
+      "Explore interactive mesh network maps, connectivity relationships, routing pathways, node dependencies, and communication flow patterns.",
     icon: Workflow,
+  },
+  {
+    title: "Traffic Intelligence",
+    description:
+      "Analyze traffic distribution, congestion risks, network demand fluctuations, and infrastructure utilization trends through advanced visual analytics.",
+    icon: LineChart,
+  },
+  {
+    title: "Predictive Risk Center",
+    description:
+      "Receive early warnings for service degradation, congestion events, infrastructure anomalies, and operational vulnerabilities before they impact network performance.",
+    icon: ShieldAlert,
+  },
+  {
+    title: "Autonomous Operations Console",
+    description:
+      "Monitor AI-driven optimization workflows, self-healing actions, automated routing decisions, and network orchestration activities in real time.",
+    icon: Sliders,
   },
 ];
 
