@@ -1,9 +1,48 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion as Motion } from 'framer-motion';
 import {
   Bell, CheckCircle2, Globe, Key, Lock,
   Monitor, Moon, Palette, Save, Shield, Sliders, Sun, Wifi,
 } from 'lucide-react';
+
+/* ─── Storage key ─── */
+const STORAGE_KEY = 'nodeslix-settings';
+
+const defaultToggles = {
+  autoOptimize:     true,
+  predictiveAlerts: true,
+  autoReroute:      true,
+  slaEnforcement:   false,
+  darkMode:         true,
+  compactView:      false,
+  animationsOn:     true,
+  emailAlerts:      true,
+  smsAlerts:        false,
+  criticalOnly:     false,
+  slackIntegration: true,
+  twoFactor:        false,
+  auditLog:         true,
+  sessionTimeout:   true,
+  ipWhitelist:      false,
+};
+
+const loadSettings = () => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      return {
+        toggles: { ...defaultToggles, ...(parsed.toggles || {}) },
+        timezone: parsed.timezone || 'UTC+5:30 — Colombo',
+        language: parsed.language || 'English (US)',
+        refreshRate: parsed.refreshRate || '5s',
+      };
+    }
+  } catch (e) {
+    // ignore
+  }
+  return { toggles: defaultToggles, timezone: 'UTC+5:30 — Colombo', language: 'English (US)', refreshRate: '5s' };
+};
 
 /* ─── Tabs ─── */
 const tabs = [
@@ -58,24 +97,21 @@ const SettingsPage = () => {
   const [activeTab, setActiveTab] = useState('general');
   const [saved, setSaved] = useState(false);
 
-  /* Toggle states */
-  const [toggles, setToggles] = useState({
-    autoOptimize:     true,
-    predictiveAlerts: true,
-    autoReroute:      true,
-    slaEnforcement:   false,
-    darkMode:         true,
-    compactView:      false,
-    animationsOn:     true,
-    emailAlerts:      true,
-    smsAlerts:        false,
-    criticalOnly:     false,
-    slackIntegration: true,
-    twoFactor:        false,
-    auditLog:         true,
-    sessionTimeout:   true,
-    ipWhitelist:      false,
-  });
+  /* Load initial state from localStorage */
+  const initial = loadSettings();
+  const [toggles, setToggles] = useState(initial.toggles);
+  const [timezone, setTimezone] = useState(initial.timezone);
+  const [language, setLanguage] = useState(initial.language);
+  const [refreshRate, setRefreshRate] = useState(initial.refreshRate);
+
+  /* Persist to localStorage whenever any value changes */
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ toggles, timezone, language, refreshRate }));
+    } catch (e) {
+      // ignore
+    }
+  }, [toggles, timezone, language, refreshRate]);
 
   const toggle = (key) => setToggles((prev) => ({ ...prev, [key]: !prev[key] }));
 
@@ -83,10 +119,6 @@ const SettingsPage = () => {
     setSaved(true);
     setTimeout(() => setSaved(false), 2500);
   };
-
-  const [timezone, setTimezone] = useState('UTC+5:30 — Colombo');
-  const [language, setLanguage] = useState('English (US)');
-  const [refreshRate, setRefreshRate] = useState('5s');
 
   return (
     <div className="p-5 md:p-6 space-y-7">

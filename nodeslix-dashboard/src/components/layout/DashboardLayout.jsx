@@ -585,13 +585,23 @@ const TopNavbar = ({ onMenuClick, onLogout }) => {
                 
                 {/* Theme toggle dummy */}
                 <button
+                  onClick={() => {
+                    addToastEvent(
+                      'Theme Customization',
+                      'Full theme control coming soon.',
+                      Palette,
+                      'text-nodeslix-accent',
+                      'bg-nodeslix-accent/15',
+                    );
+                    setProfileOpen(false);
+                  }}
                   className="flex items-center justify-between w-full px-4 py-2 text-xs transition-colors text-nodeslix-muted hover:text-white hover:bg-white/5 group"
                 >
                   <div className="flex items-center gap-2.5">
                     <Moon size={13} />
                     Theme (Dark)
                   </div>
-                  <span className="text-[9px] bg-white/10 px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity">Locked</span>
+                  <span className="text-[9px] bg-nodeslix-accent/10 text-nodeslix-accent px-1.5 py-0.5 rounded font-semibold">Soon</span>
                 </button>
 
                 <button
@@ -1005,43 +1015,89 @@ const PreferencesDrawer = ({ onClose }) => {
   );
 };
 
-const HelpCenterModal = ({ onClose }) => (
-  <ModalOverlay onClose={onClose}>
-    <Motion.div
-      initial={{ opacity: 0, scale: 0.95, y: 10 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.95, y: 10 }}
-      onClick={(e) => e.stopPropagation()}
-      className="w-full max-w-[500px] bg-[#0e0e0e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
-    >
-      <div className="flex items-center justify-between px-6 py-5 border-b border-white/5">
-        <h3 className="flex items-center gap-2 text-base font-bold text-white">
-          <HelpCircle size={18} className="text-nodeslix-accent" />
-          Help Center
-        </h3>
-        <button onClick={onClose} className="transition-colors text-nodeslix-muted hover:text-white">
-          <X size={16} />
-        </button>
-      </div>
-      <div className="grid grid-cols-2 gap-4 p-6">
-        {[
-          { label: 'Documentation', desc: 'Platform guides', icon: Menu },
-          { label: 'Support', desc: 'Contact 24/7 team', icon: Users },
-          { label: 'Keyboard Shortcuts', desc: 'Speed up workflow', icon: Command },
-          { label: 'System Version', desc: 'v3.12.1', icon: Server },
-        ].map((item) => (
-          <button key={item.label} onClick={() => { addToastEvent(`Opened ${item.label}`, '', item.icon, 'text-nodeslix-accent', 'bg-nodeslix-accent/15'); onClose(); }} className="flex flex-col items-start gap-2 p-4 text-left transition-colors border rounded-xl border-white/10 bg-white/5 hover:bg-white/10">
-            <item.icon size={20} className="text-nodeslix-muted" />
-            <div>
-              <p className="text-sm font-semibold text-white">{item.label}</p>
-              <p className="text-[10px] text-nodeslix-muted">{item.desc}</p>
-            </div>
+const HelpCenterModal = ({ onClose }) => {
+  const helpItems = [
+    {
+      label: 'Documentation',
+      desc: 'Platform guides & tutorials',
+      icon: Menu,
+      action: () => { window.open('https://nodeslix.com/product', '_blank'); onClose(); },
+    },
+    {
+      label: 'Contact Support',
+      desc: 'Email our 24/7 team',
+      icon: Users,
+      action: () => { window.location.href = 'mailto:help@nodeslix.com'; onClose(); },
+    },
+    {
+      label: 'Keyboard Shortcuts',
+      desc: 'Speed up your workflow',
+      icon: Command,
+      action: () => {
+        addToastEvent(
+          'Keyboard Shortcuts',
+          'Ctrl+K: Search · Alt+S: Settings · Alt+D: Dashboard',
+          Command,
+          'text-nodeslix-accent',
+          'bg-nodeslix-accent/15',
+        );
+        onClose();
+      },
+    },
+    {
+      label: 'System Version',
+      desc: 'v3.12.1 · All systems operational',
+      icon: Server,
+      action: () => {
+        addToastEvent(
+          'NodeSlix v3.12.1',
+          'All systems operational · 99.98% uptime',
+          Server,
+          'text-emerald-400',
+          'bg-emerald-500/15',
+        );
+        onClose();
+      },
+    },
+  ];
+
+  return (
+    <ModalOverlay onClose={onClose}>
+      <Motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 10 }}
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-[500px] bg-[#0e0e0e] border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
+      >
+        <div className="flex items-center justify-between px-6 py-5 border-b border-white/5">
+          <h3 className="flex items-center gap-2 text-base font-bold text-white">
+            <HelpCircle size={18} className="text-nodeslix-accent" />
+            Help Center
+          </h3>
+          <button onClick={onClose} className="transition-colors text-nodeslix-muted hover:text-white">
+            <X size={16} />
           </button>
-        ))}
-      </div>
-    </Motion.div>
-  </ModalOverlay>
-);
+        </div>
+        <div className="grid grid-cols-2 gap-4 p-6">
+          {helpItems.map((item) => (
+            <button
+              key={item.label}
+              onClick={item.action}
+              className="flex flex-col items-start gap-2 p-4 text-left transition-colors border rounded-xl border-white/10 bg-white/5 hover:bg-white/10 hover:border-nodeslix-accent/30 group"
+            >
+              <item.icon size={20} className="text-nodeslix-muted group-hover:text-nodeslix-accent transition-colors" />
+              <div>
+                <p className="text-sm font-semibold text-white">{item.label}</p>
+                <p className="text-[10px] text-nodeslix-muted">{item.desc}</p>
+              </div>
+            </button>
+          ))}
+        </div>
+      </Motion.div>
+    </ModalOverlay>
+  );
+};
 
 const LogoutModal = ({ onClose, onConfirm }) => (
   <ModalOverlay onClose={onClose}>

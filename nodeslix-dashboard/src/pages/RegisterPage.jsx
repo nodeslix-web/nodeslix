@@ -247,7 +247,7 @@ const RegisterPage = () => {
             <img src={logo} alt="Logo" height={"100px"} style={{maxWidth: "50%"}}/>
           </Link>
 
-          <h1 className="text-3xl font-bold text-white leading-tight mb-3">
+          <h1 className="mb-3 text-3xl font-bold leading-tight text-white">
             Join<br />
             <span className="text-[#00D4FF]">NodeSlix</span>
           </h1>
@@ -275,7 +275,7 @@ const RegisterPage = () => {
                 <b.icon size={13} className="text-[#00D4FF]" />
               </div>
               <span className="text-sm font-medium text-white/70">{b.label}</span>
-              <div className="ml-auto flex size-4 items-center justify-center rounded-full bg-emerald-400/10">
+              <div className="flex items-center justify-center ml-auto rounded-full size-4 bg-emerald-400/10">
                 <Check size={9} className="text-emerald-400" />
               </div>
             </Motion.div>
@@ -290,7 +290,7 @@ const RegisterPage = () => {
           className="relative z-10"
         >
           <div className="flex items-center gap-2">
-            <span className="flex size-2 rounded-full bg-emerald-400 relative">
+            <span className="relative flex rounded-full size-2 bg-emerald-400">
               <span className="absolute inset-0 rounded-full bg-emerald-400 animate-ping opacity-60" />
             </span>
             <span className="text-[11px] text-white/30">Platform fully operational · v3.12.1</span>
@@ -299,7 +299,7 @@ const RegisterPage = () => {
       </div>
 
       {/* ─── Right Panel (Form) ─── */}
-      <div className="flex flex-1 items-start justify-center p-6 py-10 relative overflow-auto">
+      <div className="relative flex items-start justify-center flex-1 p-6 py-10 overflow-auto">
         <div className="absolute inset-0 lg:hidden">
           <GridBackground />
         </div>
@@ -317,7 +317,7 @@ const RegisterPage = () => {
 
           {/* Header */}
           <div className="mb-7">
-            <h2 className="text-2xl font-bold text-white mb-1">Create your account</h2>
+            <h2 className="mb-1 text-2xl font-bold text-white">Create your account</h2>
             <p className="text-sm text-white/40">Enterprise access to Telecom Operations Command Center</p>
           </div>
 
@@ -330,7 +330,7 @@ const RegisterPage = () => {
                 animate={{ opacity: 1, y: 0, height: 'auto' }}
                 exit={{ opacity: 0, y: -8, height: 0 }}
                 transition={{ duration: 0.2 }}
-                className="flex items-start gap-3 mb-5 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400"
+                className="flex items-start gap-3 px-4 py-3 mb-5 text-red-400 border rounded-xl bg-red-500/10 border-red-500/20"
               >
                 <AlertCircle size={14} className="shrink-0 mt-0.5" />
                 <span className="text-xs leading-relaxed">{error}</span>
@@ -341,9 +341,9 @@ const RegisterPage = () => {
                 key="success"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="flex flex-col items-center gap-3 mb-6 px-6 py-6 rounded-2xl bg-emerald-500/8 border border-emerald-500/20 text-center"
+                className="flex flex-col items-center gap-3 px-6 py-6 mb-6 text-center border rounded-2xl bg-emerald-500/8 border-emerald-500/20"
               >
-                <div className="flex size-12 items-center justify-center rounded-full bg-emerald-500/15 border border-emerald-500/25">
+                <div className="flex items-center justify-center border rounded-full size-12 bg-emerald-500/15 border-emerald-500/25">
                   <CheckCircle2 size={22} className="text-emerald-400" />
                 </div>
                 <div>
@@ -395,7 +395,7 @@ const RegisterPage = () => {
                       autoComplete="name"
                       value={fullName}
                       onChange={(e) => { setFullName(e.target.value); setError(''); }}
-                      placeholder="John Doe"
+                      placeholder="Your Name"
                       disabled={busy}
                       className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder-white/20
                                  focus:outline-none focus:border-[#00D4FF]/50 focus:bg-[#00D4FF]/[0.03]
@@ -432,7 +432,7 @@ const RegisterPage = () => {
                     autoComplete="email"
                     value={email}
                     onChange={(e) => { setEmail(e.target.value); setError(''); }}
-                    placeholder="you@company.com"
+                    placeholder="yourname@gmail.com"
                     disabled={busy}
                     className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-white/20
                                focus:outline-none focus:border-[#00D4FF]/50 focus:bg-[#00D4FF]/[0.03]
@@ -462,7 +462,7 @@ const RegisterPage = () => {
                       type="button"
                       onClick={() => setShowPw((v) => !v)}
                       tabIndex={-1}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
+                      className="absolute transition-colors -translate-y-1/2 right-3 top-1/2 text-white/30 hover:text-white/60"
                     >
                       {showPw ? <EyeOff size={14} /> : <Eye size={14} />}
                     </button>
@@ -501,13 +501,13 @@ const RegisterPage = () => {
                       type="button"
                       onClick={() => setShowConfirm((v) => !v)}
                       tabIndex={-1}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
+                      className="absolute transition-colors -translate-y-1/2 right-3 top-1/2 text-white/30 hover:text-white/60"
                     >
                       {showConfirm ? <EyeOff size={14} /> : <Eye size={14} />}
                     </button>
                     {/* Match indicator */}
                     {confirmPw && (
-                      <div className="absolute right-9 top-1/2 -translate-y-1/2">
+                      <div className="absolute -translate-y-1/2 right-9 top-1/2">
                         {confirmPw === password
                           ? <Check size={12} className="text-emerald-400" />
                           : <XIcon size={12} className="text-red-400" />
@@ -557,7 +557,7 @@ const RegisterPage = () => {
                 <p className="text-[10px] text-white/30 text-center leading-relaxed pb-2">
                   By registering, you agree to our{' '}
                   <a 
-                    href="/privacy-policy" 
+                    href="https://nodeslix.com/privacy-policy" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="text-[#00D4FF] hover:underline"
@@ -566,7 +566,7 @@ const RegisterPage = () => {
                   </a>{' '}
                   and{' '}
                   <a 
-                    href="/terms-and-conditions" 
+                    href="https://nodeslix.com/terms-and-conditions" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="text-[#00D4FF] hover:underline"
@@ -596,7 +596,7 @@ const RegisterPage = () => {
           )}
 
           {/* Footer */}
-          <div className="mt-6 text-center space-y-2">
+          <div className="mt-6 space-y-2 text-center">
             <p className="text-xs text-white/30">
               Already have an account?{' '}
               <Link to="/login" className="text-[#00D4FF]/70 hover:text-[#00D4FF] font-semibold transition-colors">
@@ -604,7 +604,7 @@ const RegisterPage = () => {
               </Link>
             </p>
             <p className="text-[10px] text-white/15">
-              <Link to="/" className="hover:text-white/30 transition-colors">← Back to NodeSlix Home</Link>
+              <Link to="/" className="transition-colors hover:text-white/30">← Back to NodeSlix Home</Link>
             </p>
           </div>
         </Motion.div>

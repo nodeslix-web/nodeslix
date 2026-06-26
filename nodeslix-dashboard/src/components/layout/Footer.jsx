@@ -237,7 +237,7 @@ const Footer = () => {
               <ExternalLink soon>Developer API</ExternalLink>
               <li>
                 <Link
-                  to="/terms-and-conditions"
+                  to="https://nodeslix.com/terms-and-conditions"
                   className="group relative inline-flex cursor-pointer items-center gap-1.5 text-sm text-nodeslix-muted transition-colors duration-200 hover:text-nodeslix-accent"
                 >
                   <Motion.span
@@ -252,7 +252,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  to="/privacy-policy"
+                  to="https://nodeslix.com/privacy-policy"
                   className="group relative inline-flex cursor-pointer items-center gap-1.5 text-sm text-nodeslix-muted transition-colors duration-200 hover:text-nodeslix-accent"
                 >
                   <Motion.span

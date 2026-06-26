@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
 import MainLayout from './components/layout/MainLayout.jsx';
+import ScrollToTop from './components/ScrollToTop.jsx';
 import Home from './pages/Home.jsx';
 import ProductPage from './pages/ProductPage.jsx';
 import ChatwootWidget from './components/ChatwootWidget.jsx';
@@ -12,6 +13,7 @@ import './index.css';
 
 const RootComponent = () => (
   <>
+    <ScrollToTop />
     <Outlet />
     <ChatwootWidget />
   </>

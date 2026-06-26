@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider, Navigate, Outlet } from 'react-router-dom';
 import DashboardLayout from './components/layout/DashboardLayout.jsx';
 import ProtectedRoute from './components/auth/ProtectedRoute.jsx';
+import ScrollToTop from './components/ScrollToTop.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
@@ -22,6 +23,7 @@ import './index.css';
 
 const RootWithAuth = () => (
   <AuthProvider>
+    <ScrollToTop />
     <Outlet />
     <ChatwootWidget />
   </AuthProvider>

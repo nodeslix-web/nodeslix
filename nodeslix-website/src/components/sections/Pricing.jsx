@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
 import { pricingPlans } from '../../data/pricingPlans';
-import { Check, Shield, CreditCard, Zap, Globe, ArrowRight, Lock } from 'lucide-react';
+import { Check, Shield, CreditCard, Zap, Loader2, ArrowRight, Lock } from 'lucide-react';
 
 const trustItems = [
   { icon: Shield, label: 'Secure Payments' },
@@ -13,11 +12,15 @@ const trustItems = [
 
 export default function Pricing() {
   const [isYearly, setIsYearly] = useState(false);
-  const navigate = useNavigate();
+  const [redirectingPlan, setRedirectingPlan] = useState(null);
 
   const handlePlanClick = (plan, e) => {
     e.preventDefault();
-    window.location.href = 'https://dashboard.nodeslix.com/login';
+    if (redirectingPlan) return; // prevent double-click
+    setRedirectingPlan(plan.id);
+    setTimeout(() => {
+      window.location.href = plan.stripeLink || 'https://dashboard.nodeslix.com/login';
+    }, 300);
   };
 
   // Keep monthly/yearly toggle as UI calculation helper (20% off Professional is $24, Enterprise is $79, Starter is $0)
@@ -155,14 +158,24 @@ export default function Pricing() {
                 <div className="mt-8 pt-4">
                   <button
                     onClick={(e) => handlePlanClick(plan, e)}
-                    className={`w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-bold transition-all duration-200 cursor-pointer ${
+                    disabled={!!redirectingPlan}
+                    className={`w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-bold transition-all duration-200 cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed ${
                       isProfessional
                         ? 'bg-[#00D4FF] text-[#080808] hover:bg-[#7CEBFF] shadow-[0_10px_30px_rgba(0,212,255,0.25)]'
                         : 'bg-white/5 border border-white/10 hover:border-[#00D4FF]/30 hover:bg-[#00D4FF]/5 text-white'
                     }`}
                   >
-                    <span>{plan.buttonLabel}</span>
-                    <ArrowRight className="h-4 w-4" />
+                    {redirectingPlan === plan.id ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        <span>Redirecting...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>{plan.buttonLabel}</span>
+                        <ArrowRight className="h-4 w-4" />
+                      </>
+                    )}
                   </button>
                 </div>
               </motion.div>

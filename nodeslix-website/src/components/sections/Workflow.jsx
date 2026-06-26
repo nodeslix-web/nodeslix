@@ -164,7 +164,7 @@ const Workflow = () => {
                   y: { duration: 0.25, ease: 'easeInOut' },
                   default: { duration: 0.45, ease: 'easeOut' },
                 }}
-                className="relative group rounded-2xl border border-white/6 bg-[#0E0E0E]/85 backdrop-blur-xl p-5 flex flex-col justify-between min-h-[220px] transition-colors duration-300 hover:border-nodeslix-accent/40 hover:shadow-[0_0_20px_rgba(0,212,255,0.06)]"
+                className="relative group rounded-2xl border border-white/6 bg-[#0E0E0E]/85 backdrop-blur-xl p-5 flex flex-col justify-between min-h-[280px] transition-colors duration-300 hover:border-nodeslix-accent/40 hover:shadow-[0_0_20px_rgba(0,212,255,0.06)]"
               >
                 {/* Step Indicator Top */}
                 <div className="flex items-start justify-between mb-4">
@@ -185,7 +185,7 @@ const Workflow = () => {
                   <h3 className="text-sm font-semibold tracking-tight text-white transition-colors group-hover:text-nodeslix-accent">
                     {step.title}
                   </h3>
-                  <p className="text-[12px] leading-relaxed text-nodeslix-muted/80 line-clamp-2">
+                  <p className="text-[11px] leading-relaxed text-nodeslix-muted/80">
                     {step.description}
                   </p>
                 </div>

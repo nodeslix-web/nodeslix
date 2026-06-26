@@ -249,7 +249,7 @@ const Contact = () => {
                       name="fullName"
                       type="text"
                       required
-                      placeholder="John Doe"
+                      placeholder="Your Name"
                       className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 text-sm text-white placeholder-white/20 transition-all duration-200 focus:border-nodeslix-accent focus:bg-black/60 focus:shadow-[0_0_12px_rgba(0,212,255,0.12)] focus:outline-none"
                     />
                     <ValidationError prefix="Full Name" field="fullName" errors={state.errors} className="mt-1 text-xs text-rose-400" />
@@ -265,7 +265,7 @@ const Contact = () => {
                       name="email"
                       type="email"
                       required
-                      placeholder="john@company.com"
+                      placeholder="yourname@gmail.com"
                       className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-3 text-sm text-white placeholder-white/20 transition-all duration-200 focus:border-nodeslix-accent focus:bg-black/60 focus:shadow-[0_0_12px_rgba(0,212,255,0.12)] focus:outline-none"
                     />
                     <ValidationError prefix="Email" field="email" errors={state.errors} className="mt-1 text-xs text-rose-400" />
