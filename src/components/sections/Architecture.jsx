@@ -112,7 +112,7 @@ const Architecture = () => {
                   }}
                   transition={{ duration: 0.25 }}
                   className={[
-                    'group relative flex flex-col gap-4 rounded-2xl bg-[#0a0a0a] p-5 shadow-[0_4px_24px_rgba(0,0,0,0.4)] transition-colors',
+                    'group relative flex flex-col h-full gap-4 rounded-2xl bg-[#0a0a0a] p-5 shadow-[0_4px_24px_rgba(0,0,0,0.4)] transition-colors',
                     isMiddle ? 'shadow-[0_0_32px_rgba(0,212,255,0.1)]' : '',
                   ].join(' ')}
                 >

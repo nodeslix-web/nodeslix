@@ -122,7 +122,7 @@ const ProductOverview = () => (
                 variants={fadeUp}
                 whileHover={{ y: -4, transition: { duration: 0.25, ease: 'easeOut' } }}
                 className={[
-                  'group relative flex flex-col gap-6 overflow-hidden rounded-3xl border p-7 transition-all duration-300',
+                  'group relative flex flex-col h-full gap-6 overflow-hidden rounded-3xl border p-7 transition-all duration-300',
                   index === 2 ? 'sm:col-span-2 lg:col-span-1' : '', // 2 + 1 layout on tablet
                   card.accent
                     ? 'border-nodeslix-accent/28 bg-gradient-to-b from-nodeslix-accent/8 to-nodeslix-accent/[0.03] hover:border-nodeslix-accent/45'

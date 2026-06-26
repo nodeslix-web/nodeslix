@@ -124,7 +124,7 @@ const Features = () => {
                   hover: { y: -4, borderColor: '#00D4FF', boxShadow: '0 12px 32px rgba(0,212,255,0.12)' },
                 }}
                 transition={{ duration: 0.25, ease: 'easeOut' }}
-                className="group flex flex-col gap-5 rounded-3xl bg-white/[0.025] p-7 transition-colors"
+                className="group flex flex-col h-full gap-5 rounded-3xl bg-white/[0.025] p-7 transition-colors"
               >
                 {/* Header: Icon + Status Badge */}
                 <div className="flex items-start justify-between">

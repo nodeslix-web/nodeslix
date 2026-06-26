@@ -151,7 +151,7 @@ const Workflow = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.15 }}
-          className="relative hidden gap-6 md:grid md:grid-cols-3 lg:grid-cols-6"
+          className="relative hidden gap-6 md:grid md:grid-cols-3 lg:grid-cols-[repeat(7,minmax(0,1fr))]"
         >
           {workflowSteps.map((step, index) => {
             const Icon = step.icon;
@@ -199,9 +199,8 @@ const Workflow = () => {
                   {step.status}
                 </div>
 
-                {/* --- Animated Connectors --- */}
-                {/* Desktop Horizontal Connector (index < 5) */}
-                {index < 5 && (
+                {/* Desktop Horizontal Connector (index < 6) */}
+                {index < 6 && (
                   <div className="absolute right-[-20px] top-1/2 -translate-y-1/2 w-7 h-[2px] hidden lg:block overflow-hidden pointer-events-none">
                     <svg className="w-full h-full" viewBox="0 0 28 2" fill="none">
                       <Motion.line
@@ -238,8 +237,8 @@ const Workflow = () => {
                   </div>
                 )}
 
-                {/* Tablet Downward Connector after Row 1 */}
-                {index === 2 && (
+                {/* Tablet Downward Connector after Row 1 & Row 2 */}
+                {(index === 2 || index === 5) && (
                   <div className="absolute bottom-[-20px] left-1/2 -translate-x-1/2 w-[2px] h-6 hidden md:block lg:hidden overflow-hidden pointer-events-none">
                     <svg className="w-full h-full" viewBox="0 0 2 24" fill="none">
                       <Motion.line

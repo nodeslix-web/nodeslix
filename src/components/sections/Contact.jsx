@@ -184,14 +184,11 @@ const Contact = () => {
                 );
               })}
             </div>
-            <div className="hidden pt-2 lg:block">
-              <ContactInfoCard />
-            </div>
           </div>
 
           {/* Right Column: Form Panel */}
-          <div className="lg:col-span-7">
-            <div className="panel-shell h-full flex flex-col justify-center bg-gradient-to-b from-[#131313] to-[#0A0A0A] border-white/5 relative">
+          <div className="lg:col-span-7 flex flex-col justify-between space-y-6">
+            <div className="panel-shell flex-1 flex flex-col justify-start bg-gradient-to-b from-[#131313] to-[#0A0A0A] border-white/5 relative">
               
               {state.succeeded ? (
                 /* SUCCESS CARD */
@@ -397,7 +394,7 @@ const Contact = () => {
                 </div>
               )}
             </div>
-            <div className="block mt-6 lg:hidden">
+            <div className="mt-6">
               <ContactInfoCard />
             </div>
           </div>
