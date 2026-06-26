@@ -15,7 +15,7 @@ const resources = [
 
 const Documentation = () => {
   return (
-    <section id="docs" className="bg-center bg-no-repeat bg-cover section-shell scroll-mt-20" style={{backgroundImage: `url(${bgImage})`}}>
+    <section id="docs" className="section-shell scroll-mt-20" style={{backgroundImage: `url(${bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat'}}>
       <div className="flex justify-center app-container">
         {/* Documentation section for future docs area. */}
         <Motion.article
@@ -44,9 +44,9 @@ const Documentation = () => {
             </div>
           </div>
 
-          <div className="space-y-4 border-t border-white/5 pt-6">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-white">Planned Resources</h3>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="pt-6 space-y-4 border-t border-white/5">
+            <h3 className="text-sm font-bold tracking-wider text-white uppercase">Planned Resources</h3>
+            <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {resources.map((res, i) => (
                 <li key={i} className="flex items-center gap-2 text-sm text-nodeslix-muted">
                   <span className="text-nodeslix-accent/80">•</span> {res}
@@ -55,16 +55,16 @@ const Documentation = () => {
             </ul>
           </div>
 
-          <div className="space-y-4 border-t border-white/5 pt-6">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-white">Designed for Enterprise Integration</h3>
+          <div className="pt-6 space-y-4 border-t border-white/5">
+            <h3 className="text-sm font-bold tracking-wider text-white uppercase">Designed for Enterprise Integration</h3>
             <p className="text-sm leading-relaxed text-nodeslix-muted">
               Built to support telecommunications providers, network operators, infrastructure vendors, smart city ecosystems, and large-scale connectivity platforms seeking AI-driven network intelligence capabilities.
             </p>
           </div>
 
-          <div className="space-y-2 border-t border-white/5 pt-6">
-            <h4 className="text-sm font-bold text-white uppercase tracking-wider">Developer Access Portal Coming Soon</h4>
-            <p className="text-xs text-nodeslix-muted/60 leading-relaxed">
+          <div className="pt-6 space-y-2 border-t border-white/5">
+            <h4 className="text-sm font-bold tracking-wider text-white uppercase">Developer Access Portal Coming Soon</h4>
+            <p className="text-xs leading-relaxed text-nodeslix-muted/60">
               Enterprise-grade integration for intelligent communication infrastructure.
             </p>
           </div>

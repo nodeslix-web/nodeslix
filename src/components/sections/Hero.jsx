@@ -1,31 +1,36 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { motion as Motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
-import { ArrowDown, ArrowRight, Network } from 'lucide-react';
-import ActivitySvg from '../../assets/icons/home-Network-Intelligence.svg'
-import NetworkSvg from '../../assets/icons/home-Mesh-Optimization.svg'
-import ServerSvg from '../../assets/icons/home-Infrastructure-Signals.svg'
-import Nodes from '../../assets/icons/Dashboard Preview(Active Nodes).svg'
-import Zap from '../../assets/icons/Dashboard Preview(Average Latency).svg'
-import Enterprise from '../../assets/icons/Dashboard Preview(Mesh Segments).svg'
-import ShieldCheck from '../../assets/icons/Dashboard Preview(Infrastructure Uptime).svg'
-import CommandCenterPanel from '../panels/CommandCenterPanel.jsx';
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  motion as Motion,
+  AnimatePresence,
+  useMotionValue,
+  useSpring,
+} from "framer-motion";
+import { ArrowDown, ArrowRight, Network } from "lucide-react";
+import ActivitySvg from "../../assets/icons/home-Network-Intelligence.svg";
+import NetworkSvg from "../../assets/icons/home-Mesh-Optimization.svg";
+import ServerSvg from "../../assets/icons/home-Infrastructure-Signals.svg";
+import Nodes from "../../assets/icons/Dashboard Preview(Active Nodes).svg";
+import Zap from "../../assets/icons/Dashboard Preview(Average Latency).svg";
+import Enterprise from "../../assets/icons/Dashboard Preview(Mesh Segments).svg";
+import ShieldCheck from "../../assets/icons/Dashboard Preview(Infrastructure Uptime).svg";
+import CommandCenterPanel from "../panels/CommandCenterPanel.jsx";
 
 /* ─── Trust badges ─── */
 const trustBadges = [
-  { label: '99.98% Uptime',      icon: ShieldCheck },
-  { label: '8ms Latency',        icon: Zap },
-  { label: '1,250 Active Nodes', icon: Nodes },
-  { label: 'Enterprise Ready',   icon: Enterprise },
+  { label: "99.98% Uptime", icon: ShieldCheck },
+  { label: "8ms Latency", icon: Zap },
+  { label: "1,250 Active Nodes", icon: Nodes },
+  { label: "Enterprise Ready", icon: Enterprise },
 ];
 
 /* ─── Activity ticker messages ─── */
 const tickerMessages = [
-  'Traffic optimized',
-  'Path rerouted',
-  'Congestion resolved',
-  'Latency reduced',
-  'Infrastructure healthy',
+  "Traffic optimized",
+  "Path rerouted",
+  "Congestion resolved",
+  "Latency reduced",
+  "Infrastructure healthy",
 ];
 
 /* ─── Staggered reveal container ─── */
@@ -36,7 +41,11 @@ const stagger = {
 
 const fadeSlide = {
   hidden: { opacity: 0, y: 14 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: 'easeOut' } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: "easeOut" },
+  },
 };
 
 /* ─── Ticker component ─── */
@@ -44,7 +53,10 @@ const ActivityTicker = () => {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const id = setInterval(() => setIndex((i) => (i + 1) % tickerMessages.length), 2800);
+    const id = setInterval(
+      () => setIndex((i) => (i + 1) % tickerMessages.length),
+      2800,
+    );
     return () => clearInterval(id);
   }, []);
 
@@ -60,7 +72,7 @@ const ActivityTicker = () => {
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -6 }}
-          transition={{ duration: 0.32, ease: 'easeOut' }}
+          transition={{ duration: 0.32, ease: "easeOut" }}
           className="text-xs font-semibold text-nodeslix-accent"
         >
           {tickerMessages[index]}
@@ -88,8 +100,8 @@ const Hero = () => {
       rawX.set(((e.clientX - cx) / cx) * 5);
       rawY.set(((e.clientY - cy) / cy) * 5);
     };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [rawX, rawY]);
 
   return (
@@ -102,11 +114,8 @@ const Hero = () => {
       <div className="pointer-events-none absolute -right-32 bottom-0 h-[400px] w-[400px] rounded-full bg-nodeslix-accent/[0.028] blur-[110px]" />
 
       <div className="relative app-container">
-
-
         {/* ── Main two-column grid ── */}
         <div className="grid items-center gap-12 lg:grid-cols-[1fr_0.92fr] lg:gap-16">
-
           {/* Left column — messaging */}
           <Motion.div
             variants={stagger}
@@ -124,9 +133,8 @@ const Hero = () => {
               variants={fadeSlide}
               className="text-5xl font-extrabold leading-[1.04] tracking-tight text-nodeslix-text sm:text-6xl lg:text-[4.25rem]"
             >
-              We Optimize{' '}
-              <span className="text-nodeslix-accent">Telecom</span>{' '}
-              Networks{' '}
+              We Optimize <span className="text-nodeslix-accent">Telecom</span>{" "}
+              Networks{" "}
               <span className="text-nodeslix-accent">Intelligently</span>
             </Motion.h1>
 
@@ -135,17 +143,28 @@ const Hero = () => {
               variants={fadeSlide}
               className="max-w-[500px] text-base leading-[1.82] text-nodeslix-muted sm:text-lg"
             >
-              We help telecom operators improve performance, reduce latency, and enhance reliability through AI-powered network intelligence and autonomous optimization systems.
+              We help telecom operators improve performance, reduce latency, and
+              enhance reliability through AI-powered network intelligence and
+              autonomous optimization systems.
             </Motion.p>
 
             {/* CTA buttons */}
-            <Motion.div variants={fadeSlide} className="flex flex-col gap-3 sm:flex-row">
-              <Motion.div whileHover={{ y: -3 }} transition={{ duration: 0.2, ease: 'easeOut' }}>
+            <Motion.div
+              variants={fadeSlide}
+              className="flex flex-col gap-3 sm:flex-row"
+            >
+              <Motion.div
+                whileHover={{ y: -3 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+              >
                 <Link to="/product" className="gap-2 primary-button">
                   Launch Operations <ArrowRight size={16} />
                 </Link>
               </Motion.div>
-              <Motion.div whileHover={{ y: -3 }} transition={{ duration: 0.2, ease: 'easeOut' }}>
+              <Motion.div
+                whileHover={{ y: -3 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+              >
                 <a href="#architecture" className="gap-2 secondary-button">
                   Access System <Network size={16} />
                 </a>
@@ -153,20 +172,31 @@ const Hero = () => {
             </Motion.div>
 
             {/* Trust badges */}
-            <Motion.div variants={fadeSlide} className="flex flex-wrap gap-2 pt-1">
+            <Motion.div
+              variants={fadeSlide}
+              className="flex flex-wrap gap-2 pt-1"
+            >
               {trustBadges.map((badge) => {
                 const Icon = badge.icon;
                 return (
                   <Motion.span
                     key={badge.label}
                     whileHover={{ scale: 1.03, y: -1 }}
-                    transition={{ duration: 0.2, ease: 'easeOut' }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
                     className="inline-flex cursor-default items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-semibold text-nodeslix-muted backdrop-blur-sm"
                   >
-                    {typeof Icon === 'string' ? (
-                      <img src={Icon} className="object-contain w-5 h-5 opacity-80 text-nodeslix-accent" aria-hidden="true" />
+                    {typeof Icon === "string" ? (
+                      <img
+                        src={Icon}
+                        className="object-contain w-5 h-5 opacity-80 text-nodeslix-accent"
+                        aria-hidden="true"
+                      />
                     ) : (
-                      <Icon size={12} className="text-nodeslix-accent/80" aria-hidden="true" />
+                      <Icon
+                        size={12}
+                        className="text-nodeslix-accent/80"
+                        aria-hidden="true"
+                      />
                     )}
                     {badge.label}
                   </Motion.span>
@@ -178,11 +208,15 @@ const Hero = () => {
             <Motion.div
               variants={fadeSlide}
               className="flex items-center gap-3 rounded-xl border border-white/6 bg-white/[0.025] px-4 py-2.5 backdrop-blur-sm"
-              style={{ maxWidth: 'fit-content' }}
+              style={{ maxWidth: "fit-content" }}
             >
               <Motion.span
                 animate={{ opacity: [0.4, 1, 0.4] }}
-                transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+                transition={{
+                  duration: 1.8,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
                 className="block size-1.5 rounded-full bg-emerald-400"
               />
               <ActivityTicker />
@@ -194,7 +228,7 @@ const Hero = () => {
             ref={panelRef}
             initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.15, ease: 'easeOut' }}
+            transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
             style={{ x: springX, y: springY }}
             className="panel-shell min-h-[420px] sm:min-h-[540px]"
           >
@@ -205,9 +239,21 @@ const Hero = () => {
         {/* ── Highlight cards (below grid) ── */}
         <div className="grid gap-4 mt-12 md:grid-cols-3">
           {[
-            { title: 'Network Intelligence', description: 'Unified visibility across telecom operations.', icon: ActivitySvg },
-            { title: 'Mesh Optimization', description: 'Improve traffic flow across connected nodes.', icon: NetworkSvg },
-            { title: 'Infrastructure Signals', description: 'Monitor tower, gateway, and device health.', icon: ServerSvg },
+            {
+              title: "Network Intelligence",
+              description: "Unified visibility across telecom operations.",
+              icon: ActivitySvg,
+            },
+            {
+              title: "Mesh Optimization",
+              description: "Improve traffic flow across connected nodes.",
+              icon: NetworkSvg,
+            },
+            {
+              title: "Infrastructure Signals",
+              description: "Monitor tower, gateway, and device health.",
+              icon: ServerSvg,
+            },
           ].map((item, index) => {
             const Icon = item.icon;
             return (
@@ -216,19 +262,25 @@ const Hero = () => {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.45, delay: 0.5 + index * 0.09 }}
-                whileHover={{ y: -3, borderColor: 'rgba(0,212,255,0.28)' }}
+                whileHover={{ y: -3, borderColor: "rgba(0,212,255,0.28)" }}
                 className="flex items-center gap-4 p-4 surface-card"
               >
                 <span className="flex items-center justify-center text-center size-11 shrink-0 rounded-xl bg-nodeslix-accent/10 text-nodeslix-accent">
-                  {typeof Icon === 'string' ? (
-                    <img src={Icon} className="object-contain w-8 h-w-8 opacity-90" aria-hidden="true" />
+                  {typeof Icon === "string" ? (
+                    <img
+                      src={Icon}
+                      className="object-contain w-8 h-w-8 opacity-90"
+                      aria-hidden="true"
+                    />
                   ) : (
                     <Icon size={19} />
                   )}
                 </span>
                 <div>
                   <p className="font-semibold text-white">{item.title}</p>
-                  <p className="text-sm text-nodeslix-muted">{item.description}</p>
+                  <p className="text-sm text-nodeslix-muted">
+                    {item.description}
+                  </p>
                 </div>
               </Motion.div>
             );
@@ -247,13 +299,12 @@ const Hero = () => {
           </span>
           <Motion.div
             animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
             className="flex items-center justify-center border rounded-full size-8 border-white/10 text-nodeslix-muted/50"
           >
             <ArrowDown size={14} aria-hidden="true" />
           </Motion.div>
         </Motion.div>
-
       </div>
     </section>
   );
