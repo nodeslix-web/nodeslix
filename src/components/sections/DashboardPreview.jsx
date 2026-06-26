@@ -156,7 +156,7 @@ const DashboardPreview = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.55 }}
-            className="lg:col-span-7 panel-shell relative flex flex-col justify-between space-y-6 overflow-hidden bg-gradient-to-b from-[#131313] to-[#0A0A0A]"
+            className="lg:col-span-6 panel-shell relative flex flex-col justify-between space-y-6 overflow-hidden bg-gradient-to-b from-[#131313] to-[#0A0A0A]"
           >
             {/* Header / Badges */}
             <div className="flex items-center justify-between pb-4 border-b border-white/5">
@@ -382,7 +382,7 @@ const DashboardPreview = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.55 }}
-            className="flex flex-col justify-between h-full space-y-8 lg:col-span-5"
+            className="flex flex-col justify-between h-full space-y-8 lg:col-span-6"
           >
             <div className="space-y-6">
               <div className="space-y-2">
