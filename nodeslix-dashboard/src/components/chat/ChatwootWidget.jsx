@@ -8,7 +8,6 @@ export default function ChatwootWidget() {
   const [hovered, setHovered] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
-  const [cookieBannerVisible, setCookieBannerVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   const popoverRef = useRef(null);
@@ -51,7 +50,7 @@ export default function ChatwootWidget() {
     styleEl.innerHTML = `
       .woot-widget-bubble { display: none !important; }
       .woot-widget-holder {
-        bottom: ${cookieBannerVisible ? '248px' : '88px'} !important;
+        bottom: 88px !important;
         ${isRight ? 'right: 24px !important; left: auto !important;' : 'left: 24px !important; right: auto !important;'}
         z-index: 99999 !important;
         box-shadow: 0 24px 80px rgba(0,0,0,0.5) !important;
@@ -61,19 +60,18 @@ export default function ChatwootWidget() {
       }
       @media (max-width: 768px) {
         .woot-widget-holder {
-          bottom: ${cookieBannerVisible ? '240px' : '78px'} !important;
+          bottom: 78px !important;
           ${isRight ? 'right: 16px !important; left: auto !important;' : 'left: 16px !important; right: auto !important;'}
           width: calc(100% - 32px) !important;
           max-height: 70% !important;
         }
       }
     `;
-  }, [position, cookieBannerVisible, isRight]);
+  }, [position, isRight]);
 
   // Handle resizing, click outside, and key events
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
-    const checkCookies = () => setCookieBannerVisible(!localStorage.getItem('cookieConsent'));
     const handleEscape = (e) => { e.key === 'Escape' && setMenuOpen(false); };
     const handleClickOutside = (e) => {
       if (popoverRef.current && !popoverRef.current.contains(e.target) && gearRef.current && !gearRef.current.contains(e.target)) {
@@ -81,14 +79,12 @@ export default function ChatwootWidget() {
       }
     };
 
-    handleResize(); checkCookies();
+    handleResize();
     window.addEventListener('resize', handleResize);
-    window.addEventListener('click', checkCookies);
     window.addEventListener('keydown', handleEscape);
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('click', checkCookies);
       window.removeEventListener('keydown', handleEscape);
       document.removeEventListener('mousedown', handleClickOutside);
     };
@@ -113,7 +109,7 @@ export default function ChatwootWidget() {
       layout
       transition={{ type: 'spring', stiffness: 250, damping: 22 }}
       className={`fixed z-[99998] flex flex-col ${
-        cookieBannerVisible ? (isMobile ? 'bottom-[180px]' : 'bottom-[120px]') : (isMobile ? 'bottom-4' : 'bottom-6')
+        isMobile ? 'bottom-4' : 'bottom-6'
       } ${isRight ? 'right-4 md:right-6 items-end' : 'left-4 md:left-6 items-start'}`}
     >
       <AnimatePresence>
