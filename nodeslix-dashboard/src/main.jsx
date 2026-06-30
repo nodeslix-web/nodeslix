@@ -19,16 +19,26 @@ import PaymentSuccess from './pages/PaymentSuccess.jsx';
 import PaymentCancelled from './pages/PaymentCancelled.jsx';
 import ChatwootWidget from './components/ChatwootWidget.jsx';
 import NotFound from './pages/NotFound.jsx';
-import { AppSettingsProvider } from './context/AppSettingsContext.jsx';
+import { AppSettingsProvider, useAppSettings } from './context/AppSettingsContext.jsx';
+import { MotionConfig } from 'framer-motion';
 import './index.css';
+
+const AppInner = () => {
+  const { toggles } = useAppSettings();
+  return (
+    <MotionConfig reducedMotion={toggles.animationsOn ? "no-preference" : "always"}>
+      <AuthProvider>
+        <ScrollToTop />
+        <Outlet />
+        <ChatwootWidget />
+      </AuthProvider>
+    </MotionConfig>
+  );
+};
 
 const RootWithAuth = () => (
   <AppSettingsProvider>
-    <AuthProvider>
-      <ScrollToTop />
-      <Outlet />
-      <ChatwootWidget />
-    </AuthProvider>
+    <AppInner />
   </AppSettingsProvider>
 );
 

@@ -55,11 +55,18 @@ const activityColors = {
   route: '#00D4FF', clear: '#10b981', health: '#f59e0b', perf: '#a78bfa', ai: '#3A6DFF',
 };
 
+import { useAppSettings } from '../../context/AppSettingsContext';
+
 /* ─── Animated Counter ─── */
 const useCounter = (target, duration = 1200) => {
+  const { toggles } = useAppSettings();
   const [count, setCount] = useState(0);
   const raf = useRef(null);
   useEffect(() => {
+    if (!toggles.animationsOn) {
+      setCount(target);
+      return;
+    }
     const numericTarget = parseFloat(String(target).replace(/,/g, ''));
     if (isNaN(numericTarget)) { setCount(target); return; }
     const start = performance.now();
@@ -72,7 +79,7 @@ const useCounter = (target, duration = 1200) => {
     };
     raf.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf.current);
-  }, [target, duration]);
+  }, [target, duration, toggles.animationsOn]);
   return count;
 };
 

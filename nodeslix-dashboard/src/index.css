@@ -119,6 +119,53 @@ html {
   transition-duration:      0.001ms !important;
 }
 
+/* CARDS: No hover scaling, hover lift, hover glow animation, or entrance animation */
+[data-no-animations] .surface-card,
+[data-no-animations] .panel-shell,
+[data-no-animations] .accent-card {
+  transform: none !important;
+  transition: none !important;
+}
+[data-no-animations] .surface-card:hover,
+[data-no-animations] .panel-shell:hover,
+[data-no-animations] .accent-card:hover {
+  transform: none !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
+}
+
+/* BUTTONS & LINKS: No hover/active scaling or transitions */
+[data-no-animations] button,
+[data-no-animations] a,
+[data-no-animations] [role="button"],
+[data-no-animations] [role="switch"] {
+  transform: none !important;
+  transition: none !important;
+}
+[data-no-animations] button:hover,
+[data-no-animations] button:active,
+[data-no-animations] a:hover,
+[data-no-animations] a:active,
+[data-no-animations] [role="button"]:hover,
+[data-no-animations] [role="switch"]:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* SIDEBAR: No active indicator sliding or item hover displacement */
+[data-no-animations] aside *,
+[data-no-animations] aside {
+  transform: none !important;
+  transition: none !important;
+}
+
+/* MODALS & DROPDOWNS: Open/close instantly */
+[data-no-animations] .fixed,
+[data-no-animations] .absolute {
+  transition: none !important;
+  transform: none !important;
+}
+
 
 @layer base {
   html {

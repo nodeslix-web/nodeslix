@@ -76,11 +76,11 @@ const SettingsPage = () => {
 
   return (
     <div className="p-5 md:p-6 space-y-7">
-      <div className="flex items-start justify-between gap-4 flex-wrap">
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="section-kicker">Settings</p>
-          <h1 className="text-2xl font-extrabold text-white mt-1">Platform Settings</h1>
-          <p className="text-sm text-nodeslix-muted mt-1">Configure platform behaviour, appearance, and security policies.</p>
+          <h1 className="mt-1 text-2xl font-extrabold text-white">Platform Settings</h1>
+          <p className="mt-1 text-sm text-nodeslix-muted">Configure platform behaviour, appearance, and security policies.</p>
         </div>
         <Motion.button
           type="button"
@@ -130,7 +130,7 @@ const SettingsPage = () => {
         <div className="space-y-5">
           {activeTab === 'general' && (
             <>
-              <div className="panel-shell space-y-0">
+              <div className="space-y-0 panel-shell">
                 <p className="text-[10px] font-bold uppercase tracking-widest text-nodeslix-muted/50 mb-2">AI Automation</p>
                 <SettingRow label="Auto Traffic Optimization" desc="Let AI autonomously reroute traffic based on congestion patterns.">
                   <Toggle id="auto-optimize" enabled={toggles.autoOptimize} onChange={() => toggle('autoOptimize')} />
@@ -146,7 +146,7 @@ const SettingsPage = () => {
                 </SettingRow>
               </div>
 
-              <div className="panel-shell space-y-0">
+              <div className="space-y-0 panel-shell">
                 <p className="text-[10px] font-bold uppercase tracking-widest text-nodeslix-muted/50 mb-2">Regional</p>
                 <SettingRow label="Timezone" desc="All timestamps will display in your local timezone.">
                   <select value={timezone} onChange={(e) => setTimezone(e.target.value)}
@@ -181,20 +181,8 @@ const SettingsPage = () => {
           )}
 
           {activeTab === 'appearance' && (
-            <div className="panel-shell space-y-0">
+            <div className="space-y-0 panel-shell">
               <p className="text-[10px] font-bold uppercase tracking-widest text-nodeslix-muted/50 mb-2">Theme</p>
-
-              {/* Dark Mode — always enabled, informational row */}
-              <div className="flex items-center justify-between gap-4 py-4 border-b border-white/[0.06]">
-                <div className="min-w-0">
-                  <p className="text-sm font-semibold text-white">Dark Mode</p>
-                  <p className="text-[11px] text-nodeslix-muted/60 mt-0.5">The dashboard uses an exclusive dark theme.</p>
-                </div>
-                <span className="shrink-0 inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-emerald-400">
-                  <Moon size={10} />
-                  Always On
-                </span>
-              </div>
 
               <SettingRow label="Compact View" desc="Collapse sidebar and reduce spacing for denser information display.">
                 <Toggle id="compact-view" enabled={toggles.compactView} onChange={() => toggle('compactView')} />
@@ -205,11 +193,11 @@ const SettingsPage = () => {
 
               <p className="text-[10px] font-bold uppercase tracking-widest text-nodeslix-muted/50 mb-2 mt-6">Accent Color</p>
               <p className="text-[11px] text-nodeslix-muted/60 mb-3">Changes the primary accent color across the entire dashboard immediately.</p>
-              <div className="flex gap-3 py-2 flex-wrap">
+              <div className="flex flex-wrap gap-3 py-2">
                 {ACCENT_COLORS.map((c) => (
                   <button key={c} type="button" title={c}
                     onClick={() => setAccentColor(c)}
-                    className="relative size-9 rounded-full border-2 transition-all hover:scale-110 focus:outline-none"
+                    className="relative transition-all border-2 rounded-full size-9 hover:scale-110 focus:outline-none"
                     style={{
                       backgroundColor: c,
                       borderColor: accentColor === c ? 'white' : 'transparent',
@@ -225,7 +213,7 @@ const SettingsPage = () => {
           )}
 
           {activeTab === 'notifications' && (
-            <div className="panel-shell space-y-0">
+            <div className="space-y-0 panel-shell">
               <p className="text-[10px] font-bold uppercase tracking-widest text-nodeslix-muted/50 mb-2">Alert Channels</p>
               <SettingRow label="Email Notifications" desc="Receive alerts at your registered email address.">
                 <Toggle id="email-alerts" enabled={toggles.emailAlerts} onChange={() => toggle('emailAlerts')} />
@@ -243,7 +231,7 @@ const SettingsPage = () => {
           )}
 
           {activeTab === 'security' && (
-            <div className="panel-shell space-y-0">
+            <div className="space-y-0 panel-shell">
               <p className="text-[10px] font-bold uppercase tracking-widest text-nodeslix-muted/50 mb-2">Access Control</p>
               <SettingRow label="Two-Factor Authentication" desc="Require TOTP code on login for all admin accounts.">
                 <Toggle id="two-factor" enabled={toggles.twoFactor} onChange={() => toggle('twoFactor')} />
@@ -275,14 +263,14 @@ const SettingsPage = () => {
               return (
                 <div key={r.label} className="flex items-center gap-3 py-3 border-b border-white/[0.06] last:border-0">
                   <Icon size={13} className="text-nodeslix-muted/50 shrink-0" />
-                  <span className="text-xs text-nodeslix-muted flex-1">{r.label}</span>
+                  <span className="flex-1 text-xs text-nodeslix-muted">{r.label}</span>
                   <span className="text-xs font-bold text-white">{r.value}</span>
                 </div>
               );
             })}
           </div>
 
-          <div className="surface-card p-4">
+          <div className="p-4 surface-card">
             <div className="flex items-center gap-2 mb-3">
               <CheckCircle2 size={14} className="text-emerald-400" />
               <p className="text-xs font-bold text-white">All systems operational</p>
