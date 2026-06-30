@@ -164,28 +164,28 @@ const Workflow = () => {
                   y: { duration: 0.25, ease: 'easeInOut' },
                   default: { duration: 0.45, ease: 'easeOut' },
                 }}
-                className="relative group rounded-2xl border border-white/6 bg-[#0E0E0E]/85 backdrop-blur-xl p-5 flex flex-col justify-between min-h-[280px] transition-colors duration-300 hover:border-nodeslix-accent/40 hover:shadow-[0_0_20px_rgba(0,212,255,0.06)]"
+                className="relative group rounded-2xl border border-white/6 bg-[#0E0E0E]/85 backdrop-blur-xl p-6 flex flex-col justify-between min-h-[320px] transition-colors duration-300 hover:border-nodeslix-accent/40 hover:shadow-[0_0_20px_rgba(0,212,255,0.06)]"
               >
                 {/* Step Indicator Top */}
                 <div className="flex items-start justify-between mb-4">
                   <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-nodeslix-muted/40">
                     STEP {step.num}
                   </span>
-                  <span className="flex items-center justify-center transition-colors border size-9 rounded-xl bg-nodeslix-accent/5 text-nodeslix-accent border-nodeslix-accent/15 group-hover:bg-nodeslix-accent/10">
+                  <span className="flex items-center justify-center transition-colors border size-11 rounded-xl bg-nodeslix-accent/5 text-nodeslix-accent border-nodeslix-accent/15 group-hover:bg-nodeslix-accent/10">
                     {typeof Icon === 'string' ? (
-                      <img src={Icon} className="object-contain w-6 h-6 opacity-90" aria-hidden="true" />
+                      <img src={Icon} className="object-contain w-7 h-7 opacity-90" aria-hidden="true" />
                     ) : (
-                      <Icon size={18} />
+                      <Icon size={22} />
                     )}
                   </span>
                 </div>
 
                 {/* Content */}
-                <div className="mt-auto mb-4 space-y-2">
-                  <h3 className="text-sm font-semibold tracking-tight text-white transition-colors group-hover:text-nodeslix-accent">
+                <div className="flex-1 space-y-2 mt-4">
+                  <h3 className="text-base font-semibold tracking-tight text-white transition-colors group-hover:text-nodeslix-accent">
                     {step.title}
                   </h3>
-                  <p className="text-[11px] leading-relaxed text-nodeslix-muted/80">
+                  <p className="text-xs leading-relaxed text-nodeslix-muted/80">
                     {step.description}
                   </p>
                 </div>
@@ -295,7 +295,7 @@ const Workflow = () => {
                 </div>
 
                 {/* Card Content */}
-                <div className="flex-1 rounded-xl border border-white/6 bg-[#0E0E0E]/85 backdrop-blur-xl p-4 space-y-3">
+                <div className="flex-1 rounded-xl border border-white/6 bg-[#0E0E0E]/85 backdrop-blur-xl p-5 space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-[9px] font-mono font-bold tracking-wider text-nodeslix-muted/40">
                       STEP {step.num}
@@ -309,11 +309,11 @@ const Workflow = () => {
                     </div>
                   </div>
 
-                  <div className="space-y-1">
-                    <h3 className="text-sm font-semibold tracking-tight text-white">
+                  <div className="space-y-1.5">
+                    <h3 className="text-base font-semibold tracking-tight text-white">
                       {step.title}
                     </h3>
-                    <p className="text-[12px] leading-relaxed text-nodeslix-muted/80">
+                    <p className="text-xs leading-relaxed text-nodeslix-muted/80">
                       {step.description}
                     </p>
                   </div>

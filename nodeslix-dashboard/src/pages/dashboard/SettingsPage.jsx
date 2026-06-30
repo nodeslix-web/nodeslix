@@ -1,50 +1,12 @@
-import { useState, useEffect } from 'react';
+﻿import { useState } from 'react';
 import { motion as Motion } from 'framer-motion';
 import {
   Bell, CheckCircle2, Globe, Key, Lock,
-  Monitor, Moon, Palette, Save, Shield, Sliders, Sun, Wifi,
+  Monitor, Palette, Save, Shield, Sliders, Wifi, Check,
 } from 'lucide-react';
+import { useAppSettings } from '../../context/AppSettingsContext';
 
-/* ─── Storage key ─── */
-const STORAGE_KEY = 'nodeslix-settings';
-
-const defaultToggles = {
-  autoOptimize:     true,
-  predictiveAlerts: true,
-  autoReroute:      true,
-  slaEnforcement:   false,
-  darkMode:         true,
-  compactView:      false,
-  animationsOn:     true,
-  emailAlerts:      true,
-  smsAlerts:        false,
-  criticalOnly:     false,
-  slackIntegration: true,
-  twoFactor:        false,
-  auditLog:         true,
-  sessionTimeout:   true,
-  ipWhitelist:      false,
-};
-
-const loadSettings = () => {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      return {
-        toggles: { ...defaultToggles, ...(parsed.toggles || {}) },
-        timezone: parsed.timezone || 'UTC+5:30 — Colombo',
-        language: parsed.language || 'English (US)',
-        refreshRate: parsed.refreshRate || '5s',
-      };
-    }
-  } catch (e) {
-    // ignore
-  }
-  return { toggles: defaultToggles, timezone: 'UTC+5:30 — Colombo', language: 'English (US)', refreshRate: '5s' };
-};
-
-/* ─── Tabs ─── */
+/* --- Tabs --- */
 const tabs = [
   { id: 'general',       label: 'General',       icon: Sliders  },
   { id: 'appearance',    label: 'Appearance',     icon: Palette  },
@@ -52,7 +14,9 @@ const tabs = [
   { id: 'security',      label: 'Security',       icon: Shield   },
 ];
 
-/* ─── Toggle Switch ─── */
+const ACCENT_COLORS = ['#00D4FF', '#3A6DFF', '#a78bfa', '#10b981', '#f59e0b', '#ef4444'];
+
+/* --- Toggle Switch --- */
 const Toggle = ({ enabled, onChange, id }) => (
   <button
     id={id}
@@ -79,7 +43,7 @@ const Toggle = ({ enabled, onChange, id }) => (
   </button>
 );
 
-/* ─── Settings Row ─── */
+/* --- Settings Row --- */
 const SettingRow = ({ label, desc, children }) => (
   <div className="flex items-center justify-between gap-4 py-4 border-b border-white/[0.06] last:border-0">
     <div className="min-w-0">
@@ -90,30 +54,20 @@ const SettingRow = ({ label, desc, children }) => (
   </div>
 );
 
-/* ─────────────────────────────────────────
+/* -------------------------------------------
    SETTINGS PAGE
-───────────────────────────────────────── */
+------------------------------------------- */
 const SettingsPage = () => {
   const [activeTab, setActiveTab] = useState('general');
   const [saved, setSaved] = useState(false);
 
-  /* Load initial state from localStorage */
-  const initial = loadSettings();
-  const [toggles, setToggles] = useState(initial.toggles);
-  const [timezone, setTimezone] = useState(initial.timezone);
-  const [language, setLanguage] = useState(initial.language);
-  const [refreshRate, setRefreshRate] = useState(initial.refreshRate);
-
-  /* Persist to localStorage whenever any value changes */
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ toggles, timezone, language, refreshRate }));
-    } catch (e) {
-      // ignore
-    }
-  }, [toggles, timezone, language, refreshRate]);
-
-  const toggle = (key) => setToggles((prev) => ({ ...prev, [key]: !prev[key] }));
+  const {
+    toggles, toggle,
+    timezone, setTimezone,
+    language, setLanguage,
+    refreshRate, setRefreshRate,
+    accentColor, setAccentColor,
+  } = useAppSettings();
 
   const handleSave = () => {
     setSaved(true);
@@ -122,7 +76,6 @@ const SettingsPage = () => {
 
   return (
     <div className="p-5 md:p-6 space-y-7">
-      {/* Page Header */}
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
           <p className="section-kicker">Settings</p>
@@ -145,7 +98,6 @@ const SettingsPage = () => {
         </Motion.button>
       </div>
 
-      {/* Tab nav */}
       <div className="flex gap-1.5 p-1.5 rounded-2xl border border-white/8 bg-white/[0.02] w-fit flex-wrap">
         {tabs.map((tab) => {
           const Icon = tab.icon;
@@ -168,7 +120,6 @@ const SettingsPage = () => {
         })}
       </div>
 
-      {/* Tab content */}
       <Motion.div
         key={activeTab}
         initial={{ opacity: 0, y: 8 }}
@@ -177,7 +128,6 @@ const SettingsPage = () => {
         className="grid gap-5 lg:grid-cols-[1fr_320px]"
       >
         <div className="space-y-5">
-          {/* ── GENERAL ── */}
           {activeTab === 'general' && (
             <>
               <div className="panel-shell space-y-0">
@@ -199,11 +149,8 @@ const SettingsPage = () => {
               <div className="panel-shell space-y-0">
                 <p className="text-[10px] font-bold uppercase tracking-widest text-nodeslix-muted/50 mb-2">Regional</p>
                 <SettingRow label="Timezone" desc="All timestamps will display in your local timezone.">
-                  <select
-                    value={timezone}
-                    onChange={(e) => setTimezone(e.target.value)}
-                    className="rounded-xl border border-white/12 bg-white/[0.04] text-white text-xs font-medium px-3 py-2 outline-none focus:border-nodeslix-accent/40 transition-colors cursor-pointer"
-                  >
+                  <select value={timezone} onChange={(e) => setTimezone(e.target.value)}
+                    className="rounded-xl border border-white/12 bg-white/[0.04] text-white text-xs font-medium px-3 py-2 outline-none focus:border-nodeslix-accent/40 transition-colors cursor-pointer">
                     <option>UTC+5:30 — Colombo</option>
                     <option>UTC+0:00 — London</option>
                     <option>UTC-5:00 — New York</option>
@@ -211,11 +158,8 @@ const SettingsPage = () => {
                   </select>
                 </SettingRow>
                 <SettingRow label="Language">
-                  <select
-                    value={language}
-                    onChange={(e) => setLanguage(e.target.value)}
-                    className="rounded-xl border border-white/12 bg-white/[0.04] text-white text-xs font-medium px-3 py-2 outline-none focus:border-nodeslix-accent/40 transition-colors cursor-pointer"
-                  >
+                  <select value={language} onChange={(e) => setLanguage(e.target.value)}
+                    className="rounded-xl border border-white/12 bg-white/[0.04] text-white text-xs font-medium px-3 py-2 outline-none focus:border-nodeslix-accent/40 transition-colors cursor-pointer">
                     <option>English (US)</option>
                     <option>Japanese</option>
                     <option>German</option>
@@ -223,11 +167,8 @@ const SettingsPage = () => {
                   </select>
                 </SettingRow>
                 <SettingRow label="Dashboard Refresh Rate">
-                  <select
-                    value={refreshRate}
-                    onChange={(e) => setRefreshRate(e.target.value)}
-                    className="rounded-xl border border-white/12 bg-white/[0.04] text-white text-xs font-medium px-3 py-2 outline-none focus:border-nodeslix-accent/40 transition-colors cursor-pointer"
-                  >
+                  <select value={refreshRate} onChange={(e) => setRefreshRate(e.target.value)}
+                    className="rounded-xl border border-white/12 bg-white/[0.04] text-white text-xs font-medium px-3 py-2 outline-none focus:border-nodeslix-accent/40 transition-colors cursor-pointer">
                     <option>1s</option>
                     <option>5s</option>
                     <option>15s</option>
@@ -239,35 +180,40 @@ const SettingsPage = () => {
             </>
           )}
 
-          {/* ── APPEARANCE ── */}
           {activeTab === 'appearance' && (
             <div className="panel-shell space-y-0">
               <p className="text-[10px] font-bold uppercase tracking-widest text-nodeslix-muted/50 mb-2">Theme</p>
               <SettingRow label="Dark Mode" desc="Use the dark theme across the dashboard.">
                 <Toggle id="dark-mode" enabled={toggles.darkMode} onChange={() => toggle('darkMode')} />
               </SettingRow>
-              <SettingRow label="Compact View" desc="Reduce spacing for higher information density.">
+              <SettingRow label="Compact View" desc="Collapse the sidebar and reduce page padding for denser information display.">
                 <Toggle id="compact-view" enabled={toggles.compactView} onChange={() => toggle('compactView')} />
               </SettingRow>
-              <SettingRow label="Enable Animations" desc="Framer Motion micro-interactions and transitions.">
+              <SettingRow label="Enable Animations" desc="Framer Motion micro-interactions and transitions. Disable for reduced motion.">
                 <Toggle id="animations" enabled={toggles.animationsOn} onChange={() => toggle('animationsOn')} />
               </SettingRow>
 
               <p className="text-[10px] font-bold uppercase tracking-widest text-nodeslix-muted/50 mb-2 mt-6">Accent Color</p>
-              <div className="flex gap-3 py-4">
-                {['#00D4FF', '#3A6DFF', '#a78bfa', '#10b981', '#f59e0b', '#ef4444'].map((c) => (
-                  <button
-                    key={c}
-                    type="button"
-                    className="size-8 rounded-full border-2 border-transparent hover:border-white/40 transition-all"
-                    style={{ backgroundColor: c }}
-                  />
+              <p className="text-[11px] text-nodeslix-muted/60 mb-3">Changes the primary accent color across the entire dashboard.</p>
+              <div className="flex gap-3 py-2 flex-wrap">
+                {ACCENT_COLORS.map((c) => (
+                  <button key={c} type="button" title={c}
+                    onClick={() => setAccentColor(c)}
+                    className="relative size-9 rounded-full border-2 transition-all hover:scale-110 focus:outline-none"
+                    style={{
+                      backgroundColor: c,
+                      borderColor: accentColor === c ? 'white' : 'transparent',
+                      boxShadow: accentColor === c ? `0 0 14px ${c}99` : 'none',
+                    }}>
+                    {accentColor === c && (
+                      <Check size={14} className="absolute inset-0 m-auto text-white drop-shadow" />
+                    )}
+                  </button>
                 ))}
               </div>
             </div>
           )}
 
-          {/* ── NOTIFICATIONS ── */}
           {activeTab === 'notifications' && (
             <div className="panel-shell space-y-0">
               <p className="text-[10px] font-bold uppercase tracking-widest text-nodeslix-muted/50 mb-2">Alert Channels</p>
@@ -286,7 +232,6 @@ const SettingsPage = () => {
             </div>
           )}
 
-          {/* ── SECURITY ── */}
           {activeTab === 'security' && (
             <div className="panel-shell space-y-0">
               <p className="text-[10px] font-bold uppercase tracking-widest text-nodeslix-muted/50 mb-2">Access Control</p>
@@ -306,16 +251,15 @@ const SettingsPage = () => {
           )}
         </div>
 
-        {/* Sidebar summary */}
         <div className="space-y-4">
           <div className="panel-shell">
             <p className="text-[10px] font-bold uppercase tracking-widest text-nodeslix-muted/50 mb-4">Platform Info</p>
             {[
-              { icon: Monitor,  label: 'Version',     value: '3.12.1'            },
-              { icon: Globe,    label: 'Region',      value: 'Global'            },
-              { icon: Wifi,     label: 'Uptime',      value: '99.98%'            },
-              { icon: Key,      label: 'API Access',  value: 'Enabled'           },
-              { icon: Lock,     label: 'Security',    value: 'TLS 1.3'           },
+              { icon: Monitor,  label: 'Version',    value: '3.12.1'  },
+              { icon: Globe,    label: 'Region',     value: 'Global'  },
+              { icon: Wifi,     label: 'Uptime',     value: '99.98%'  },
+              { icon: Key,      label: 'API Access', value: 'Enabled' },
+              { icon: Lock,     label: 'Security',   value: 'TLS 1.3' },
             ].map((r) => {
               const Icon = r.icon;
               return (

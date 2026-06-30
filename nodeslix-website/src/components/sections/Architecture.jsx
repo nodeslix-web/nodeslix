@@ -112,7 +112,7 @@ const Architecture = () => {
                   }}
                   transition={{ duration: 0.25 }}
                   className={[
-                    'group relative flex flex-col h-full gap-4 rounded-2xl bg-[#0a0a0a] p-5 shadow-[0_4px_24px_rgba(0,0,0,0.4)] transition-colors',
+                    'group relative flex flex-col h-full gap-4 rounded-2xl bg-[#0a0a0a] p-6 shadow-[0_4px_24px_rgba(0,0,0,0.4)] transition-colors min-h-[200px]',
                     isMiddle ? 'shadow-[0_0_32px_rgba(0,212,255,0.1)]' : '',
                   ].join(' ')}
                 >
@@ -132,18 +132,18 @@ const Architecture = () => {
                   </div>
 
                   {/* Icon Node */}
-                  <div className="flex size-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-white transition-colors group-hover:border-nodeslix-accent/30 group-hover:bg-nodeslix-accent/10 group-hover:text-nodeslix-accent">
+                  <div className="flex size-14 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-white transition-colors group-hover:border-nodeslix-accent/30 group-hover:bg-nodeslix-accent/10 group-hover:text-nodeslix-accent">
                     {typeof Icon === 'string' ? (
-                      <img src={Icon} className="object-contain w-6 h-6 opacity-95 group-hover:opacity-100" aria-hidden="true" />
+                      <img src={Icon} className="object-contain w-8 h-8 opacity-95 group-hover:opacity-100" aria-hidden="true" />
                     ) : (
-                      <Icon size={20} />
+                      <Icon size={24} />
                     )}
                   </div>
 
                   {/* Content */}
-                  <div className="space-y-1.5">
-                    <h3 className="text-sm font-bold text-white">{step.title}</h3>
-                    <p className="text-[12px] leading-relaxed text-nodeslix-muted line-clamp-2">
+                  <div className="space-y-2">
+                    <h3 className="text-base font-bold text-white">{step.title}</h3>
+                    <p className="text-xs leading-relaxed text-nodeslix-muted">
                       {step.description}
                     </p>
                   </div>

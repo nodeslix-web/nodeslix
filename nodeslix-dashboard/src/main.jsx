@@ -19,14 +19,17 @@ import PaymentSuccess from './pages/PaymentSuccess.jsx';
 import PaymentCancelled from './pages/PaymentCancelled.jsx';
 import ChatwootWidget from './components/ChatwootWidget.jsx';
 import NotFound from './pages/NotFound.jsx';
+import { AppSettingsProvider } from './context/AppSettingsContext.jsx';
 import './index.css';
 
 const RootWithAuth = () => (
-  <AuthProvider>
-    <ScrollToTop />
-    <Outlet />
-    <ChatwootWidget />
-  </AuthProvider>
+  <AppSettingsProvider>
+    <AuthProvider>
+      <ScrollToTop />
+      <Outlet />
+      <ChatwootWidget />
+    </AuthProvider>
+  </AppSettingsProvider>
 );
 
 const router = createBrowserRouter([

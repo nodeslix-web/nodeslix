@@ -19,7 +19,9 @@ export default function Pricing() {
     if (redirectingPlan) return; // prevent double-click
     setRedirectingPlan(plan.id);
     setTimeout(() => {
-      window.location.href = plan.stripeLink || 'https://dashboard.nodeslix.com/login';
+      const targetUrl = plan.stripeLink || 'https://dashboard.nodeslix.com/login';
+      window.open(targetUrl, '_blank', 'noopener,noreferrer');
+      setRedirectingPlan(null);
     }, 300);
   };
 

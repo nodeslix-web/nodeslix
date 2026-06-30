@@ -210,6 +210,7 @@ const Footer = () => {
               <SocialLink href="https://www.linkedin.com/company/nodeslix/" icon={LinkedInIcon} label="Visit NodeSlix on LinkedIn" />
               <SocialLink href="https://www.facebook.com/NodeSlix/" icon={Facebook} label="Visit NodeSlix Facebook" />
               <SocialLink href="https://www.youtube.com/@NodeSlix" icon={Youtube} label="Visit NodeSlix YouTube" />
+              <SocialLink href="https://www.pinterest.com/NodeSlix/" icon={Pinterest} label="Visit NodeSlix Pinterest" />
             </div>
           </Motion.div>
 

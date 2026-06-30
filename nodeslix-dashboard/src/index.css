@@ -1,6 +1,41 @@
 @import "tailwindcss";
 @config "../tailwind.config.js";
 
+/* ── Dynamic CSS custom properties (overridden by AppSettingsContext.jsx) ── */
+:root {
+  --nodeslix-accent: #00D4FF;
+}
+
+/* ── Accent color: apply CSS variable to Tailwind's nodeslix-accent color ── */
+.text-nodeslix-accent          { color: var(--nodeslix-accent) !important; }
+.border-nodeslix-accent        { border-color: var(--nodeslix-accent) !important; }
+.bg-nodeslix-accent            { background-color: var(--nodeslix-accent) !important; }
+.shadow-nodeslix-accent        { --tw-shadow-color: var(--nodeslix-accent); }
+.text-nodeslix-accent\/70      { color: color-mix(in srgb, var(--nodeslix-accent) 70%, transparent) !important; }
+.border-nodeslix-accent\/20    { border-color: color-mix(in srgb, var(--nodeslix-accent) 20%, transparent) !important; }
+.border-nodeslix-accent\/25    { border-color: color-mix(in srgb, var(--nodeslix-accent) 25%, transparent) !important; }
+.border-nodeslix-accent\/30    { border-color: color-mix(in srgb, var(--nodeslix-accent) 30%, transparent) !important; }
+.border-nodeslix-accent\/40    { border-color: color-mix(in srgb, var(--nodeslix-accent) 40%, transparent) !important; }
+.bg-nodeslix-accent\/5         { background-color: color-mix(in srgb, var(--nodeslix-accent) 5%, transparent) !important; }
+.bg-nodeslix-accent\/8         { background-color: color-mix(in srgb, var(--nodeslix-accent) 8%, transparent) !important; }
+.bg-nodeslix-accent\/10        { background-color: color-mix(in srgb, var(--nodeslix-accent) 10%, transparent) !important; }
+.bg-nodeslix-accent\/15        { background-color: color-mix(in srgb, var(--nodeslix-accent) 15%, transparent) !important; }
+.bg-nodeslix-accent\/20        { background-color: color-mix(in srgb, var(--nodeslix-accent) 20%, transparent) !important; }
+.bg-nodeslix-accent\/25        { background-color: color-mix(in srgb, var(--nodeslix-accent) 25%, transparent) !important; }
+
+/* ── Compact view: collapse sidebar width, tighten content padding ── */
+[data-compact] aside { width: 70px !important; }
+[data-compact] .app-container { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+
+/* ── Disable animations globally ── */
+[data-no-animations] *,
+[data-no-animations] *::before,
+[data-no-animations] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
