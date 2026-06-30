@@ -1,40 +1,124 @@
 @import "tailwindcss";
 @config "../tailwind.config.js";
 
-/* ── Dynamic CSS custom properties (overridden by AppSettingsContext.jsx) ── */
+/* ════════════════════════════════════════════
+   DYNAMIC CSS CUSTOM PROPERTIES
+   Overridden at runtime by AppSettingsContext
+════════════════════════════════════════════ */
 :root {
-  --nodeslix-accent: #00D4FF;
+  --nodeslix-accent:   #00D4FF;
+  --nodeslix-accent-r: 0;
+  --nodeslix-accent-g: 212;
+  --nodeslix-accent-b: 255;
+  --scrollbar-color:   rgba(0, 212, 255, 0.55);
 }
 
-/* ── Accent color: apply CSS variable to Tailwind's nodeslix-accent color ── */
-.text-nodeslix-accent          { color: var(--nodeslix-accent) !important; }
-.border-nodeslix-accent        { border-color: var(--nodeslix-accent) !important; }
-.bg-nodeslix-accent            { background-color: var(--nodeslix-accent) !important; }
-.shadow-nodeslix-accent        { --tw-shadow-color: var(--nodeslix-accent); }
-.text-nodeslix-accent\/70      { color: color-mix(in srgb, var(--nodeslix-accent) 70%, transparent) !important; }
-.border-nodeslix-accent\/20    { border-color: color-mix(in srgb, var(--nodeslix-accent) 20%, transparent) !important; }
-.border-nodeslix-accent\/25    { border-color: color-mix(in srgb, var(--nodeslix-accent) 25%, transparent) !important; }
-.border-nodeslix-accent\/30    { border-color: color-mix(in srgb, var(--nodeslix-accent) 30%, transparent) !important; }
-.border-nodeslix-accent\/40    { border-color: color-mix(in srgb, var(--nodeslix-accent) 40%, transparent) !important; }
-.bg-nodeslix-accent\/5         { background-color: color-mix(in srgb, var(--nodeslix-accent) 5%, transparent) !important; }
-.bg-nodeslix-accent\/8         { background-color: color-mix(in srgb, var(--nodeslix-accent) 8%, transparent) !important; }
-.bg-nodeslix-accent\/10        { background-color: color-mix(in srgb, var(--nodeslix-accent) 10%, transparent) !important; }
-.bg-nodeslix-accent\/15        { background-color: color-mix(in srgb, var(--nodeslix-accent) 15%, transparent) !important; }
-.bg-nodeslix-accent\/20        { background-color: color-mix(in srgb, var(--nodeslix-accent) 20%, transparent) !important; }
-.bg-nodeslix-accent\/25        { background-color: color-mix(in srgb, var(--nodeslix-accent) 25%, transparent) !important; }
+/* ════════════════════════════════════════════
+   ACCENT COLOR — CSS variable overrides
+   These classes use color-mix so Tailwind's
+   opacity modifier utilities stay dynamic.
+════════════════════════════════════════════ */
+.text-nodeslix-accent           { color: var(--nodeslix-accent) !important; }
+.border-nodeslix-accent         { border-color: var(--nodeslix-accent) !important; }
+.bg-nodeslix-accent             { background-color: var(--nodeslix-accent) !important; }
+.fill-nodeslix-accent           { fill: var(--nodeslix-accent) !important; }
+.stroke-nodeslix-accent         { stroke: var(--nodeslix-accent) !important; }
+.ring-nodeslix-accent           { --tw-ring-color: var(--nodeslix-accent) !important; }
+.shadow-nodeslix-accent         { --tw-shadow-color: var(--nodeslix-accent) !important; }
 
-/* ── Compact view: collapse sidebar width, tighten content padding ── */
+/* Text opacity variants */
+.text-nodeslix-accent\/70  { color: color-mix(in srgb, var(--nodeslix-accent) 70%, transparent) !important; }
+.text-nodeslix-accent\/60  { color: color-mix(in srgb, var(--nodeslix-accent) 60%, transparent) !important; }
+.text-nodeslix-accent\/50  { color: color-mix(in srgb, var(--nodeslix-accent) 50%, transparent) !important; }
+.text-nodeslix-accent\/40  { color: color-mix(in srgb, var(--nodeslix-accent) 40%, transparent) !important; }
+
+/* Border opacity variants */
+.border-nodeslix-accent\/10  { border-color: color-mix(in srgb, var(--nodeslix-accent) 10%, transparent) !important; }
+.border-nodeslix-accent\/15  { border-color: color-mix(in srgb, var(--nodeslix-accent) 15%, transparent) !important; }
+.border-nodeslix-accent\/20  { border-color: color-mix(in srgb, var(--nodeslix-accent) 20%, transparent) !important; }
+.border-nodeslix-accent\/22  { border-color: color-mix(in srgb, var(--nodeslix-accent) 22%, transparent) !important; }
+.border-nodeslix-accent\/25  { border-color: color-mix(in srgb, var(--nodeslix-accent) 25%, transparent) !important; }
+.border-nodeslix-accent\/30  { border-color: color-mix(in srgb, var(--nodeslix-accent) 30%, transparent) !important; }
+.border-nodeslix-accent\/40  { border-color: color-mix(in srgb, var(--nodeslix-accent) 40%, transparent) !important; }
+.border-nodeslix-accent\/50  { border-color: color-mix(in srgb, var(--nodeslix-accent) 50%, transparent) !important; }
+
+/* Background opacity variants */
+.bg-nodeslix-accent\/5   { background-color: color-mix(in srgb, var(--nodeslix-accent) 5%,  transparent) !important; }
+.bg-nodeslix-accent\/6   { background-color: color-mix(in srgb, var(--nodeslix-accent) 6%,  transparent) !important; }
+.bg-nodeslix-accent\/8   { background-color: color-mix(in srgb, var(--nodeslix-accent) 8%,  transparent) !important; }
+.bg-nodeslix-accent\/10  { background-color: color-mix(in srgb, var(--nodeslix-accent) 10%, transparent) !important; }
+.bg-nodeslix-accent\/12  { background-color: color-mix(in srgb, var(--nodeslix-accent) 12%, transparent) !important; }
+.bg-nodeslix-accent\/15  { background-color: color-mix(in srgb, var(--nodeslix-accent) 15%, transparent) !important; }
+.bg-nodeslix-accent\/20  { background-color: color-mix(in srgb, var(--nodeslix-accent) 20%, transparent) !important; }
+.bg-nodeslix-accent\/25  { background-color: color-mix(in srgb, var(--nodeslix-accent) 25%, transparent) !important; }
+.bg-nodeslix-accent\/30  { background-color: color-mix(in srgb, var(--nodeslix-accent) 30%, transparent) !important; }
+
+/* Gradient stops */
+.from-nodeslix-accent\/30 { --tw-gradient-from: color-mix(in srgb, var(--nodeslix-accent) 30%, transparent) !important; }
+.to-nodeslix-accent\/10   { --tw-gradient-to:   color-mix(in srgb, var(--nodeslix-accent) 10%, transparent) !important; }
+
+/* ════════════════════════════════════════════
+   SCROLLBAR — reactive to accent color
+════════════════════════════════════════════ */
+html {
+  scrollbar-color: var(--scrollbar-color, rgba(0, 212, 255, 0.55)) #0A0A0A;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-color, rgba(0, 212, 255, 0.55)) !important;
+}
+
+/* ════════════════════════════════════════════
+   COMPACT VIEW
+   Applied when AppSettingsContext sets
+   data-compact on <html>
+════════════════════════════════════════════ */
+
+/* Sidebar: collapse to icon-only width */
 [data-compact] aside { width: 70px !important; }
-[data-compact] .app-container { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
 
-/* ── Disable animations globally ── */
+/* Panel shells: reduce padding */
+[data-compact] .panel-shell { padding: 1rem !important; }
+
+/* Dashboard page wrappers: reduce padding */
+[data-compact] .p-5,
+[data-compact] .p-6    { padding: 0.75rem !important; }
+[data-compact] .md\:p-6 { padding: 0.75rem !important; }
+
+/* Grid gaps */
+[data-compact] .gap-5  { gap: 0.75rem !important; }
+[data-compact] .gap-6  { gap: 0.75rem !important; }
+[data-compact] .gap-7  { gap: 0.875rem !important; }
+
+/* Spacing utilities */
+[data-compact] .space-y-5 > * + * { margin-top: 0.625rem !important; }
+[data-compact] .space-y-6 > * + * { margin-top: 0.75rem  !important; }
+[data-compact] .space-y-7 > * + * { margin-top: 0.875rem !important; }
+
+/* Surface cards: reduce padding */
+[data-compact] .surface-card { padding: 0.75rem !important; }
+
+/* Table rows: reduce row height */
+[data-compact] tr { height: auto !important; }
+[data-compact] td,
+[data-compact] th { padding-top: 0.375rem !important; padding-bottom: 0.375rem !important; }
+
+/* Typography: slightly tighter headings */
+[data-compact] h1.text-2xl { font-size: 1.25rem !important; }
+[data-compact] h2.text-xl  { font-size: 1.1rem  !important; }
+
+/* ════════════════════════════════════════════
+   ANIMATIONS DISABLED
+   Applied when AppSettingsContext sets
+   data-no-animations on <html>
+════════════════════════════════════════════ */
 [data-no-animations] *,
 [data-no-animations] *::before,
 [data-no-animations] *::after {
-  animation-duration: 0.001ms !important;
-  animation-iteration-count: 1 !important;
-  transition-duration: 0.001ms !important;
+  animation-duration:       0.001ms !important;
+  animation-iteration-count: 1      !important;
+  transition-duration:      0.001ms !important;
 }
+
 
 @layer base {
   html {
@@ -61,7 +145,7 @@
     /* Firefox */
     html {
       scrollbar-width: thin;
-      scrollbar-color: rgba(0, 212, 255, 0.55) #0A0A0A;
+      scrollbar-color: var(--scrollbar-color, rgba(0, 212, 255, 0.55)) #0A0A0A;
     }
 
     /* Chrome, Edge, Safari */
@@ -76,7 +160,7 @@
     }
 
     ::-webkit-scrollbar-thumb {
-      background-color: rgba(0, 212, 255, 0.55);
+      background-color: var(--scrollbar-color, rgba(0, 212, 255, 0.55));
       border-radius: 999px;
       border: 2px solid transparent;
       background-clip: content-box;
@@ -84,13 +168,13 @@
     }
 
     ::-webkit-scrollbar-thumb:hover {
-      background-color: #00D4FF;
+      background-color: var(--nodeslix-accent, #00D4FF);
       background-clip: content-box;
-      box-shadow: inset 0 0 0 10px #00D4FF, 0 0 4px rgba(0, 212, 255, 0.4);
+      box-shadow: inset 0 0 0 10px var(--nodeslix-accent, #00D4FF), 0 0 4px rgba(0, 212, 255, 0.4);
     }
 
     ::-webkit-scrollbar-thumb:active {
-      background-color: #33E0FF;
+      background-color: var(--nodeslix-accent, #00D4FF);
       background-clip: content-box;
     }
 

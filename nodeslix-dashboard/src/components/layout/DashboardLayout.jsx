@@ -9,6 +9,7 @@ import {
   HelpCircle, Command, Palette, Check
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useAppSettings } from '../../context/AppSettingsContext';
 
 /* ─── Nav items (links to nested routes) ─── */
 const navItems = [
@@ -931,21 +932,17 @@ const ChangePasswordModal = ({ onClose }) => {
   );
 };
 
-const PreferencesDrawer = ({ onClose, onPreferencesUpdated }) => {
-  const [density, setDensity] = useState(() => localStorage.getItem('nodeslix_layout_density') || 'Compact');
-  const [widgetDensity, setWidgetDensity] = useState(() => localStorage.getItem('nodeslix_widget_density') || 'High Density');
-  const [defaultLanding, setDefaultLanding] = useState(() => localStorage.getItem('nodeslix_default_landing') || 'Overview');
-  
-  const handleSave = () => {
-    localStorage.setItem('nodeslix_layout_density', density);
-    localStorage.setItem('nodeslix_widget_density', widgetDensity);
-    localStorage.setItem('nodeslix_default_landing', defaultLanding);
-    addToastEvent('Preferences updated', 'Dashboard layout refreshed', Sliders, 'text-nodeslix-accent', 'bg-nodeslix-accent/15');
-    if (onPreferencesUpdated) {
-      onPreferencesUpdated();
-    }
-    onClose();
-  };
+const DRAWER_ACCENT_COLORS = [
+  { hex: '#00D4FF', label: 'Cyan'   },
+  { hex: '#3A6DFF', label: 'Blue'   },
+  { hex: '#a78bfa', label: 'Purple' },
+  { hex: '#10b981', label: 'Green'  },
+  { hex: '#f59e0b', label: 'Orange' },
+  { hex: '#ef4444', label: 'Red'    },
+];
+
+const PreferencesDrawer = ({ onClose }) => {
+  const { toggles, setToggle, accentColor, setAccentColor } = useAppSettings();
 
   return (
     <Motion.div
@@ -971,22 +968,87 @@ const PreferencesDrawer = ({ onClose, onPreferencesUpdated }) => {
           </button>
         </div>
 
-        <div className="flex-1 p-6 space-y-6">
+        <div className="flex-1 p-6 space-y-8">
+
+          {/* Layout Mode */}
           <div className="space-y-3">
             <label className="text-xs font-semibold tracking-wider uppercase text-nodeslix-muted">Layout Mode</label>
             <div className="grid grid-cols-2 gap-3">
-              {['Compact Mode', 'Expanded Mode'].map((m) => (
+              {['Compact Mode', 'Expanded Mode'].map((m) => {
+                const isCompact = m === 'Compact Mode';
+                const isActive  = isCompact ? toggles.compactView : !toggles.compactView;
+                return (
+                  <button
+                    key={m}
+                    type="button"
+                    onClick={() => setToggle('compactView', isCompact)}
+                    className={`py-3 rounded-xl border text-xs font-medium transition-colors ${
+                      isActive
+                        ? 'bg-nodeslix-accent/15 border-nodeslix-accent/40 text-nodeslix-accent'
+                        : 'bg-white/5 border-white/10 text-nodeslix-muted hover:text-white'
+                    }`}
+                  >
+                    {m}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Animations */}
+          <div className="space-y-3">
+            <label className="text-xs font-semibold tracking-wider uppercase text-nodeslix-muted">Animations</label>
+            <div className="flex items-center justify-between py-2">
+              <div>
+                <p className="text-sm font-medium text-white">Enable Animations</p>
+                <p className="text-[11px] text-nodeslix-muted/60 mt-0.5">Motion transitions and micro-interactions</p>
+              </div>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={toggles.animationsOn}
+                onClick={() => setToggle('animationsOn', !toggles.animationsOn)}
+                className={[
+                  'relative w-10 rounded-full border transition-all duration-300 shrink-0',
+                  toggles.animationsOn
+                    ? 'bg-nodeslix-accent/20 border-nodeslix-accent/50'
+                    : 'bg-white/[0.06] border-white/12',
+                ].join(' ')}
+                style={{ height: '22px' }}
+              >
+                <Motion.span
+                  layout
+                  transition={{ type: 'spring', stiffness: 500, damping: 38 }}
+                  className={[
+                    'absolute top-0.5 size-4 rounded-full',
+                    toggles.animationsOn ? 'bg-nodeslix-accent left-[calc(100%-18px)]' : 'bg-nodeslix-muted/40 left-0.5',
+                  ].join(' ')}
+                />
+              </button>
+            </div>
+          </div>
+
+          {/* Accent Color */}
+          <div className="space-y-3">
+            <label className="text-xs font-semibold tracking-wider uppercase text-nodeslix-muted">Accent Color</label>
+            <p className="text-[11px] text-nodeslix-muted/60">Updates across the entire dashboard immediately.</p>
+            <div className="flex gap-3 flex-wrap pt-1">
+              {DRAWER_ACCENT_COLORS.map(({ hex, label }) => (
                 <button
-                  key={m}
+                  key={hex}
                   type="button"
-                  onClick={() => setDensity(m === 'Compact Mode' ? 'Compact' : 'Expanded')}
-                  className={`py-3 rounded-xl border text-xs font-medium transition-colors ${
-                    (m === 'Compact Mode' && density === 'Compact') || (m === 'Expanded Mode' && density === 'Expanded')
-                    ? 'bg-nodeslix-accent/15 border-nodeslix-accent/40 text-nodeslix-accent'
-                    : 'bg-white/5 border-white/10 text-nodeslix-muted hover:text-white'
-                  }`}
+                  title={label}
+                  onClick={() => setAccentColor(hex)}
+                  className="relative size-9 rounded-full border-2 transition-all hover:scale-110 focus:outline-none"
+                  style={{
+                    backgroundColor: hex,
+                    borderColor: accentColor === hex ? 'white' : 'transparent',
+                    boxShadow: accentColor === hex ? `0 0 14px ${hex}99` : 'none',
+                  }}
                 >
-                  {m}
+                  {accentColor === hex && (
+                    <Check size={14} className="absolute inset-0 m-auto text-white drop-shadow" />
+                  )}
                 </button>
               ))}
             </div>
@@ -995,11 +1057,11 @@ const PreferencesDrawer = ({ onClose, onPreferencesUpdated }) => {
         </div>
 
         <div className="flex gap-3 p-6 border-t border-white/5 shrink-0">
-          <button onClick={onClose} className="flex-1 py-2.5 rounded-xl border border-white/10 bg-white/5 text-nodeslix-muted hover:text-white text-xs font-semibold transition-colors">
-            Cancel
-          </button>
-          <button onClick={handleSave} className="flex-1 py-2.5 rounded-xl bg-nodeslix-accent/15 border border-nodeslix-accent/30 text-nodeslix-accent hover:bg-nodeslix-accent/25 text-xs font-bold transition-colors">
-            Apply
+          <button
+            onClick={onClose}
+            className="flex-1 py-2.5 rounded-xl border border-white/10 bg-white/5 text-nodeslix-muted hover:text-white text-xs font-semibold transition-colors"
+          >
+            Close
           </button>
         </div>
       </Motion.aside>
@@ -1111,10 +1173,9 @@ const DashboardLayout = () => {
   const location = useLocation();
   const { logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
-    const saved = localStorage.getItem('nodeslix_layout_density');
-    return saved ? saved === 'Compact' : false;
-  });
+  const { toggles, setToggle } = useAppSettings();
+  const sidebarCollapsed = toggles.compactView;
+  const setSidebarCollapsed = (val) => setToggle('compactView', typeof val === 'function' ? val(toggles.compactView) : val);
 
   const mainRef = useRef(null);
 
@@ -1195,12 +1256,8 @@ const DashboardLayout = () => {
         {activeModal === 'settings' && <AccountSettingsModal onClose={() => setActiveModal(null)} />}
         {activeModal === 'password' && <ChangePasswordModal onClose={() => setActiveModal(null)} />}
         {activeModal === 'prefs' && (
-          <PreferencesDrawer 
-            onClose={() => setActiveModal(null)} 
-            onPreferencesUpdated={() => {
-              const savedDensity = localStorage.getItem('nodeslix_layout_density') || 'Compact';
-              setSidebarCollapsed(savedDensity === 'Compact');
-            }}
+          <PreferencesDrawer
+            onClose={() => setActiveModal(null)}
           />
         )}
         {activeModal === 'help' && <HelpCenterModal onClose={() => setActiveModal(null)} />}

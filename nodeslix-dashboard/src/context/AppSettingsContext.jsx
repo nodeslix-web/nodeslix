@@ -1,13 +1,15 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+﻿import { createContext, useContext, useEffect, useState } from 'react';
 
+/* ── Single localStorage key for all appearance preferences ── */
 const STORAGE_KEY = 'nodeslix-settings';
 
+/* ── Defaults ── */
 const defaultToggles = {
   autoOptimize:     true,
   predictiveAlerts: true,
   autoReroute:      true,
   slaEnforcement:   false,
-  darkMode:         true,
+  darkMode:         true,   // always dark — toggle is informational only
   compactView:      false,
   animationsOn:     true,
   emailAlerts:      true,
@@ -43,6 +45,15 @@ const loadSettings = () => {
   };
 };
 
+/* ── Convert hex to CSS rgb() string for box-shadow/ring utilities ── */
+const hexToRgb = (hex) => {
+  const h = hex.replace('#', '');
+  const r = parseInt(h.substring(0, 2), 16);
+  const g = parseInt(h.substring(2, 4), 16);
+  const b = parseInt(h.substring(4, 6), 16);
+  return { r, g, b };
+};
+
 const AppSettingsContext = createContext(null);
 
 export const AppSettingsProvider = ({ children }) => {
@@ -53,14 +64,14 @@ export const AppSettingsProvider = ({ children }) => {
   const [refreshRate, setRefreshRate] = useState(initial.refreshRate);
   const [accentColor, setAccentColor] = useState(initial.accentColor);
 
-  /* Persist every change */
+  /* ── Persist all settings whenever anything changes ── */
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ toggles, timezone, language, refreshRate, accentColor }));
     } catch (e) { /* ignore */ }
   }, [toggles, timezone, language, refreshRate, accentColor]);
 
-  /* Apply compact mode to <html> */
+  /* ── Compact mode → data-compact on <html> ── */
   useEffect(() => {
     if (toggles.compactView) {
       document.documentElement.setAttribute('data-compact', '');
@@ -69,7 +80,7 @@ export const AppSettingsProvider = ({ children }) => {
     }
   }, [toggles.compactView]);
 
-  /* Disable/enable animations globally */
+  /* ── Animations → data-no-animations on <html> ── */
   useEffect(() => {
     if (!toggles.animationsOn) {
       document.documentElement.setAttribute('data-no-animations', '');
@@ -78,23 +89,39 @@ export const AppSettingsProvider = ({ children }) => {
     }
   }, [toggles.animationsOn]);
 
-  /* Apply accent color CSS variable to :root */
+  /* ── Accent color → CSS custom properties on :root ── */
   useEffect(() => {
-    const hex = accentColor.replace('#', '');
-    const r = parseInt(hex.substring(0, 2), 16);
-    const g = parseInt(hex.substring(2, 4), 16);
-    const b = parseInt(hex.substring(4, 6), 16);
-    document.documentElement.style.setProperty('--accent-r', r);
-    document.documentElement.style.setProperty('--accent-g', g);
-    document.documentElement.style.setProperty('--accent-b', b);
-    document.documentElement.style.setProperty('--nodeslix-accent', accentColor);
+    const { r, g, b } = hexToRgb(accentColor);
+    const root = document.documentElement;
+    root.style.setProperty('--nodeslix-accent',     accentColor);
+    root.style.setProperty('--nodeslix-accent-r',   r);
+    root.style.setProperty('--nodeslix-accent-g',   g);
+    root.style.setProperty('--nodeslix-accent-b',   b);
+    // Also write the scrollbar color so it matches
+    root.style.setProperty('--scrollbar-color', `rgba(${r},${g},${b},0.55)`);
   }, [accentColor]);
 
+  /* ── Apply saved accent on startup (before any paint) ── */
+  useEffect(() => {
+    const { r, g, b } = hexToRgb(accentColor);
+    const root = document.documentElement;
+    root.style.setProperty('--nodeslix-accent',   accentColor);
+    root.style.setProperty('--nodeslix-accent-r', r);
+    root.style.setProperty('--nodeslix-accent-g', g);
+    root.style.setProperty('--nodeslix-accent-b', b);
+    root.style.setProperty('--scrollbar-color', `rgba(${r},${g},${b},0.55)`);
+    // Apply compact/animations on startup
+    if (toggles.compactView)    root.setAttribute('data-compact', '');
+    if (!toggles.animationsOn)  root.setAttribute('data-no-animations', '');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // run once on mount
+
   const toggle = (key) => setToggles(prev => ({ ...prev, [key]: !prev[key] }));
+  const setToggle = (key, value) => setToggles(prev => ({ ...prev, [key]: value }));
 
   return (
     <AppSettingsContext.Provider value={{
-      toggles, toggle, setToggles,
+      toggles, toggle, setToggle, setToggles,
       timezone, setTimezone,
       language, setLanguage,
       refreshRate, setRefreshRate,

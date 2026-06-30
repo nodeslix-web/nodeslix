@@ -76,24 +76,12 @@ const Architecture = () => {
           {/* Central Glow (Intelligence Engine) */}
           <div className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[220px] w-[220px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-nodeslix-accent/10 blur-[60px]" />
 
-          {/* Desktop/Tablet Horizontal Connector Line */}
-          <div className="pointer-events-none absolute left-[10%] right-[10%] top-[45px] z-0 hidden h-px lg:block">
-            <div className="relative w-full h-full bg-white/10">
-              <Motion.div
-                animate={{ left: ['0%', '100%'], opacity: [0, 1, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
-                className="absolute top-1/2 h-[2px] w-28 -translate-y-1/2 -translate-x-1/2 rounded-full bg-nodeslix-accent shadow-[0_0_12px_rgba(0,212,255,0.8)]"
-              />
-            </div>
-          </div>
-
-
           <Motion.div
             variants={stagger}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
-            className="relative z-10 grid gap-5 md:grid-cols-3 lg:grid-cols-5"
+            className="relative z-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
           >
             {steps.map((step, index) => {
               const Icon = step.icon;
@@ -160,8 +148,8 @@ const Architecture = () => {
                     </div>
                   )}
 
-                  {/* Desktop right arrow (between cards) */}
-                  {index !== steps.length - 1 && (
+                  {/* Desktop right arrow (between cards, except at row ends) */}
+                  {(index + 1) % 4 !== 0 && index !== steps.length - 1 && (
                     <div className="absolute -right-[15px] top-[40px] hidden lg:flex">
                       <Motion.div
                         animate={{ opacity: [0.3, 1, 0.3], x: [0, 2, 0] }}

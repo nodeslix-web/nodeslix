@@ -1,8 +1,8 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { motion as Motion } from 'framer-motion';
 import {
   Bell, CheckCircle2, Globe, Key, Lock,
-  Monitor, Palette, Save, Shield, Sliders, Wifi, Check,
+  Monitor, Palette, Save, Shield, Sliders, Wifi, Check, Moon,
 } from 'lucide-react';
 import { useAppSettings } from '../../context/AppSettingsContext';
 
@@ -183,10 +183,20 @@ const SettingsPage = () => {
           {activeTab === 'appearance' && (
             <div className="panel-shell space-y-0">
               <p className="text-[10px] font-bold uppercase tracking-widest text-nodeslix-muted/50 mb-2">Theme</p>
-              <SettingRow label="Dark Mode" desc="Use the dark theme across the dashboard.">
-                <Toggle id="dark-mode" enabled={toggles.darkMode} onChange={() => toggle('darkMode')} />
-              </SettingRow>
-              <SettingRow label="Compact View" desc="Collapse the sidebar and reduce page padding for denser information display.">
+
+              {/* Dark Mode — always enabled, informational row */}
+              <div className="flex items-center justify-between gap-4 py-4 border-b border-white/[0.06]">
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-white">Dark Mode</p>
+                  <p className="text-[11px] text-nodeslix-muted/60 mt-0.5">The dashboard uses an exclusive dark theme.</p>
+                </div>
+                <span className="shrink-0 inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-emerald-400">
+                  <Moon size={10} />
+                  Always On
+                </span>
+              </div>
+
+              <SettingRow label="Compact View" desc="Collapse sidebar and reduce spacing for denser information display.">
                 <Toggle id="compact-view" enabled={toggles.compactView} onChange={() => toggle('compactView')} />
               </SettingRow>
               <SettingRow label="Enable Animations" desc="Framer Motion micro-interactions and transitions. Disable for reduced motion.">
@@ -194,7 +204,7 @@ const SettingsPage = () => {
               </SettingRow>
 
               <p className="text-[10px] font-bold uppercase tracking-widest text-nodeslix-muted/50 mb-2 mt-6">Accent Color</p>
-              <p className="text-[11px] text-nodeslix-muted/60 mb-3">Changes the primary accent color across the entire dashboard.</p>
+              <p className="text-[11px] text-nodeslix-muted/60 mb-3">Changes the primary accent color across the entire dashboard immediately.</p>
               <div className="flex gap-3 py-2 flex-wrap">
                 {ACCENT_COLORS.map((c) => (
                   <button key={c} type="button" title={c}
